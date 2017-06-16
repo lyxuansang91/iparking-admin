@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export class PageHeader extends Component {
+class PageHeader extends Component {
     render() {
         return (
             <div className="page-header navbar navbar-fixed-top">
@@ -24,3 +24,5 @@ export class PageHeader extends Component {
         );
     }
 }
+
+export default PageHeader

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-export class PageFooter extends Component {
+class PageFooter extends Component {
     render() {
         return (
             <div className="page-footer">
@@ -14,3 +14,5 @@ export class PageFooter extends Component {
         );
     }
 }
+
+export default PageFooter

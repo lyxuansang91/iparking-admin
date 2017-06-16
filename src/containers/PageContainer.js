@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
-import {PageSideBar} from './PageSideBar';
-import {PageContainerWrapper} from './PageContentWrapper';
-import {PageFooter} from './PageFooter';
+import PageSideBar from './PageSideBar';
+import PageContainerWrapper from './PageContentWrapper';
+import PageFooter from './PageFooter';
+import {renderRoutes} from 'react-router-config'
+import {routes} from '../routes/RoutesMap'
 
-export class PageContainer extends Component {
+class PageContainer extends Component {
     render() {
         return (
             <div className="page-container">
                 <PageSideBar/>
-                <PageContainerWrapper/>
+                <PageContainerWrapper route={routes.routes}/>
                 <PageFooter/>
             </div>
         )
     }
 }
+
+export default PageContainer

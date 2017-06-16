@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import {PageContentHeader} from './PageContentHeader';
+import PageContentHeader from './PageContentHeader';
+import {renderRoutes} from 'react-router-config'
 
-export class PageContainerWrapper extends Component {
+class PageContainerWrapper extends Component {
     render() {
         return (
             <div className="page-content-wrapper">
                 <div className="page-content">
                     {/*BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM*/}
-                    <PageContentHeader/>
+                    {console.log('routes:', this.props.route)}
+                    {renderRoutes(this.props.route)}
                 </div>
             </div>
-        );
+        )
     }
 }
+
+export default PageContainerWrapper

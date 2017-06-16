@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export class ClearFix extends Component {
+class ClearFix extends Component {
     render() {
         return (
             <div className="clearfix"></div>

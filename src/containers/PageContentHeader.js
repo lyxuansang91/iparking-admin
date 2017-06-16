@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 
-export class PageContentHeader extends Component {
+class PageContentHeader extends Component {
     render() {
         return (
             <div>
                 <h3 className="page-title">
-                    Dashboard
+                    {this.props.content_title}
                 </h3>
                 <div className="page-bar">
                     <ul className="page-breadcrumb">
@@ -15,7 +15,7 @@ export class PageContentHeader extends Component {
                             <i className="fa fa-angle-right"></i>
                         </li>
                         <li>
-                            <a href="#">Dashboard</a>
+                            <a href="#">{this.props.content_title}</a>
                         </li>
                     </ul>
                 </div>
@@ -24,3 +24,5 @@ export class PageContentHeader extends Component {
         );
     }
 }
+
+export default PageContentHeader

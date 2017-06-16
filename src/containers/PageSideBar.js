@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-
-export class PageSideBar extends Component {
+import {Link} from 'react-router-dom'
+class PageSideBar extends Component {
     render() {
         return (
             <div className="page-sidebar navbar-collapse collapse">
@@ -32,17 +32,17 @@ export class PageSideBar extends Component {
                     </li>
 
                     <li className="active">
-                        <a href="javascript:;">
+                        <Link to="/">
                             <i className="icon-home"></i>
                             <span className="title">Trang chủ</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="">
-                        <a href="javascript:;">
+                        <Link to="/cpp">
                             <i className="icon-home"></i>
                             <span className="title">Điểm đỗ xe</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="start open">
