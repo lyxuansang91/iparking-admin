@@ -8,8 +8,8 @@ class PageContainerWrapper extends Component {
             <div className="page-content-wrapper">
                 <div className="page-content">
                     {/*BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM*/}
-                    {console.log('routes:', this.props.route)}
-                    {renderRoutes(this.props.route)}
+                    {console.log('routes:', this.props)}
+                    <PageContentHeader content_title={this.props.content_title}/>
                 </div>
             </div>
         )

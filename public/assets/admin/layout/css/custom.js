@@ -1,13 +1,11 @@
-/* here you can put your own css to customize and override the theme */
+import { StyleSheet } from 'react-native';
 
-
-/***
+export default StyleSheet.create({
+  // here you can put your own css to customize and override the theme
+  // **
 Rounded Portlets
-***/
-
-
-/*
-.portlet {
+**
+  // .portlet {
 	border-radius: 4px !important;
 }
 
@@ -19,16 +17,8 @@ Rounded Portlets
 .portlet .portlet-body .form-actions  {
 	border-radius: 0px 0px 4px 4px !important;
 }
-*/
-
-
-/*
-Change Quick Sidebar Width
-*/
-
-
-/*
-.page-quick-sidebar-wrapper {
+  // Change Quick Sidebar Width
+  // .page-quick-sidebar-wrapper {
   right: -370px;
   width: 370px;
 }
@@ -62,10 +52,9 @@ Change Quick Sidebar Width
 .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-content-item-shown .page-quick-sidebar-list {
   margin-left: -370px;
 }
-*/
-
-.title {
-    color: #FFFFFF;
-    font-weight: 500;
-    font-size: 14px;
-}
+  'title': {
+    'color': '#FFFFFF',
+    'fontWeight': '500',
+    'fontSize': [{ 'unit': 'px', 'value': 14 }]
+  }
+});

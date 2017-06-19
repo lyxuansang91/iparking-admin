@@ -8,7 +8,7 @@ class PageHeader extends Component {
                     <div className="page-logo">
                         <a href="#">
                             <img
-                                src={process.env.PUBLIC_URL + '/assets/admin/layout/img/logo.png'}
+                                src={process.env.PUBLIC_URL + '/assets/admin/layout/img/logo_iparking.png'}
                                 alt="logo"
                                 className="logo-default"/>
                         </a>
