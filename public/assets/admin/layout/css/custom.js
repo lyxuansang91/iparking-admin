@@ -56,5 +56,8 @@ Rounded Portlets
     'color': '#FFFFFF',
     'fontWeight': '500',
     'fontSize': [{ 'unit': 'px', 'value': 14 }]
+  },
+  'title-center': {
+    'margin': [{ 'unit': 'px', 'value': 0 }, { 'unit': 'string', 'value': 'auto' }, { 'unit': 'px', 'value': 0 }, { 'unit': 'string', 'value': 'auto' }]
   }
 });

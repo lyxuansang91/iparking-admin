@@ -10,7 +10,6 @@ class App extends Component {
     return (
       <div>
         <PageHeader/>
-        <ClearFix/>
         <div className="page-container">
 
           <PageSideBar/> {console.log("Props:", this.props)}

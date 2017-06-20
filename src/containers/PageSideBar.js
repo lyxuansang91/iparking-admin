@@ -36,7 +36,7 @@ class PageSideBar extends Component {
                             <li>
                                 <a href="#">
                                     <i className="fa fa-car"></i>
-                                    Tra cứu biển số xe</a>
+                                    Tra cứu phiếu gửi xe</a>
                             </li>
                             <li>
                                 <a href="#">

@@ -1410,6 +1410,8 @@ Page sidebar
         float: left;
         position: relative;
         margin-right: -100%;
+        background-color: #205B87;
+        min-height: 1000px;
     }
     .page-full-width .page-sidebar {
         display: none !important;
@@ -2462,13 +2464,14 @@ Page content
     .page-content-wrapper {
         float: left;
         width: 100%;
-        background-color: #205B87;
+        background-color: #f7f7f7;
     }
     .page-content-wrapper .page-content {
         margin-left: 235px;
         margin-top: 0px;
         min-height: 600px;
         padding: 25px 20px 10px 20px;
+        background-color: #f7f7f7;
     }
     .page-content-wrapper .page-content.no-min-height {
         min-height: auto;

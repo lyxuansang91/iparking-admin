@@ -3,7 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "chart.js": "^2.6.0",
         "react": "^15.5.4",
+        "react-chartjs-2": "^2.1.0",
         "react-dom": "^15.5.4",
         "react-router-config": "^1.0.0-beta.3",
         "react-router-dom": "^4.1.1"

@@ -17,12 +17,27 @@ const routes = [
                 component: App,
                 routes: [
                     {
-                        component: () => <PageContentWrapper content_title="Dash board"/>,
+                        component: () => <PageContentWrapper content_title="Trang chủ"/>,
                         exact: true,
                         path: '/'
                     }, {
-                        component: () => <PageContentWrapper content_title="Car Parking Place"/>,
+                        component: () => <PageContentWrapper content_title="Địa điểm đỗ xe"/>,
                         path: '/cpp'
+                    }, {
+                        component: () => <PageContentWrapper content_title="Tra cứu phiếu gửi xe"/>,
+                        path: '/search/ticket'
+                    }, {
+                        component: () => <PageContentWrapper content_title="Báo cáo doanh số"/>,
+                        path: '/report/revenue'
+                    }, {
+                        component: () => <PageContentWrapper content_title="Quản lý vé tháng"/>,
+                        path: '/management/monthly_ticket'
+                    }, {
+                        component: () => <PageContentWrapper content_title="Chương trình khuyến mãi"/>,
+                        path: '/management/promotion'
+                    }, {
+                        component: () => <PageContentWrapper content_title="Quản lý người dùng"/>,
+                        path: '/management/user'
                     }
                 ]
             }

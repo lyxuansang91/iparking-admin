@@ -69,3 +69,7 @@ Change Quick Sidebar Width
     font-weight: 500;
     font-size: 14px;
 }
+
+.title-center {
+    margin: 0 auto;
+}
