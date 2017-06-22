@@ -3,8 +3,11 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@devexpress/dx-react-grid": "^1.0.0-alpha.3",
+        "@devexpress/dx-react-grid-bootstrap3": "^1.0.0-alpha.3",
         "chart.js": "^2.6.0",
         "react": "^15.5.4",
+        "react-bootstrap": "^0.31.0",
         "react-chartjs-2": "^2.1.0",
         "react-dom": "^15.5.4",
         "react-router-config": "^1.0.0-beta.3",
