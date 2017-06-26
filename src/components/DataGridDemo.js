@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {PagingState} from '@devexpress/dx-react-grid';
 import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
-import Loading from './loading'
+import Loading from '../assets/js/loading'
 
 const URL = 'https://js.devexpress.com/Demos/WidgetsGallery/data/orderItems';
 
@@ -97,9 +97,7 @@ class DataGridDemo extends Component {
         } = this.state;
 
         return (
-            <div style={{
-                position: 'relative'
-            }}>
+            <div>
                 <Grid rows={rows} columns={columns}>
                     <PagingState
                         currentPage={currentPage}

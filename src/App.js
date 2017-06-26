@@ -8,7 +8,9 @@ import {renderRoutes} from 'react-router-config'
 class App extends Component {
   render() {
     return (
-      <div>
+      <div style={{
+        backgroundColor: '#205B87'
+      }}>
         <PageHeader/>
         <div className="page-container">
 

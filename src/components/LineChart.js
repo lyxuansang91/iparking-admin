@@ -3,17 +3,17 @@ import {Line} from 'react-chartjs-2'
 
 const data = {
     labels: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July'
+        '01/06/2017',
+        '02/06/2017',
+        '03/06/2017',
+        '04/06/2017',
+        '05/06/2017',
+        '06/06/2017',
+        '07/06/2017'
     ],
     datasets: [
         {
-            label: 'My First dataset',
+            label: 'SMS',
             fill: 1,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -41,7 +41,7 @@ const data = {
                 90
             ]
         }, {
-            label: 'My Second dataset',
+            label: 'Thẻ',
             fill: 2,
             lineTension: 0.1,
             backgroundColor: '#FF6384',
@@ -69,7 +69,7 @@ const data = {
                 40
             ]
         }, {
-            label: 'My Third dataset',
+            label: 'Others',
             fill: 3,
             lineTension: 0.1,
             backgroundColor: '#205B87',
@@ -100,7 +100,45 @@ const data = {
     ]
 };
 
-const options = [];
+const options = [
+    {
+        responsive: true,
+        tooltips: {
+            mode: 'label'
+        },
+        elements: {
+            line: {
+                fill: false
+            }
+        },
+        legend: {
+            display: true,
+            position: 'bottom'
+        },
+        scales: {
+            xAxes: [
+                {
+                    'title': 'Thời gian',
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        unitStepSize: 1000,
+                        displayFormats: {
+                            day: 'DD/MM/YYYY'
+                        }
+                    },
+                    display: true,
+                    gridLines: {
+                        display: false
+                    },
+                    labels: {
+                        show: true
+                    }
+                }
+            ]
+        }
+    }
+];
 
 const LineChart = () => (
     <div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import './login.css'
+import '../assets/css/login.css'
 
 const Login = () => (
     <div className="login">
@@ -16,7 +16,7 @@ const Login = () => (
         {/*END LOGO*/}
         {/*BEGIN LOGIN*/}
         <div className="content">
-            <form className="login-form" action="#" method="post">
+            <form className="login-form" action="/" method="post">
                 <h3 className="form-title">Login to your account</h3>
                 <div className="alert alert-danger display-hide">
                     <button className="close" data-close="alert"></button>

@@ -6,6 +6,17 @@ import PageContentWrapper from '../containers/PageContentWrapper'
 // import Dashboard from './components/Dashboard' import CarParkingPlace from
 // './components/CarParkingPlace'
 
+const types = {
+    home: '1',
+    cpp: '2',
+    searchTicket: '3',
+    reportRevenue: '4',
+    reportMonthlyRevenue: '5',
+    managementMonthlyTicket: '6',
+    managementPromotion: '7',
+    managementUser: '8'
+}
+
 const routes = [
     {
         component: Root,
@@ -17,26 +28,41 @@ const routes = [
                 component: App,
                 routes: [
                     {
-                        component: () => <PageContentWrapper content_title="Trang chủ"/>,
+                        component: () => <PageContentWrapper content_title="Trang chủ" type={types.home}/>,
                         exact: true,
                         path: '/'
                     }, {
-                        component: () => <PageContentWrapper content_title="Địa điểm đỗ xe"/>,
+                        component: () => <PageContentWrapper content_title="Địa điểm đỗ xe" type={types.cpp}/>,
                         path: '/cpp'
                     }, {
-                        component: () => <PageContentWrapper content_title="Tra cứu phiếu gửi xe"/>,
+                        component: () => <PageContentWrapper
+                            content_title="Tra cứu phiếu gửi xe"
+                            type={types.searchTicket}/>,
                         path: '/search/ticket'
                     }, {
-                        component: () => <PageContentWrapper content_title="Báo cáo doanh số"/>,
+                        component: () => <PageContentWrapper
+                            content_title="Báo cáo doanh số"
+                            type={types.reportRevenue}/>,
                         path: '/report/revenue'
                     }, {
-                        component: () => <PageContentWrapper content_title="Quản lý vé tháng"/>,
+                        component: () => <PageContentWrapper
+                            content_title="Báo cáo doanh số vé tháng"
+                            type={types.reportMonthlyRevenue}/>,
+                        path: '/report/monthly_revenue'
+                    }, {
+                        component: () => <PageContentWrapper
+                            content_title="Quản lý vé tháng"
+                            type={types.managementMonthlyTicket}/>,
                         path: '/management/monthly_ticket'
                     }, {
-                        component: () => <PageContentWrapper content_title="Chương trình khuyến mãi"/>,
+                        component: () => <PageContentWrapper
+                            content_title="Chương trình khuyến mãi"
+                            type={types.managementPromotion}/>,
                         path: '/management/promotion'
                     }, {
-                        component: () => <PageContentWrapper content_title="Quản lý người dùng"/>,
+                        component: () => <PageContentWrapper
+                            content_title="Quản lý người dùng"
+                            type={types.managementUser}/>,
                         path: '/management/user'
                     }
                 ]
