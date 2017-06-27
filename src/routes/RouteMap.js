@@ -14,7 +14,8 @@ const types = {
     reportMonthlyRevenue: '5',
     managementMonthlyTicket: '6',
     managementPromotion: '7',
-    managementUser: '8'
+    managementUser: '8',
+    reportRateRevenue: '9'
 }
 
 const routes = [
@@ -51,6 +52,11 @@ const routes = [
                         path: '/report/monthly_revenue'
                     }, {
                         component: () => <PageContentWrapper
+                            content_title="Báo cáo doanh số trên ô"
+                            type={types.reportRateRevenue}/>,
+                        path: '/report/rate_revenue'
+                    }, {
+                        component: () => <PageContentWrapper
                             content_title="Quản lý vé tháng"
                             type={types.managementMonthlyTicket}/>,
                         path: '/management/monthly_ticket'
@@ -70,4 +76,4 @@ const routes = [
         ]
     }
 ]
-export {routes}
+export {routes, types}

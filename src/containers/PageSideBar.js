@@ -71,7 +71,7 @@ class PageSideBar extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/cpp">
+                                <Link to="/report/rate_revenue">
                                     <i className="icon-tag"></i>
                                     Danh sách các điểm đỗ khai thác không hiệu quả</Link>
                             </li>
