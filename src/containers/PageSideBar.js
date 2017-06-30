@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
+import '../assets/css/pagesidebar.css'
 class PageSideBar extends Component {
     render() {
         return (
@@ -17,40 +18,39 @@ class PageSideBar extends Component {
                             <span className="arrow "></span>
                         </Link>
                     </li>
-
+                    {/*Vé lượt*/}
                     <li className="">
-                        <Link to="/cpp">
-                            <i className="fa fa-car"></i>
-                            <span className="title">Điểm đỗ xe</span>
+                        <Link to="/search/ticket">
+                            <i className="fa fa-ticket"></i>
+                            <span className="title">Vé lượt</span>
                             <span className="arrow "></span>
                         </Link>
                     </li>
-
+                    {/*Vé tháng*/}
                     <li className="">
                         <a href="javascript:;">
-                            <i className="fa fa-search"></i>
-                            <span className="title">Tra cứu</span>
+                            <i className="fa fa-ticket"></i>
+                            <span className="title">Vé tháng</span>
                             <span className="arrow "></span>
                         </a>
                         <ul className="sub-menu">
                             <li>
-                                <Link to="/search/ticket">
+                                <Link to="/management/monthly_ticket">
                                     <i className="fa fa-car"></i>
-                                    Tra cứu phiếu gửi xe</Link>
+                                    <span className="icon-space">Đăng ký vé tháng</span>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#">
+                                <Link to="/monthly_ticket/list">
                                     <i className="fa fa-search"></i>
-                                    Tra cứu giao dịch</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i className="fa fa-road"></i>
-                                    Tra cứu bãi đỗ xe</a>
+                                    <span className="icon-space">
+                                        Danh sách vé tháng
+                                    </span>
+                                </Link>
                             </li>
                         </ul>
                     </li>
-
+                    {/*Báo cáo*/}
                     <li>
                         <a href="javascript:;">
                             <i className="icon-graph"></i>
@@ -61,66 +61,52 @@ class PageSideBar extends Component {
                             <li>
                                 <Link to="/report/revenue">
                                     <i className="fa fa-usd"></i>
-                                    Doanh số
+                                    <span className="icon-space">
+                                        Doanh số đơn vị khai thác
+                                    </span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/report/monthly_revenue">
                                     <i className="fa fa-usd"></i>
-                                    Đánh giá doanh số theo tháng
+                                    <span className="icon-space">Doanh số điểm đỗ</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/report/rate_revenue">
                                     <i className="icon-tag"></i>
-                                    Danh sách các điểm đỗ khai thác không hiệu quả</Link>
+                                    <span className="icon-space">Đánh giá điểm đỗ</span>
+                                </Link>
                             </li>
                         </ul>
                     </li>
-
-                    <li>
-                        <Link to="/management/monthly_ticket">
-                            <i className="icon-graph"></i>
-                            <span className="title">Quản lý vé tháng</span>
-                            <span className="arrow "></span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/management/promotion">
-                            <i className="fa fa-usd"></i>
-                            <span className="title">CT khuyến mãi</span>
-                            <span className="arrow "></span>
-                        </Link>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i className="icon-user"></i>
-                            <span className="title">Quản lý người dùng</span>
-                            <span className="arrow "></span>
-                        </a>
-                    </li>
-
-                    <li>
+                    {/*Cấu hình*/}
+                    <li className="">
                         <a href="javascript:;">
-                            <i className="icon-graph"></i>
-                            <span className="title">Biểu đồ</span>
+                            <i className="fa fa-list"></i>
+                            <span className="title">Cấu hình</span>
                             <span className="arrow "></span>
                         </a>
                         <ul className="sub-menu">
                             <li>
+                                <Link to="/cpp">
+                                    <i className="fa fa-car"></i>
+                                    <span className="icon-space">Điểm đỗ xe</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/management/promotion">
+                                    <i className="fa fa-usd"></i>
+                                    <span className="icon-space">CT Khuyến mãi</span>
+                                </Link>
+                            </li>
+
+                            <li>
                                 <a href="#">
-                                    Doanh số
+                                    <i className="icon-user"></i>
+                                    <span className="title">Quản lý người dùng</span>
                                     <span className="arrow "></span>
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Hiệu quả khai thác</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Cổng thanh toán</a>
                             </li>
                         </ul>
                     </li>

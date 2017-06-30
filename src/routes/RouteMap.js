@@ -15,7 +15,8 @@ const types = {
     managementMonthlyTicket: '6',
     managementPromotion: '7',
     managementUser: '8',
-    reportRateRevenue: '9'
+    reportRateRevenue: '9',
+    monthlyTicketList: '10'
 }
 
 const routes = [
@@ -42,17 +43,17 @@ const routes = [
                         path: '/search/ticket'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Báo cáo doanh số"
+                            content_title="Doanh số đơn vị khai thác"
                             type={types.reportRevenue}/>,
                         path: '/report/revenue'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Báo cáo doanh số vé tháng"
+                            content_title="Doanh số điểm đỗ"
                             type={types.reportMonthlyRevenue}/>,
                         path: '/report/monthly_revenue'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Báo cáo doanh số trên ô"
+                            content_title="Đánh giá điểm đỗ"
                             type={types.reportRateRevenue}/>,
                         path: '/report/rate_revenue'
                     }, {
@@ -70,6 +71,11 @@ const routes = [
                             content_title="Quản lý người dùng"
                             type={types.managementUser}/>,
                         path: '/management/user'
+                    }, {
+                        component: () => <PageContentWrapper
+                            content_title="Danh sách hợp đồng vé tháng"
+                            type={types.monthlyTicketList}/>,
+                        path: '/monthly_ticket/list'
                     }
                 ]
             }

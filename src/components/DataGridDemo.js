@@ -105,7 +105,25 @@ class DataGridDemo extends Component {
                         pageSize={pageSize}
                         totalCount={totalCount}/>
 
-                    <TableView/>
+                    <TableView
+                        tableCellTemplate={({row, column, style}) => {
+                        if (column.name == 'OrderNumber') {
+                            return <td
+                                style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                textAlign: 'left'
+                            }}>
+                                <a
+                                    href="#"
+                                    style={{
+                                    textDecoration: 'none'
+                                }}>{row.OrderNumber}</a>
+                            </td>
+                        }
+                        undefined
+                    }}/>
                     <TableHeaderRow/>
                     <PagingPanel/>
                 </Grid>

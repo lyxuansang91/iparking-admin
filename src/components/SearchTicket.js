@@ -4,6 +4,7 @@ import DataGridDemo from './DataGridDemo'
 import {PagingState} from '@devexpress/dx-react-grid';
 import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
 import Loading from '../assets/js/loading'
+import axios from 'axios'
 
 class SearchTicket extends Component {
 
@@ -29,7 +30,7 @@ class SearchTicket extends Component {
                     title: 'Tổng tiền'
                 }, {
                     name: 'PaymentChan',
-                    title: 'Phương thức thanh toán'
+                    title: 'PT thanh toán'
                 }, {
                     name: 'Status',
                     title: 'Trạng thái'
@@ -37,8 +38,8 @@ class SearchTicket extends Component {
             ],
             rows: [],
             totalCount: 0,
-            pageSize: 3,
-            loading: true,
+            pageSize: 10,
+            loading: false,
             errors: {}
         };
         this.onSubmitForm = this
@@ -60,37 +61,19 @@ class SearchTicket extends Component {
 
     loadData(currentPage) {
         this.setState({loading: true})
-        console.log("current page:", currentPage)
         var {pageSize} = this.state;
-        var _rows = [
-            {
-                'NumberPlate': '30A-12345',
-                'CarParkingPlace': '001',
-                'FromTime': '10/05/2017 8:00',
-                'ToTime': '10/05/2017 10:00',
-                'Amount': (currentPage * pageSize + 1) * 30000.0,
-                'PaymentChan': 'SMS',
-                'Status': currentPage * pageSize
-            }, {
-                'NumberPlate': '30A-12345',
-                'CarParkingPlace': '001',
-                'FromTime': '10/05/2017 8:00',
-                'ToTime': '10/05/2017 10:00',
-                'Amount': (currentPage * pageSize + 2) * 30000.0,
-                'PaymentChan': 'Nội địa',
-                'Status': currentPage * pageSize + 1
-            }, {
-                'NumberPlate': '30A-12345',
-                'CarParkingPlace': '001',
-                'FromTime': '10/05/2017 8:00',
-                'ToTime': '10/05/2017 10:00',
-                'Amount': (currentPage * pageSize + 3) * 30000.0,
-                'PaymentChan': 'Quốc tế',
-                'Status': currentPage * pageSize + 2
-            }
-        ];
 
-        this.setState({loading: false, rows: _rows, totalCount: 9})
+        axios
+            .get("http://ngoisaoteen.net/test/search_ticket.php")
+            .then((response) => {
+                const data = response.data;
+                this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
+
+            })
+            .catch((error) => {
+                console.log("error:", error)
+                this.setState({loading: false})
+            })
     }
 
     changeCurrentPage(currentPage) {
@@ -152,11 +135,11 @@ class SearchTicket extends Component {
                         <div className="col-md-2 form-group">
                             <label for="carParkingPlace">Điểm đỗ</label>
                             <select className="form-control" name="carparkingplace">
-                                <option value="1">1</option>
-                                <option value="1">2</option>
-                                <option value="1">3</option>
-                                <option value="1">4</option>
-                                <option value="1">5</option>
+                                <option value="1">001</option>
+                                <option value="2">002</option>
+                                <option value="3">003</option>
+                                <option value="4">004</option>
+                                <option value="5">005</option>
                             </select>
                         </div>
                         <div
@@ -169,17 +152,33 @@ class SearchTicket extends Component {
                     </form>
                 </div>
                 <div className="row">
-                    <Grid rows={rows} columns={columns}>
-                        <PagingState
-                            currentPage={currentPage}
-                            onCurrentPageChange={this.changeCurrentPage}
-                            pageSize={pageSize}
-                            totalCount={totalCount}/>
+                    <div className="portlet box blue">
+                        <div className="portlet-title">
+                            <div className="caption">Tra cứu giao dịch</div>
+                            <div className="tools">
+                                <a href="#" className="collapse"></a>
+                            </div>
+                        </div>
+                        <div
+                            className="portlet-body"
+                            style={{
+                            position: 'relative'
+                        }}>
+                            <Grid rows={rows} columns={columns}>
+                                <PagingState
+                                    currentPage={currentPage}
+                                    onCurrentPageChange={this.changeCurrentPage}
+                                    pageSize={pageSize}
+                                    totalCount={totalCount}/>
 
-                        <TableView/>
-                        <TableHeaderRow/>
-                        <PagingPanel/>
-                    </Grid>
+                                <TableView/>
+                                <TableHeaderRow/>
+                                <PagingPanel/>
+                            </Grid>
+                            {loading && <Loading/>}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         )

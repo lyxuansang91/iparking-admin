@@ -17,15 +17,15 @@ const Login = () => (
         {/*BEGIN LOGIN*/}
         <div className="content">
             <form className="login-form" action="/" method="post">
-                <h3 className="form-title">Login to your account</h3>
+                <h3 className="form-title">Đăng nhập vào tài khoản của bạn</h3>
                 <div className="alert alert-danger display-hide">
                     <button className="close" data-close="alert"></button>
                     <span>
-                        Enter any username and password.
+                        Nhập tài khoản và mật khẩu
                     </span>
                 </div>
                 <div className="form-group">
-                    <label className="control-label visible-ie8 visible-ie9">Username</label>
+                    <label className="control-label visible-ie8 visible-ie9">Tài khoản</label>
                     <div className="input-icon">
                         <i className="fa fa-user"></i>
                         <input
@@ -37,7 +37,7 @@ const Login = () => (
                     </div>
                 </div>
                 <div className="form-group">
-                    <label className="control-label visible-ie8 visible-ie9">Password</label>
+                    <label className="control-label visible-ie8 visible-ie9">Mật khẩu</label>
                     <div className="input-icon">
                         <i className="fa fa-lock"></i>
                         <input
@@ -51,12 +51,12 @@ const Login = () => (
 
                 <div className="form-actions">
                     <button type="reset" className="btn green-haze pull-left">
-                        Reset
+                        Xóa
                         <i className="m-icon-swapright m-icon-white"></i>
                     </button>
 
                     <button type="submit" className="btn green-haze pull-right">
-                        Login
+                        Đăng nhập
                         <i className="m-icon-swapright m-icon-white"></i>
                     </button>
 

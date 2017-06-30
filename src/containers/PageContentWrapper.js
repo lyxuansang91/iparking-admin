@@ -10,6 +10,7 @@ import ReportMonthlyRevenue from '../components/ReportMonthlyRevenue'
 import ReportRateRevenue from '../components/ReportRateRevenue'
 import ManagementMonthlyTicket from '../components/ManagementMonthlyTicket'
 import ManagementPromotion from '../components/ManagementPromotion'
+import ListMonthlyTicket from '../components/ListMonthlyTicket'
 
 class PageContainerWrapper extends Component {
     render() {
@@ -39,6 +40,9 @@ class PageContainerWrapper extends Component {
                 break;
             case types.managementPromotion:
                 _view = <ManagementPromotion/>;
+                break;
+            case types.monthlyTicketList:
+                _view = <ListMonthlyTicket/>;
                 break;
             default:
                 _view = <PageContentMain/>;

@@ -5,6 +5,7 @@ import Loading from '../assets/js/loading'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
+import axios from 'axios'
 
 class ReportRateRevenue extends Component {
     constructor(props) {
@@ -32,9 +33,9 @@ class ReportRateRevenue extends Component {
                     title: 'Tỷ suất doanh số trên ô'
                 }
             ],
-            pageSize: 10,
+            pageSize: 20,
             totalCount: 0,
-            loading: true,
+            loading: false,
             fromTime: moment(),
             toTime: moment()
         };
@@ -60,84 +61,16 @@ class ReportRateRevenue extends Component {
     loadData(currentPage) {
         const {pageSize} = this.state;
         this.setState({loading: true})
-
-        var data = {
-            totalCount: 20,
-            items: [
-                {
-                    ID: (currentPage * pageSize + 1),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 2),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 3),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 4),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 5),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 6),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 7),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 8),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 9),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }, {
-                    ID: (currentPage * pageSize + 10),
-                    CarParkingPlace: '001',
-                    Capacity: 28,
-                    TurnNumber: 248,
-                    Amount: 25000000,
-                    Rate: 200
-                }
-            ]
-        };
-        this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
+        axios
+            .get("http://ngoisaoteen.net/test/report_rate_revenue.php")
+            .then((response) => {
+                const data = response.data;
+                this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
+            })
+            .catch((error) => {
+                console.log("error:", error)
+                this.setState({loading: false})
+            })
     }
 
     changeCurrentPage(currentPage) {
@@ -218,18 +151,34 @@ class ReportRateRevenue extends Component {
                 </div>
 
                 <div className="row">
-                    <Grid rows={rows} columns={columns}>
-                        <PagingState
-                            currentPage={currentPage}
-                            onCurrentPageChange={this.changeCurrentPage}
-                            pageSize={pageSize}
-                            totalCount={totalCount}/>
+                    <div className="portlet box blue">
+                        <div className="portlet-title">
+                            <div className="caption">Đánh giá điểm đỗ</div>
+                            <div className="tools">
+                                <a href="#" className="collapse"></a>
+                            </div>
+                        </div>
+                        <div
+                            className="portlet-body"
+                            style={{
+                            position: 'relative'
+                        }}>
+                            <Grid rows={rows} columns={columns}>
+                                <PagingState
+                                    currentPage={currentPage}
+                                    onCurrentPageChange={this.changeCurrentPage}
+                                    pageSize={pageSize}
+                                    totalCount={totalCount}/>
 
-                        <TableView/>
-                        <TableHeaderRow/>
-                        <PagingPanel/>
-                    </Grid>
+                                <TableView/>
+                                <TableHeaderRow/>
+                                <PagingPanel/>
+                            </Grid>
+                            {loading && <Loading/>}
+                        </div>
+                    </div>
                 </div>
+
             </div>
         );
     }

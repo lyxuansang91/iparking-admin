@@ -141,8 +141,12 @@ const options = [
 ];
 
 const LineChart = () => (
-    <div>
-        <Line data={data} options={options}/>
+    <div className="container-fluid">
+        <div className="row">
+            <div className='col-md-offset-1 col-md-9'>
+                <Line data={data} options={options}/>
+            </div>
+        </div>
     </div>
 )
 

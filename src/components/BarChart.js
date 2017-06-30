@@ -65,6 +65,7 @@ const options = {
             fill: false
         }
     },
+
     legend: {
         display: true,
         position: 'bottom'
@@ -147,7 +148,15 @@ const options = {
 
 class BarChart extends Component {
     render() {
-        return <Bar data={data} options={options}/>
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-offset-1 col-md-10">
+                        <Bar data={data} options={options}/>
+                    </div>
+                </div>
+            </div>
+        )
     }
 }
 

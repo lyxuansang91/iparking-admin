@@ -1253,7 +1253,7 @@ Page sidebar
 .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu li>a {
     display: block;
     margin: 0;
-    padding: 6px 15px 6px 43px;
+    padding: 6px 15px 6px 16px;
     text-decoration: none;
     font-size: 14px;
     font-weight: 300;

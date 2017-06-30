@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import DataGridDemo from './DataGridDemo'
+
 import {PagingState} from '@devexpress/dx-react-grid';
 import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
 import Loading from '../assets/js/loading'
@@ -6,9 +8,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios';
-import NumberFormat from 'react-number-format'
 
-class ReportMonthlyRevenue extends Component {
+class ListMonthlyTicket extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,30 +17,43 @@ class ReportMonthlyRevenue extends Component {
             columns: [
                 {
                     name: 'ID',
-                    title: '#'
+                    title: '#',
+                    width: 40
                 }, {
-                    name: 'Month',
-                    title: 'Tháng'
+                    name: 'customerName',
+                    title: 'Người liên hệ',
+                    width: 120
                 }, {
-                    name: 'Capacity',
-                    title: 'Sức chứa'
+                    name: 'numberPlate',
+                    title: 'Biển kiểm soát',
+                    width: 120
                 }, {
-                    name: 'Amount',
-                    title: 'Doanh số lượt',
-                    align: 'right',
-                    type: 'number'
+                    name: 'ticketType',
+                    title: 'Loại hình trông giữ',
+                    width: 160
                 }, {
-                    name: 'Rate',
-                    title: 'Tỷ suất doanh số trên ô',
-                    align: 'right',
-                    type: 'number'
+                    name: 'fromTime',
+                    title: 'Ngày bắt đầu',
+                    width: 120,
+                    type: 'datetime'
+                }, {
+                    name: 'toTime',
+                    title: 'Ngày kết thúc',
+                    width: 120,
+                    type: 'datetime'
+                }, {
+                    name: 'status',
+                    title: 'Trạng thái',
+                    width: 100
+                }, {
+                    name: 'detail',
+                    title: " ",
+                    width: 90
                 }
             ],
-            pageSize: 20,
+            pageSize: 4,
             totalCount: 0,
-            loading: false,
-            fromTime: moment(),
-            toTime: moment()
+            loading: false
         };
 
         this.loadData = this
@@ -52,20 +66,16 @@ class ReportMonthlyRevenue extends Component {
         this.changeCurrentPage = this
             .changeCurrentPage
             .bind(this)
-        this.handleChangeFromTime = this
-            .handleChangeFromTime
-            .bind(this);
-        this.handleChangeToTime = this
-            .handleChangeToTime
-            .bind(this);
+        this.exportToCSV = this
+            .exportToCSV
+            .bind(this)
     }
 
     loadData(currentPage) {
         const {pageSize} = this.state;
         this.setState({loading: true})
-
         axios
-            .get("http://ngoisaoteen.net/test/monthly_revenue.php")
+            .get("http://ngoisaoteen.net/test/list_monthly_ticket.php")
             .then((response) => {
                 const data = response.data;
                 this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
@@ -74,6 +84,12 @@ class ReportMonthlyRevenue extends Component {
                 console.log("error:", error)
                 this.setState({loading: false})
             })
+
+            // this.setState({loading: true}) axios
+            // .get('http://ngoisaoteen.net/test/report_revenue.php')     .then((response)
+            // => {         const data = response.data;         this.setState({loading:
+            // false, rows: data.items, totalCount: data.totalCount})     }) .catch((error)
+            // => {         this.setState({loading: false})     })
     }
 
     changeCurrentPage(currentPage) {
@@ -85,16 +101,19 @@ class ReportMonthlyRevenue extends Component {
         this.loadData(0)
     }
 
-    handleChangeFromTime(date) {
-        this.setState({fromTime: date});
-    }
+    exportToCSV() {
+        axios
+            .get("http://ngoisaoteen.net/test/monthly_revenue.php")
+            .then((response) => {
+                const items = response.data.items;
 
-    handleChangeToTime(date) {
-        this.setState({toTime: date});
+            })
+            .catch((error) => {
+                console.log("error:", error)
+            })
     }
 
     render() {
-
         const {
             rows,
             columns,
@@ -106,35 +125,34 @@ class ReportMonthlyRevenue extends Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <form
-                        ref='report_monthly_revenue_form'
-                        className=""
-                        onSubmit={this.onSubmitForm}>
+                    <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
                         <div className="col-md-3 form-group">
-                            <label for="company">Công ty</label>
-                            <select className="form-control" name="company">
-                                <option value="1">Tất cả</option>
-                                <option value="2">HPC</option>
-                                <option value="3">Đồng Xuân</option>
+                            <label for="phoneNumber">Số điện thoại</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="phone_number"
+                                placeholder="123456789"/>
+                        </div>
+
+                        <div className="col-md-3 form-group">
+                            <label for="numberPlate">Biển số xe</label>
+                            <input
+                                className="form-control"
+                                name="number_plate"
+                                placeholder="30A-123.45"
+                                type="text"/>
+                        </div>
+
+                        <div className="col-md-3 form-group">
+                            <label for="car_parking_place">Điểm đỗ</label>
+                            <select className="form-control" name="car_parking_place">
+                                <option value="001">001</option>
+                                <option value="002">002</option>
+                                <option value="003">003</option>
+                                <option value="004">004</option>
+                                <option value="005">005</option>
                             </select>
-                        </div>
-
-                        <div className="col-md-3 form-group">
-                            <label for="fromTime">Từ ngày</label>
-                            <DatePicker
-                                className="form-control"
-                                name="from_time"
-                                selected={this.state.fromTime}
-                                onChange={this.handleChangeFromTime}/>
-                        </div>
-
-                        <div className="col-md-3 form-group">
-                            <label for="toTime">Đến ngày</label>
-                            <DatePicker
-                                className="form-control"
-                                name="to_time"
-                                selected={this.state.toTime}
-                                onChange={this.handleChangeToTime}/>
                         </div>
                         <div
                             className="col-md-3"
@@ -143,21 +161,20 @@ class ReportMonthlyRevenue extends Component {
                         }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
-                        <div className="col-md-4 form-group">
-                            <span for="company">Mã điểm đỗ</span>
-                            <input type="text" name="car_parking_place" className="form-control"/>
-                            <span>(Có thể để trống)</span>
-                        </div>
-
                     </form>
                 </div>
-
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Doanh số điểm đỗ</div>
+                            <div className="caption">Danh sách hợp đồng vé tháng</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
+                            </div>
+                            <div className="actions">
+                                <button className="btn btn-default btn-sm" onClick={this.exportToCSV}>
+                                    <i className="fa fa-pencil"></i>
+                                    Export to CSV
+                                </button>
                             </div>
                         </div>
                         <div
@@ -174,6 +191,7 @@ class ReportMonthlyRevenue extends Component {
 
                                 <TableView
                                     tableCellTemplate={({row, column, style}) => {
+                                    console.log("row:", row, "column:", column);
                                     if (column.name == 'detail') {
                                         return <td
                                             style={{
@@ -190,22 +208,7 @@ class ReportMonthlyRevenue extends Component {
                                             }}>Chi tiết</a>
                                         </td>
                                     }
-                                    if (column.type == 'number') {
-                                        return <td
-                                            style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            textAlign: 'right'
-                                        }}>
-                                            <NumberFormat
-                                                value={row.Amount}
-                                                displayType={'text'}
-                                                decimalSeparator={','}
-                                                thousandSeparator={'.'}
-                                                suffix={"   đ"}/>
-                                        </td>;
-                                    }
+                                    if (column.type == 'datetime') {}
                                     return undefined;
                                 }}/>
                                 <TableHeaderRow/>
@@ -221,4 +224,4 @@ class ReportMonthlyRevenue extends Component {
     }
 }
 
-export default ReportMonthlyRevenue
+export default ListMonthlyTicket
