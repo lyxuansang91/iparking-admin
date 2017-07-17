@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios';
 import NumberFormat from 'react-number-format'
+import {styles} from '../assets/css/grid.css'
 
 class ReportMonthlyRevenue extends Component {
     constructor(props) {
@@ -67,7 +68,11 @@ class ReportMonthlyRevenue extends Component {
         axios
             .get("http://ngoisaoteen.net/test/monthly_revenue.php")
             .then((response) => {
-                const data = response.data;
+                let data = response.data;
+                let count = 0;
+                data.items.forEach(function(item, index) {
+                    data.items[index].id = ++count;
+                });
                 this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
             })
             .catch((error) => {
@@ -104,7 +109,7 @@ class ReportMonthlyRevenue extends Component {
             loading
         } = this.state;
         return (
-            <div className="container-fluid">
+            <div className="container-fluid detail">
                 <div className="row">
                     <form
                         ref='report_monthly_revenue_form'
@@ -165,14 +170,14 @@ class ReportMonthlyRevenue extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <Grid rows={rows} columns={columns}>
+                            <Grid rows={rows} columns={columns} getRowId={row => row.id} style={styles}>
                                 <PagingState
                                     currentPage={currentPage}
                                     onCurrentPageChange={this.changeCurrentPage}
                                     pageSize={pageSize}
                                     totalCount={totalCount}/>
 
-                                <TableView
+                                <TableView 
                                     tableCellTemplate={({row, column, style}) => {
                                     if (column.name == 'detail') {
                                         return <td

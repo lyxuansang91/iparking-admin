@@ -36,16 +36,14 @@ class PageSideBar extends Component {
                         <ul className="sub-menu">
                             <li>
                                 <Link to="/management/monthly_ticket">
-                                    <i className="fa fa-car"></i>
-                                    <span className="icon-space">Đăng ký vé tháng</span>
+                                    <i className="fa fa-car icon-space"></i>
+                                    Đăng ký vé tháng
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/monthly_ticket/list">
-                                    <i className="fa fa-search"></i>
-                                    <span className="icon-space">
-                                        Danh sách vé tháng
-                                    </span>
+                                    <i className="fa fa-search icon-space"></i>
+                                    Danh sách vé tháng
                                 </Link>
                             </li>
                         </ul>
@@ -60,22 +58,20 @@ class PageSideBar extends Component {
                         <ul className="sub-menu">
                             <li>
                                 <Link to="/report/revenue">
-                                    <i className="fa fa-usd"></i>
-                                    <span className="icon-space">
+                                    <i className="fa fa-usd icon-space" ></i>
                                         Doanh số đơn vị khai thác
-                                    </span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/report/monthly_revenue">
-                                    <i className="fa fa-usd"></i>
-                                    <span className="icon-space">Doanh số điểm đỗ</span>
+                                    <i className="fa fa-usd icon-space"></i>
+                                    Doanh số điểm đỗ
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/report/rate_revenue">
-                                    <i className="icon-tag"></i>
-                                    <span className="icon-space">Đánh giá điểm đỗ</span>
+                                    <i className="icon-tag icon-space"></i>
+                                    Đánh giá điểm đỗ
                                 </Link>
                             </li>
                         </ul>
@@ -90,14 +86,14 @@ class PageSideBar extends Component {
                         <ul className="sub-menu">
                             <li>
                                 <Link to="/cpp">
-                                    <i className="fa fa-car"></i>
-                                    <span className="icon-space">Điểm đỗ xe</span>
+                                    <i className="fa fa-car icon-space"></i>
+                                    Điểm đỗ xe
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/management/promotion">
-                                    <i className="fa fa-usd"></i>
-                                    <span className="icon-space">CT Khuyến mãi</span>
+                                    <i className="fa fa-usd icon-space"></i>
+                                    CT Khuyến mãi
                                 </Link>
                             </li>
 

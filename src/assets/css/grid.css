@@ -1,0 +1,12 @@
+.panel>.table-responsive>.table>.tbody>tr:nth-child(2n+1) {
+    background-color: #CCC !important;
+}
+
+.panel>.table-responsive>.table>.tbody>tr:nth-child(2n) {
+    background-color: #FFF !important;
+}
+
+.detail {
+    padding: 0;
+    margin: 0;
+}
