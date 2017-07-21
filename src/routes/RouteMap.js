@@ -16,7 +16,8 @@ const types = {
     managementPromotion: '7',
     managementUser: '8',
     reportRateRevenue: '9',
-    monthlyTicketList: '10'
+    monthlyTicketList: '10', 
+    testItemRedux: '11',
 }
 
 const routes = [
@@ -76,6 +77,11 @@ const routes = [
                             content_title="Danh sách hợp đồng vé tháng"
                             type={types.monthlyTicketList}/>,
                         path: '/monthly_ticket/list'
+                    },  {
+                        component: () => <PageContentWrapper 
+                            content_title="Test item Redux" 
+                            type={types.testItemRedux}/>,
+                        path: '/test/redux'
                     }
                 ]
             }

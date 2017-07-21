@@ -107,6 +107,13 @@ class PageSideBar extends Component {
                         </ul>
                     </li>
 
+                    <li className="">
+                        <Link to="/test/redux">
+                            <i className="fa fa-usd"></i>
+                                Test Item Redux
+                        </Link>
+                    </li>
+
                     <li className="heading">
                         <h3 className="uppercase">More</h3>
                     </li>
