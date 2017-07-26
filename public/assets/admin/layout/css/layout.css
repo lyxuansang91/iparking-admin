@@ -1408,10 +1408,11 @@ Page sidebar
     .page-sidebar {
         width: 235px;
         float: left;
-        position: relative;
+        position: fixed;
         margin-right: -100%;
         background-color: #205B87;
-        min-height: 1000px;
+        top:46px;
+        bottom:0;
     }
     .page-full-width .page-sidebar {
         display: none !important;

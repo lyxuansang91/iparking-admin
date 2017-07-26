@@ -1,6 +1,8 @@
 import React from 'react'
 import BarChart from '../components/BarChart'
 import LineChart from '../components/LineChart'
+import ComposedCharts from '../components/ComposedCharts'
+import StackAreaChart from '../components/StackAreaChart'
 
 const PageContentMain = () => (
     <div>
@@ -20,7 +22,8 @@ const PageContentMain = () => (
             </div>
         </div>
         <hr/>
-        <BarChart/>
+        <ComposedCharts/>
+
         <div className="row">
             <div className="col-md-3">
                 <h4>
@@ -28,7 +31,7 @@ const PageContentMain = () => (
                 </h4>
             </div>
         </div>
-        <LineChart/>
+        <StackAreaChart/>
 
     </div>
 )
