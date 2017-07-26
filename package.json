@@ -3,27 +3,28 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@devexpress/dx-react-core": "^1.0.0-alpha.5",
         "@devexpress/dx-react-grid": "^1.0.0-alpha.3",
         "@devexpress/dx-react-grid-bootstrap3": "^1.0.0-alpha.3",
         "axios": "^0.16.2",
         "chart.js": "^2.6.0",
         "global": "^4.3.2",
         "jquery": "^3.2.1",
-        "react": "^15.5.4",
+        "react": "^15.6.1",
         "react-bootstrap": "^0.31.0",
         "react-chartjs-2": "^2.1.0",
         "react-datepicker": "^0.48.0",
-        "react-dom": "^15.5.4",
-        "react-number-format": "^2.0.0-alpha5",
+        "react-dom": "^15.6.1",
+        "react-number-format": "^2.0.2",
         "react-redux": "^5.0.5",
         "react-router-config": "^1.0.0-beta.3",
-        "react-router-dom": "^4.1.1",
+        "react-router-dom": "^4.1.2",
         "redux": "^3.7.2",
         "redux-thunk": "^2.2.0",
         "serve": "^5.2.4"
     },
     "devDependencies": {
-        "react-scripts": "1.0.7"
+        "react-scripts": "0.8.4"
     },
     "scripts": {
         "start": "react-scripts start",

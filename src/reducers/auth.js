@@ -1,4 +1,3 @@
-import {combineReducers} from 'redux'
 import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
@@ -8,7 +7,7 @@ import {
     LOGOUT_SUCCESS
 } from '../actions/auth'
 
-function auth(state = {
+export function auth(state = {
     isFetching: false,
     isAuthenticated: localStorage.getItem('id_token')
         ? true
