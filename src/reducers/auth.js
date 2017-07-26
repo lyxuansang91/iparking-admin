@@ -9,7 +9,7 @@ import {
 
 export function auth(state = {
     isFetching: false,
-    isAuthenticated: localStorage.getItem('id_token')
+    isAuthenticated: localStorage.getItem('accessToken')
         ? true
         : false
 }, action) {
