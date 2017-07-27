@@ -11,6 +11,7 @@ import ReportRateRevenue from '../components/ReportRateRevenue'
 import ManagementMonthlyTicket from '../components/ManagementMonthlyTicket'
 import ManagementPromotion from '../components/ManagementPromotion'
 import ListMonthlyTicket from '../components/ListMonthlyTicket'
+import ItemList from '../components/ItemList'
 
 class PageContainerWrapper extends Component {
     render() {
@@ -43,6 +44,9 @@ class PageContainerWrapper extends Component {
                 break;
             case types.monthlyTicketList:
                 _view = <ListMonthlyTicket/>;
+                break;
+            case types.testItemRedux:
+                _view = <ItemList/>;
                 break;
             default:
                 _view = <PageContentMain/>;

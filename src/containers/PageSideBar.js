@@ -58,8 +58,8 @@ class PageSideBar extends Component {
                         <ul className="sub-menu">
                             <li>
                                 <Link to="/report/revenue">
-                                    <i className="fa fa-usd icon-space" ></i>
-                                        Doanh số đơn vị khai thác
+                                    <i className="fa fa-usd icon-space"></i>
+                                    Doanh số đơn vị khai thác
                                 </Link>
                             </li>
                             <li>
@@ -105,6 +105,13 @@ class PageSideBar extends Component {
                                 </a>
                             </li>
                         </ul>
+                    </li>
+
+                    <li className="">
+                        <Link to="/test/redux">
+                            <i className="fa fa-usd"></i>
+                            Test Item Redux
+                        </Link>
                     </li>
 
                     <li className="heading">

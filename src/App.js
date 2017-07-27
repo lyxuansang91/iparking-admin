@@ -13,7 +13,6 @@ class App extends Component {
       }}>
         <PageHeader/>
         <div className="page-container">
-
           <PageSideBar/> {console.log("Props:", this.props)}
           {renderRoutes(this.props.route.routes)}
           {/*<PageFooter/> */}
