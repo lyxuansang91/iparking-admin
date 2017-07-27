@@ -1,40 +1,44 @@
 import React, {Component} from 'react'
-import DataGridDemo from './DataGridDemo'
-
-import {PagingState} from '@devexpress/dx-react-grid';
-import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import Loading from '../assets/js/loading'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios';
 
+const currencyFormat = (uv) => {
+
+    if (Math.floor(uv) === 0) {
+        return "0"
+    }
+
+    var price = Math.floor(uv)
+    var priceString = ''
+    var count = 0
+
+    while (price > 0) {
+        var number = price % 10;
+        price = Math.floor(price / 10);
+        count = count + 1
+
+        priceString = number + priceString;
+
+        if (count === 3 && price > 0) {
+            priceString = "." + priceString;
+            count = 0;
+        }
+
+    }
+
+    return priceString
+}
+
 class ReportRevenue extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rows: [],
-            columns: [
-                {
-                    name: 'ID',
-                    title: '#'
-                }, {
-                    name: 'CarParkingPlace',
-                    title: 'Mã điểm đỗ'
-                }, {
-                    name: 'Capacity',
-                    title: 'Sức chứa'
-                }, {
-                    name: 'TurnNumber',
-                    title: 'Số lượt'
-                }, {
-                    name: 'Amount',
-                    title: 'Doanh số lượt'
-                }, {
-                    name: 'Rate',
-                    title: 'Tỷ suất doanh số trên ô'
-                }
-            ],
             pageSize: 20,
             totalCount: 0,
             loading: false,
@@ -60,20 +64,7 @@ class ReportRevenue extends Component {
             .bind(this);
     }
 
-    loadData(currentPage) {
-        const {pageSize} = this.state;
-        this.setState({loading: true})
-
-        axios
-            .get('http://ngoisaoteen.net/test/report_revenue.php')
-            .then((response) => {
-                const data = response.data;
-                this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
-            })
-            .catch((error) => {
-                this.setState({loading: false})
-            })
-    }
+    loadData(currentPage) {}
 
     changeCurrentPage(currentPage) {
         this.loadData(currentPage)
@@ -81,6 +72,17 @@ class ReportRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
+        var url = "http://admapi.upark.vn/p/provider/revenue_by_date?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix()
+
+        axios
+            .get(url)
+            .then((response) => {
+                const revenueArr = response.data.Data
+                this.setState({loading: false, rows: revenueArr})
+            })
+            .catch((error) => {
+                this.setState({loading: false})
+            });
         this.loadData(0)
     }
 
@@ -105,12 +107,15 @@ class ReportRevenue extends Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
+                    <form
+                        ref='report_revenue_form'
+                        className="form-filter"
+                        onSubmit={this.onSubmitForm}>
                         <div className="col-md-3 form-group">
                             <label for="company">Công ty</label>
-                            <select className="form-control" name="company">
+                            <select className="form-control" name="company" ref="company">
                                 <option value="1">Tất cả</option>
-                                <option value="2">HPC</option>
+                                <option value="2">Công ty TNHH MTV Khai Thác Điểm Đỗ Xe Hà Nội</option>
                                 <option value="3">Đồng Xuân</option>
                             </select>
                         </div>
@@ -132,11 +137,7 @@ class ReportRevenue extends Component {
                                 selected={this.state.toTime}
                                 onChange={this.handleChangeToTime}/>
                         </div>
-                        <div
-                            className="col-md-3"
-                            style={{
-                            marginTop: '24px'
-                        }}>
+                        <div className="col-md-3">
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
                     </form>
@@ -154,17 +155,18 @@ class ReportRevenue extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <Grid rows={rows} columns={columns}>
-                                <PagingState
-                                    currentPage={currentPage}
-                                    onCurrentPageChange={this.changeCurrentPage}
-                                    pageSize={pageSize}
-                                    totalCount={totalCount}/>
-
-                                <TableView/>
-                                <TableHeaderRow/>
-                                <PagingPanel/>
-                            </Grid>
+                            <BootstrapTable data={this.state.rows} bordered={true}>
+                                <TableHeaderColumn dataField='CppCode' isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn dataSort={true} dataField='Capicity'>Sức chứa</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
+                            </BootstrapTable>
                             {loading && <Loading/>}
                         </div>
                     </div>

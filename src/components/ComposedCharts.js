@@ -105,6 +105,7 @@ class ComposedCharts extends Component {
                                     type='monotone'
                                     dataKey='RevenuePerUnit'
                                     stroke='#FF6384'
+                                    strokeWidth={3}
                                     name="Doanh số trên ô"/>
                             </ComposedChart>
                         </ResponsiveContainer>

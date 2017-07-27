@@ -1,10 +1,24 @@
 import React, {Component} from 'react'
-import DataGridDemo from './DataGridDemo'
-
-import {PagingState} from '@devexpress/dx-react-grid';
-import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import Loading from '../assets/js/loading'
 import axios from 'axios'
+
+var products = [
+    {
+        id: 1,
+        name: "Item name 1",
+        price: 100
+    }, {
+        id: 2,
+        name: "Item name 2",
+        price: 100
+    }
+];
+
+function priceFormatter(cell, row) {
+    return '<i class="glyphicon glyphicon-usd"></i> ' + cell;
+}
 
 class SearchTicket extends Component {
 
@@ -164,17 +178,11 @@ class SearchTicket extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <Grid rows={rows} columns={columns}>
-                                <PagingState
-                                    currentPage={currentPage}
-                                    onCurrentPageChange={this.changeCurrentPage}
-                                    pageSize={pageSize}
-                                    totalCount={totalCount}/>
-
-                                <TableView/>
-                                <TableHeaderRow/>
-                                <PagingPanel/>
-                            </Grid>
+                            <BootstrapTable data={products} bordered={true}>
+                                <TableHeaderColumn width={150} dataField='id' isKey={true}>Product ID</TableHeaderColumn>
+                                <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+                                <TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+                            </BootstrapTable>
                             {loading && <Loading/>}
                         </div>
                     </div>
