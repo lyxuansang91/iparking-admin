@@ -73,7 +73,7 @@ class ReportMonthlyRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "http://admapi.upark.vn/p/provider/revenue_by_month"
+        var url = "http://admapi.upark.vn/p/provider/revenue_by_month?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value
 
         axios
             .get(url)
@@ -124,7 +124,11 @@ class ReportMonthlyRevenue extends Component {
                                 </div>
                                 <div className="col-md-6 form-group">
                                     <label for="company">Mã điểm đỗ</label>
-                                    <input type="text" name="car_parking_place" className="form-control"/>
+                                    <input
+                                        type="text"
+                                        name="car_parking_place"
+                                        ref="cpp_code"
+                                        className="form-control"/>
                                 </div>
                             </div>
                         </div>

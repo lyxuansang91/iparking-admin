@@ -71,7 +71,7 @@ class ReportRateRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "http://admapi.upark.vn/p/provider/rate_revenue"
+        var url = "http://admapi.upark.vn/p/provider/rate_revenue?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix()
         axios
             .get(url)
             .then((response) => {
@@ -134,14 +134,7 @@ class ReportRateRevenue extends Component {
                         </div>
 
                     </div>
-                    <div className="row">
-                        <div className="col-md-6 form-group">
-                            <label for="Loai">Loại</label>
-                            <label className="radio-inline"><input type="radio" name="optradio" className="checked"/>A</label>
-                            <label className="radio-inline"><input type="radio" name="optradio"/>B</label>
-                            <label className="radio-inline"><input type="radio" name="optradio"/>C</label>
-                        </div>
-                    </div>
+
                 </form>
 
                 <div className="row">

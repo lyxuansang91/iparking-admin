@@ -99,31 +99,20 @@ class PageSideBar extends Component {
 
                             <li>
                                 <a href="#">
-                                    <i className="icon-user"></i>
-                                    <span className="title">Quản lý người dùng</span>
+                                    <i className="icon-user icon-space"></i>
+                                    Quản lý người dùng
                                     <span className="arrow "></span>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
-                    <li className="">
-                        <Link to="/test/redux">
-                            <i className="fa fa-usd"></i>
-                            Test Item Redux
-                        </Link>
-                    </li>
-
-                    <li className="heading">
-                        <h3 className="uppercase">More</h3>
-                    </li>
-
-                    <li className="">
+                    {/*<li className="">
                         <Link to="/login">
                             <i className="fa fa-sign-out" aria-hidden="true"></i>
                             <span className="title">Logout</span>
                         </Link>
-                    </li>
+                    </li>*/}
                 </ul>
             </div>
         );

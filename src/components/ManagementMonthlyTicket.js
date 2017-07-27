@@ -52,103 +52,120 @@ class ManagementMonthlyTicket extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <form ref='monthly_ticket_form' className="" onSubmit={this.onSubmitForm}>
+                <form
+                    ref='monthly_ticket_form'
+                    id="monthly-ticket"
+                    className=""
+                    onSubmit={this.onSubmitForm}>
                     <div className="row">
-                        <div className="col-md-3 form-group">
-                            <label for="numberPlate">Biển số xe</label>
-                            <input
-                                type="text"
-                                placeholder="Biển số xe"
-                                className="form-control"
-                                name="number_plate"/>
-                        </div>
+                        <div className="col-md-4 ticket-detail">
+                            <div className="ticket-box">
+                                <div className="row">
+                                    <div className="col-md-12 form-group form-header">
+                                        <label for="phoneNumber">THÔNG TIN CÁ NHÂN</label>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 form-group">
+                                        <label for="phoneNumber">Họ Và Tên</label>
+                                        <input type="text" className="form-control" name="name"/>
 
-                        <div className="col-md-3 form-group">
-                            <label for="phoneNumber">Số điện thoại</label>
-                            <input type="text" className="form-control" name="phone_number"/>
-                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 form-group">
+                                        <label for="phoneNumber">Số điện thoại</label>
+                                        <input type="text" className="form-control" name="phone_number"/>
 
-                        <div className="col-md-3 form-group">
-                            <label for="car_parking_place">Điểm đỗ</label>
-                            <input type="text" className="form-control" name="car_parking_place"/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <div className="col-md-3 ticket-detail">
+                            <div className="ticket-box">
+                                <div className="row">
+                                    <div className="col-md-12 form-group form-header">
+                                        <label for="phoneNumber">THÔNG TIN XE</label>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 form-group">
+                                        <label for="numberPlate">Biển số xe</label>
+                                        <input
+                                            type="text"
+                                            placeholder="Biển số xe"
+                                            className="form-control"
+                                            name="number_plate"/>
+                                    </div>
+                                    <div className="col-md-12 form-group">
+                                        <label for="image_car">Hình ảnh xe</label>
+                                        <img
+                                            src={process.env.PUBLIC_URL + '/assets/global/img/NO.jpg'}
+                                            alt="NoData"
+                                            width="40%"
+                                            height="40%"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-5 ticket-detail">
+                            <div className="ticket-box">
+                                <div className="row">
+                                    <div className="col-md-12 form-group form-header">
+                                        <label for="phoneNumber">THÔNG TIN ĐIỂM ĐỖ</label>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 form-group">
+                                        <label for="car_parking_place">Điểm đỗ</label>
+                                        <input type="text" className="form-control" name="car_parking_place"/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-6 form-group">
+                                        <label for="book_time">Thời gian gửi xe</label>
+                                        <select name="book_time" className="form-control">
+                                            <option value="1">Đêm</option>
+                                            <option value="2">Ngày</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-6 form-group">
+                                        <label for="book_expired">Thời hạn gửi xe</label>
+                                        <select name="book_expired" className="form-control" ref="book_expired">
+                                            <option value="1">1 tháng</option>
+                                            <option value="3">3 tháng</option>
+                                            <option value="6">6 tháng</option>
+                                            <option value="12">12 tháng</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                        <div
-                            className="col-md-3"
-                            style={{
-                            marginTop: '24px'
-                        }}>
-                            <button className="btn btn-primary">Kiểm tra</button>
+                                <div className="row">
+                                    <div className="col-md-6 form-group ticket-date-picker">
+                                        <label for="from_time">Từ ngày</label>
+                                        <br/>
+                                        <DatePicker
+                                            className="form-control"
+                                            name="from_time"
+                                            selected={this.state.fromTime}
+                                            onChange={this.handleChangeFromTime}/>
+                                    </div>
+                                    <div className="col-md-6 form-group ticket-date-picker">
+                                        <label for="to_time">Đến ngày</label>
+                                        <br/>
+                                        <DatePicker
+                                            className="form-control"
+                                            name="to_time"
+                                            selected={this.state.toTime}
+                                            onChange={this.handleChangeToTime}/>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-
                     <div className="row">
-                        <div className="col-md-3 form-group">
-                            <label for="book_time">Thời gian gửi xe</label>
-                            <select name="book_time" className="form-control">
-                                <option value="1">Đêm</option>
-                                <option value="2">Ngày</option>
-                            </select>
-                        </div>
-
-                        <div className="col-md-3 form-group">
-                            <label for="book_expired">Thời hạn gửi xe</label>
-                            <select name="book_expired" className="form-control" ref="book_expired">
-                                <option value="1">1 tháng</option>
-                                <option value="3">3 tháng</option>
-                                <option value="6">6 tháng</option>
-                                <option value="12">12 tháng</option>
-                            </select>
-                        </div>
-                        <div className="col-md-3 form-group">
-                            <label for="from_time">Từ ngày</label>
-                            <DatePicker
-                                className="form-control"
-                                name="from_time"
-                                selected={this.state.fromTime}
-                                onChange={this.handleChangeFromTime}/>
-                        </div>
-
-                        <div className="col-md-3 form-group">
-                            <label for="to_time">Đến ngày</label>
-                            <DatePicker
-                                className="form-control"
-                                name="to_time"
-                                selected={this.state.toTime}
-                                onChange={this.handleChangeToTime}/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-3">
-                            <label for="image_car">Hình ảnh xe</label>
-                            <img
-                                src={process.env.PUBLIC_URL + '/assets/global/img/NO.jpg'}
-                                alt="NoData"
-                                width="40%"
-                                height="40%"/>
-                        </div>
-                        <div className="col-md-7">
-                            <span>Đơn giá một tháng</span>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="price_per_month"
-                                placeholder="2.000.000"
-                                onChange={this.onPriceChange}/>
-                            <span>Tháng</span>
-                            &nbsp;
-                            <span>Tổng giá trị hợp đồng</span>
-                            <input
-                                type="text"
-                                ref="total_amount"
-                                name="total_amount"
-                                className="form-control"
-                                value="24.000.000 VNĐ"/>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 submit-button">
                             <button type="submit" className="btn btn-primary">Đăng ký</button>
                         </div>
                     </div>
