@@ -1,58 +1,60 @@
 import React, {Component} from 'react'
-import DataGridDemo from './DataGridDemo'
-
-import {PagingState} from '@devexpress/dx-react-grid';
-import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
 import Loading from '../assets/js/loading'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
+
+const currencyFormat = (uv) => {
+
+    if (Math.floor(uv) === 0) {
+        return "0"
+    }
+
+    var price = Math.floor(uv)
+    var priceString = ''
+    var count = 0
+
+    while (price > 0) {
+        var number = price % 10;
+        price = Math.floor(price / 10);
+        count = count + 1
+
+        priceString = number + priceString;
+
+        if (count === 3 && price > 0) {
+            priceString = "." + priceString;
+            count = 0;
+        }
+
+    }
+
+    return priceString
+}
+
+const statusRender = (status) => {
+    if (status === 0) {
+        return "Hết hiệu lực"
+    } else if (status === 1) {
+        return "Còn hiệu lực"
+    }
+}
+
+const timeRender = (time) => {
+    return moment
+        .unix(time)
+        .format("DD/MM/YYYY");
+}
 
 class ListMonthlyTicket extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rows: [],
-            columns: [
-                {
-                    name: 'ID',
-                    title: '#',
-                    width: 40
-                }, {
-                    name: 'customerName',
-                    title: 'Người liên hệ',
-                    width: 120
-                }, {
-                    name: 'numberPlate',
-                    title: 'Biển kiểm soát',
-                    width: 120
-                }, {
-                    name: 'ticketType',
-                    title: 'Loại hình trông giữ',
-                    width: 160
-                }, {
-                    name: 'fromTime',
-                    title: 'Ngày bắt đầu',
-                    width: 120,
-                    type: 'datetime'
-                }, {
-                    name: 'toTime',
-                    title: 'Ngày kết thúc',
-                    width: 120,
-                    type: 'datetime'
-                }, {
-                    name: 'status',
-                    title: 'Trạng thái',
-                    width: 100
-                }, {
-                    name: 'detail',
-                    title: " ",
-                    width: 90
-                }
-            ],
-            pageSize: 4,
-            totalCount: 0,
+            fromTime: moment(),
+            toTime: moment(),
             loading: false
         };
 
@@ -69,28 +71,15 @@ class ListMonthlyTicket extends Component {
         this.exportToCSV = this
             .exportToCSV
             .bind(this)
+        this.handleChangeFromTime = this
+            .handleChangeFromTime
+            .bind(this);
+        this.handleChangeToTime = this
+            .handleChangeToTime
+            .bind(this);
     }
 
-    loadData(currentPage) {
-        const {pageSize} = this.state;
-        this.setState({loading: true})
-        axios
-            .get("http://ngoisaoteen.net/test/list_monthly_ticket.php")
-            .then((response) => {
-                const data = response.data;
-                this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
-            })
-            .catch((error) => {
-                console.log("error:", error)
-                this.setState({loading: false})
-            })
-
-            // this.setState({loading: true}) axios
-            // .get('http://ngoisaoteen.net/test/report_revenue.php')     .then((response)
-            // => {         const data = response.data;         this.setState({loading:
-            // false, rows: data.items, totalCount: data.totalCount})     }) .catch((error)
-            // => {         this.setState({loading: false})     })
-    }
+    loadData(currentPage) {}
 
     changeCurrentPage(currentPage) {
         this.loadData(currentPage)
@@ -98,7 +87,25 @@ class ListMonthlyTicket extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
+        var url = "http://admapi.upark.vn/p/ticket/search?is_monthly=true&from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+        axios
+            .get(url)
+            .then((response) => {
+                const ticketList = response.data.Data
+                this.setState({loading: false, rows: ticketList})
+            })
+            .catch((error) => {
+                this.setState({loading: false})
+            });
         this.loadData(0)
+    }
+
+    handleChangeFromTime(date) {
+        this.setState({fromTime: date});
+    }
+
+    handleChangeToTime(date) {
+        this.setState({toTime: date});
     }
 
     exportToCSV() {
@@ -126,27 +133,30 @@ class ListMonthlyTicket extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
-                        <div className="col-md-3 form-group">
+                        <div className="col-md-2 form-group">
+                            <label for="numberPlate">Biển số xe</label>
+                            <input
+                                type="text"
+                                name="numberplate"
+                                className="form-control"
+                                ref="numberplate"
+                                placeholder="Biển số xe"/>
+                        </div>
+
+                        <div className="col-md-2 form-group">
                             <label for="phoneNumber">Số điện thoại</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                name="phone_number"
-                                placeholder="123456789"/>
+                                placeholder="Số điện thoại"
+                                ref="phonenumber"
+                                name="phonenumber"/>
                         </div>
 
-                        <div className="col-md-3 form-group">
-                            <label for="numberPlate">Biển số xe</label>
-                            <input
-                                className="form-control"
-                                name="number_plate"
-                                placeholder="30A-123.45"
-                                type="text"/>
-                        </div>
-
-                        <div className="col-md-3 form-group">
-                            <label for="car_parking_place">Điểm đỗ</label>
-                            <select className="form-control" name="car_parking_place">
+                        <div className="col-md-2 form-group">
+                            <label for="carParkingPlace">Điểm đỗ</label>
+                            <select className="form-control" name="carparkingplace" ref="cpp_code">
+                                <option value="">Chọn điểm đỗ</option>
                                 <option value="001">001</option>
                                 <option value="002">002</option>
                                 <option value="003">003</option>
@@ -154,8 +164,32 @@ class ListMonthlyTicket extends Component {
                                 <option value="005">005</option>
                             </select>
                         </div>
+
+                        <div className="col-md-4">
+                            <div className="row">
+                                <div className="col-md-6 form-group">
+                                    <label for="fromTime">Từ ngày</label>
+                                    <br/>
+                                    <DatePicker
+                                        className="form-control"
+                                        name="from_time"
+                                        selected={this.state.fromTime}
+                                        onChange={this.handleChangeFromTime}/>
+                                </div>
+
+                                <div className="col-md-6 form-group">
+                                    <label for="toTime">Đến ngày</label>
+                                    <br/>
+                                    <DatePicker
+                                        className="form-control"
+                                        name="to_time"
+                                        selected={this.state.toTime}
+                                        onChange={this.handleChangeToTime}/>
+                                </div>
+                            </div>
+                        </div>
                         <div
-                            className="col-md-3"
+                            className="col-md-2"
                             style={{
                             marginTop: '24px'
                         }}>
@@ -182,38 +216,21 @@ class ListMonthlyTicket extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <Grid rows={rows} columns={columns}>
-                                <PagingState
-                                    currentPage={currentPage}
-                                    onCurrentPageChange={this.changeCurrentPage}
-                                    pageSize={pageSize}
-                                    totalCount={totalCount}/>
-
-                                <TableView
-                                    tableCellTemplate={({row, column, style}) => {
-                                    console.log("row:", row, "column:", column);
-                                    if (column.name == 'detail') {
-                                        return <td
-                                            style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            textAlign: 'left'
-                                        }}>
-                                            <a
-                                                href="#"
-                                                className="btn btn-primary"
-                                                style={{
-                                                textDecoration: 'none'
-                                            }}>Chi tiết</a>
-                                        </td>
-                                    }
-                                    if (column.type == 'datetime') {}
-                                    return undefined;
-                                }}/>
-                                <TableHeaderRow/>
-                                <PagingPanel/>
-                            </Grid>
+                            <BootstrapTable data={this.state.rows} hover={true} bordered={true}>
+                                <TableHeaderColumn dataField='CppCode' width={100} isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataSort={true}
+                                    dataField='Amount'
+                                    dataFormat={currencyFormat}>Giá trị hợp đồng(đ)</TableHeaderColumn>
+                                <TableHeaderColumn dataField='PaymentMethod'>Phương thức thanh toán
+                                </TableHeaderColumn>
+                                <TableHeaderColumn dataField='PaymentCode'>Mã thanh toán
+                                </TableHeaderColumn>
+                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='FromTime'>Ngày đăng ký</TableHeaderColumn>
+                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='EndTime'>Ngày hết hạn</TableHeaderColumn>
+                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='ToTime'>Hạn thanh toán</TableHeaderColumn>
+                            </BootstrapTable>
                             {loading && <Loading/>}
                         </div>
                     </div>

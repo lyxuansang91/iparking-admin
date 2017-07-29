@@ -107,12 +107,12 @@ class PageSideBar extends Component {
                         </ul>
                     </li>
 
-                    {/*<li className="">
+                    <li className="">
                         <Link to="/login">
                             <i className="fa fa-sign-out" aria-hidden="true"></i>
                             <span className="title">Logout</span>
                         </Link>
-                    </li>*/}
+                    </li>
                 </ul>
             </div>
         );
