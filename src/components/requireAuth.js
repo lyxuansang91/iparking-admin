@@ -8,8 +8,8 @@ export default function (ComposeComponent) {
         componentWillMount() {
             if (!this.props.isAuthenticated) {
                 this
-                    .context
-                    .router
+                    .props
+                    .history
                     .push('/login');
             }
         }
@@ -17,8 +17,8 @@ export default function (ComposeComponent) {
         componentWillUpdate(nextProps) {
             if (!nextProps.isAuthenticated) {
                 this
-                    .context
-                    .router
+                    .props
+                    .history
                     .push('/login');
             }
         }
@@ -31,7 +31,7 @@ export default function (ComposeComponent) {
                     </div>
                 );
             }
-            return (<ComposedComponent {...this.props}/>);
+            return (<ComposeComponent {...this.props}/>);
         }
     }
 
@@ -44,7 +44,7 @@ export default function (ComposeComponent) {
     }
 
     function mapStateToProps(state) {
-        return {isAuthenticated: state.auth.isAuthenticated};
+        return {isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken};
     }
 
     return connect(mapStateToProps, {})(Authenticate);

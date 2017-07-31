@@ -7,14 +7,14 @@ import {renderRoutes} from 'react-router-config'
 
 class App extends Component {
   render() {
+    console.log("App")
     return (
       <div style={{
         backgroundColor: '#205B87'
       }}>
         <PageHeader/>
         <div className="page-container">
-          <PageSideBar/> {console.log("Props:", this.props)}
-          {renderRoutes(this.props.route.routes)}
+          <PageSideBar/> {renderRoutes(this.props.route.routes)}
           {/*<PageFooter/> */}
         </div>
       </div>

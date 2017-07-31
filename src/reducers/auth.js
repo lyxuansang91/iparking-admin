@@ -24,6 +24,7 @@ export function auth(state = {
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
                 isAuthenticated: action.isAuthenticated,
+                accessToken: action.accessToken,
                 errorMessage: ''
             })
         case LOGIN_FAILURE:

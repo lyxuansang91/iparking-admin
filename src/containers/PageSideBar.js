@@ -1,7 +1,26 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import '../assets/css/pagesidebar.css'
+import {logoutUser} from '../actions/auth'
+
 class PageSideBar extends Component {
+
+    constructor(props) {
+        super(props)
+        this.onLogout = this
+            .onLogout
+            .bind(this)
+    }
+
+    onLogout() {
+        if (this.props.isAuthenticated) {
+            this
+                .props
+                .logoutUser()
+        }
+    }
+
     render() {
         return (
             <div className="page-sidebar navbar-collapse collapse">
@@ -107,22 +126,15 @@ class PageSideBar extends Component {
                         </ul>
                     </li>
 
-                    <li className="">
-                        <Link to="/test/redux">
-                            <i className="fa fa-usd"></i>
-                            Test Item Redux
-                        </Link>
-                    </li>
-
                     <li className="heading">
                         <h3 className="uppercase">More</h3>
                     </li>
 
                     <li className="">
-                        <Link to="/login">
+                        <a href="#" onClick={this.onLogout}>
                             <i className="fa fa-sign-out" aria-hidden="true"></i>
                             <span className="title">Logout</span>
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -130,4 +142,14 @@ class PageSideBar extends Component {
     }
 }
 
-export default PageSideBar
+const mapStateToProps = (state) => {
+    return {isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken}
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logoutUser: () => dispatch(logoutUser())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageSideBar);

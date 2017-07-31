@@ -22,20 +22,11 @@ class Login extends Component {
             .handleLogin(creds)
     }
 
-    componentDidMount() {
-        if (this.props.isAuthenticated) {
-            this
-                .props
-                .setToken(null)
-        }
-    }
-
     render() {
         if (this.props.isAuthenticated) {
             this
                 .props
-                .setToken(this.props.accessToken)
-            console.log("context:", this.context.history)
+                .setToken(localStorage.getItem('accessToken'))
             this
                 .props
                 .history
@@ -43,7 +34,6 @@ class Login extends Component {
         }
         return (
             <div className="login">
-                {/*BEGIN LOGO*/}
                 <div className="logo">
                     <a href="#">
                         <img
@@ -52,8 +42,6 @@ class Login extends Component {
                             className="logo-default"/>
                     </a>
                 </div>
-                {/*END LOGO*/}
-                {/*BEGIN LOGIN*/}
                 <div className="content">
                     <form
                         className="login-form"

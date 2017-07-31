@@ -22,12 +22,12 @@ export function loginUser(creds) {
         dispatch(requestLogin(creds))
         postFromUrl("/p/login", creds).then((response) => {
             const data = response.data;
-            console.log("login data:", data)
             if (data.Error.Code !== 200) {
                 dispatch(loginError(data.Error.Message))
             } else {
                 const token = data.Data;
                 localStorage.setItem('accessToken', token)
+
                 dispatch(receiveLogin(token))
             }
         }).catch(err => {
