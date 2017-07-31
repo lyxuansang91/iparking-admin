@@ -66,8 +66,11 @@ class ComposedCharts extends Component {
             .get("/p/report_monthly_revenue")
             .then((response) => {
                 const data = response.data;
-                console.log("data: ", data)
-                this.setState({loading: false, data: data.Data})
+                if (data.Error.Code == 200) {
+                    this.setState({loading: false, data: data.Data})
+                } else {
+                    this.setState({loading: false})
+                }
             })
             .catch((error) => {
                 console.log("error:", error)

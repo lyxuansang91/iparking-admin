@@ -78,8 +78,12 @@ class ReportMonthlyRevenue extends Component {
         axios
             .get(url)
             .then((response) => {
-                const revenueArr = response.data.Data
-                this.setState({loading: false, rows: revenueArr})
+                if (response.data.Error.Code == 200) {
+                    const revenueArr = response.data.Data
+                    this.setState({loading: false, rows: revenueArr})
+                } else {
+                    this.setState({loading: false})
+                }
             })
             .catch((error) => {
                 this.setState({loading: false})

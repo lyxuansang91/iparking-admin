@@ -105,8 +105,12 @@ class ListMonthlyTicket extends Component {
         axios
             .get(url)
             .then((response) => {
-                const ticketList = response.data.Data
-                this.setState({loading: false, rows: ticketList})
+                if (response.data.Error.Code == 200) {
+                    const ticketList = response.data.Data
+                    this.setState({loading: false, rows: ticketList})
+                } else {
+                    this.setState({loading: false})
+                }
             })
             .catch((error) => {
                 this.setState({loading: false})

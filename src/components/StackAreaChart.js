@@ -63,14 +63,18 @@ class StackAreaChart extends Component {
         axios
             .get("/p/report_monthly_revenue")
             .then((response) => {
-                var listPayment = response.data.Data;
+                if (response.data.Error.Code == 200) {
+                    var listPayment = response.data.Data;
 
-                for (var i = 0; i < listPayment.length; i++) {
-                    listPayment[i].Card = listPayment[i].ATM + listPayment[i].VisaMaster
-                    listPayment[i].Other = listPayment[i].Promotion + listPayment[i].InternetBanking
+                    for (var i = 0; i < listPayment.length; i++) {
+                        listPayment[i].Card = listPayment[i].ATM + listPayment[i].VisaMaster
+                        listPayment[i].Other = listPayment[i].Promotion + listPayment[i].InternetBanking
+                    }
+
+                    this.setState({loading: false, data: listPayment})
+                } else {
+                    this.setState({loading: false})
                 }
-
-                this.setState({loading: false, data: listPayment})
             })
             .catch((error) => {
                 console.log("error:", error)
