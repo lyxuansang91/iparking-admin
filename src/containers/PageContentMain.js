@@ -6,7 +6,7 @@ import StackAreaChart from '../components/StackAreaChart'
 
 const PageContentMain = () => (
     <div>
-        <div className="row">
+        {/*<div className="row">
             <div className="col-md-3">
                 <a href="#">Báo cáo doanh số</a>
             </div>
@@ -21,16 +21,14 @@ const PageContentMain = () => (
                 <a href="#">Đồng Xuân</a>
             </div>
         </div>
-        <hr/>
-        <ComposedCharts/>
-
-        <div className="row">
+        <hr/>*/}
+        <ComposedCharts/> {/*<div className="row">
             <div className="col-md-3">
                 <h4>
                     <a href="#">Cổng thanh toán</a>
                 </h4>
             </div>
-        </div>
+        </div>*/}
         <StackAreaChart/>
 
     </div>
