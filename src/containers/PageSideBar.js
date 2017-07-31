@@ -32,7 +32,7 @@ class PageSideBar extends Component {
 
                     <li className="">
                         <Link to="/">
-                            <i className="icon-home"></i>
+                            <i className="fa fa-home"></i>
                             <span className="title">Trang chủ</span>
                             <span className="arrow "></span>
                         </Link>
@@ -74,7 +74,7 @@ class PageSideBar extends Component {
                     {/*Báo cáo*/}
                     <li>
                         <a href="javascript:;">
-                            <i className="icon-graph"></i>
+                            <i className="fa fa-bar-chart"></i>
                             <span className="title">Báo cáo</span>
                             <span className="arrow "></span>
                         </a>
@@ -93,7 +93,7 @@ class PageSideBar extends Component {
                             </li>
                             <li>
                                 <Link to="/report/rate_revenue">
-                                    <i className="icon-tag icon-space"></i>
+                                    <i className="fa fa-tag icon-space"></i>
                                     Đánh giá điểm đỗ
                                 </Link>
                             </li>
