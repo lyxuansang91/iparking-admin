@@ -48,6 +48,20 @@ const timeRender = (time) => {
         .format("DD/MM/YYYY");
 }
 
+const calculateMinute = (time) => {
+
+    var now = moment().unix()
+
+    if (time - now > 0) {
+        return "-"
+    }
+
+    var overdueDay = (now - time) / 86400
+
+    return Math.round(overdueDay)
+
+}
+
 class ListMonthlyTicket extends Component {
     constructor(props) {
         super(props);
@@ -154,15 +168,12 @@ class ListMonthlyTicket extends Component {
                         </div>
 
                         <div className="col-md-2 form-group">
-                            <label for="carParkingPlace">Điểm đỗ</label>
-                            <select className="form-control" name="carparkingplace" ref="cpp_code">
-                                <option value="">Chọn điểm đỗ</option>
-                                <option value="001">001</option>
-                                <option value="002">002</option>
-                                <option value="003">003</option>
-                                <option value="004">004</option>
-                                <option value="005">005</option>
-                            </select>
+                            <label for="company">Mã điểm đỗ</label>
+                            <input
+                                type="text"
+                                name="car_parking_place"
+                                ref="cpp_code"
+                                className="form-control"/>
                         </div>
 
                         <div className="col-md-4">
@@ -217,19 +228,54 @@ class ListMonthlyTicket extends Component {
                             position: 'relative'
                         }}>
                             <BootstrapTable data={this.state.rows} hover={true} bordered={true}>
-                                <TableHeaderColumn dataField='CppCode' width={100} isKey={true}>Mã điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='CppCode'
+                                    width="100"
+                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataSort={true}
+                                    dataFormat={timeRender}
+                                    dataField='FromTime'>Đăng ký</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataSort={true}
+                                    dataFormat={timeRender}
+                                    dataField='EndTime'>Hết hạn</TableHeaderColumn>
                                 <TableHeaderColumn
                                     dataSort={true}
                                     dataField='Amount'
-                                    dataFormat={currencyFormat}>Giá trị hợp đồng(đ)</TableHeaderColumn>
-                                <TableHeaderColumn dataField='PaymentMethod'>Phương thức thanh toán
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataFormat={currencyFormat}>Giá trị hợp đồng (đ)</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='PaymentCode'>Mã thanh toán
                                 </TableHeaderColumn>
-                                <TableHeaderColumn dataField='PaymentCode'>Mã thanh toán
-                                </TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='FromTime'>Ngày đăng ký</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='EndTime'>Ngày hết hạn</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='ToTime'>Hạn thanh toán</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataSort={true}
+                                    dataFormat={timeRender}
+                                    dataField='ToTime'>Hạn thanh toán</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataFormat={calculateMinute}
+                                    dataSort={true}
+                                    dataField='ToTime'>Quá hạn (ngày)</TableHeaderColumn>
+
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

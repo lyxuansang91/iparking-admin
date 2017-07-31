@@ -34,18 +34,32 @@ const currencyFormat = (uv) => {
     return priceString
 }
 
-const statusRender = (status) => {
-    if (status === 0) {
-        return "Hết hiệu lực"
-    } else if (status === 1) {
-        return "Còn hiệu lực"
-    }
-}
-
 const timeRender = (time) => {
     return moment
         .unix(time)
         .format("hh:mm - DD/MM/YYYY");
+}
+
+const ticketDuration = (second) => {
+
+    if (second === 0) {
+        return "-"
+    }
+
+    var minute = second / 60
+
+    var hour = minute / 60;
+    var minute = minute - (hour * 60);
+
+    if (hour === 0) {
+        return minute + " phút"
+    }
+
+    if (minute === 0) {
+        return hour + " giờ"
+    }
+
+    return hour + " giờ " + minute + " phút"
 }
 
 class SearchTicket extends Component {
@@ -111,6 +125,7 @@ class SearchTicket extends Component {
     onSubmitForm(e) {
         e.preventDefault()
         var url = "http://admapi.upark.vn/p/ticket/search?is_monthly=false&from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+
         axios
             .get(url)
             .then((response) => {
@@ -157,15 +172,12 @@ class SearchTicket extends Component {
                         </div>
 
                         <div className="col-md-2 form-group">
-                            <label for="carParkingPlace">Điểm đỗ</label>
-                            <select className="form-control" name="carparkingplace" ref="cpp_code">
-                                <option value="">Chọn điểm đỗ</option>
-                                <option value="001">001</option>
-                                <option value="002">002</option>
-                                <option value="003">003</option>
-                                <option value="004">004</option>
-                                <option value="005">005</option>
-                            </select>
+                            <label for="company">Mã điểm đỗ</label>
+                            <input
+                                type="text"
+                                name="car_parking_place"
+                                ref="cpp_code"
+                                className="form-control"/>
                         </div>
 
                         <div className="col-md-4">
@@ -214,17 +226,47 @@ class SearchTicket extends Component {
                             position: 'relative'
                         }}>
                             <BootstrapTable data={this.state.rows} hover={true} bordered={true}>
-                                <TableHeaderColumn dataField='CppCode' width={100} isKey={true}>Mã điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='CppCode'
+                                    width={100}
+                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='PhoneNumber'>Số điện thoại</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataFormat={ticketDuration}
+                                    width={100}
+                                    dataField='DifferentTime'>Thời gian</TableHeaderColumn>
+
                                 <TableHeaderColumn
                                     dataSort={true}
+                                    dataAlign='right'
+                                    headerAlign='center'
                                     dataField='Amount'
-                                    dataFormat={currencyFormat}>Tổng tiền (đ)</TableHeaderColumn>
-                                <TableHeaderColumn dataField='PaymentMethod'>Phương thức thanh toán
-                                </TableHeaderColumn>
-                                <TableHeaderColumn dataFormat={statusRender} dataField='Status'>Trạng thái</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='FromTime'>Từ</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataFormat={timeRender} dataField='ToTime'>Đến</TableHeaderColumn>
+                                    dataFormat={currencyFormat}>Số tiền (đ)</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataSort={true}
+                                    dataFormat={timeRender}
+                                    dataField='FromTime'
+                                    dataAlign='center'>Từ</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataSort={true}
+                                    dataFormat={timeRender}
+                                    dataField='ToTime'
+                                    dataAlign='center'>Đến</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

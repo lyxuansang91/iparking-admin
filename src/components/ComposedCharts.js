@@ -92,6 +92,7 @@ class ComposedCharts extends Component {
                                     orientation='right'
                                     tickFormatter={currencyFormat}/>
                                 <Tooltip formatter={currencyFormat}/>
+
                                 <Legend/>
                                 <CartesianGrid stroke='#f5f5f5'/>
                                 <Bar
