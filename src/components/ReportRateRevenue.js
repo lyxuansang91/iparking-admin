@@ -100,7 +100,7 @@ class ReportRateRevenue extends Component {
 
                 <form
                     ref='report_monthly_revenue_form'
-                    className="form-filter"
+                    className=""
                     onSubmit={this.onSubmitForm}>
                     <div className="row">
                         <div className="col-md-3 form-group">
@@ -114,6 +114,7 @@ class ReportRateRevenue extends Component {
 
                         <div className="col-md-3 form-group">
                             <label for="fromTime">Từ ngày</label>
+                            <br/>
                             <DatePicker
                                 className="form-control"
                                 name="from_time"
@@ -123,13 +124,18 @@ class ReportRateRevenue extends Component {
 
                         <div className="col-md-3 form-group">
                             <label for="toTime">Đến ngày</label>
+                            <br/>
                             <DatePicker
                                 className="form-control"
                                 name="to_time"
                                 selected={this.state.toTime}
                                 onChange={this.handleChangeToTime}/>
                         </div>
-                        <div className="col-md-3">
+                        <div
+                            className="col-md-3"
+                            style={{
+                            marginTop: '24px'
+                        }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
 

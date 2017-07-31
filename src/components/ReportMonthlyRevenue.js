@@ -154,7 +154,11 @@ class ReportMonthlyRevenue extends Component {
                             </div>
                         </div>
 
-                        <div className="col-md-2">
+                        <div
+                            className="col-md-2"
+                            style={{
+                            marginTop: '24px'
+                        }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
 

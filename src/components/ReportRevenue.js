@@ -107,10 +107,7 @@ class ReportRevenue extends Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <form
-                        ref='report_revenue_form'
-                        className="form-filter"
-                        onSubmit={this.onSubmitForm}>
+                    <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
                         <div className="col-md-3 form-group">
                             <label for="company">Công ty</label>
                             <select className="form-control" name="company" ref="company">
@@ -122,6 +119,7 @@ class ReportRevenue extends Component {
 
                         <div className="col-md-3 form-group">
                             <label for="fromTime">Từ ngày</label>
+                            <br/>
                             <DatePicker
                                 className="form-control"
                                 name="from_time"
@@ -131,13 +129,18 @@ class ReportRevenue extends Component {
 
                         <div className="col-md-3 form-group">
                             <label for="toTime">Đến ngày</label>
+                            <br/>
                             <DatePicker
                                 className="form-control"
                                 name="to_time"
                                 selected={this.state.toTime}
                                 onChange={this.handleChangeToTime}/>
                         </div>
-                        <div className="col-md-3">
+                        <div
+                            className="col-md-3"
+                            style={{
+                            marginTop: '24px'
+                        }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
                     </form>
