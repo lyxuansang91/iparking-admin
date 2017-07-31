@@ -63,9 +63,10 @@ class ComposedCharts extends Component {
         this.setState({loading: true})
 
         axios
-            .get("http://admapi.upark.vn/p/report_monthly_revenue")
+            .get("/p/report_monthly_revenue")
             .then((response) => {
                 const data = response.data;
+                console.log("data: ", data)
                 this.setState({loading: false, data: data.Data})
             })
             .catch((error) => {

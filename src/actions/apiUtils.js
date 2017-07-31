@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 const apiConfig = {
-    baseUrl: 'http://admapi.upark.vn'
+    baseUrl: 'http://admapi.iparking.vn'
 }
 
 export function setAuthorizationToken(token) {
@@ -12,7 +12,7 @@ export function setAuthorizationToken(token) {
     }
 }
 
-function config() {
+export function config() {
     axios.defaults.baseURL = apiConfig.baseUrl
     axios.defaults.responseType = 'json'
     axios.defaults.headers.common['Content-Type'] = 'application/json'
@@ -23,11 +23,9 @@ function config() {
 }
 
 export function postFromUrl(url, data) {
-    config()
     return axios.post(url, qs.stringify(data))
 }
 
 export function getFromUrl(url, data) {
-    config()
     return axios.get(url + qs.stringify(data))
 }

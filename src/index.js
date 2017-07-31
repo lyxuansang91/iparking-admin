@@ -6,8 +6,10 @@ import {renderRoutes} from 'react-router-config'
 import {routes} from './routes/RouteMap'
 import {Provider} from 'react-redux'
 import configureStore from './store/configureStore'
+import {config} from './actions/apiUtils'
 
 const store = configureStore() // you can also pass in
+config()
 
 let unsubscribe = store.subscribe(() => console.log("state:", store.getState()))
 

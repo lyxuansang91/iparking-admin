@@ -72,7 +72,7 @@ class ReportRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "http://admapi.upark.vn/p/provider/revenue_by_date?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix()
+        var url = "/p/report/revenue_by_date?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix()
 
         axios
             .get(url)

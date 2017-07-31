@@ -54,7 +54,11 @@ class PageSideBar extends Component {
                         </a>
                         <ul className="sub-menu">
                             <li>
-                                <Link to="/management/monthly_ticket">
+                                <Link
+                                    to="/management/monthly_ticket"
+                                    style={{
+                                    display: 'none'
+                                }}>
                                     <i className="fa fa-car icon-space"></i>
                                     Đăng ký vé tháng
                                 </Link>
@@ -102,28 +106,7 @@ class PageSideBar extends Component {
                             <span className="title">Cấu hình</span>
                             <span className="arrow "></span>
                         </a>
-                        <ul className="sub-menu">
-                            <li>
-                                <Link to="/cpp">
-                                    <i className="fa fa-car icon-space"></i>
-                                    Điểm đỗ xe
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/management/promotion">
-                                    <i className="fa fa-usd icon-space"></i>
-                                    CT Khuyến mãi
-                                </Link>
-                            </li>
-
-                            <li>
-                                <a href="#">
-                                    <i className="icon-user icon-space"></i>
-                                    Quản lý người dùng
-                                    <span className="arrow "></span>
-                                </a>
-                            </li>
-                        </ul>
+                        <ul className="sub-menu"></ul>
                     </li>
 
                     <li className="heading">
@@ -131,7 +114,7 @@ class PageSideBar extends Component {
                     </li>
 
                     <li className="">
-                        <a href="javascript:void(0);" onClick={this.onLogout}>
+                        <a href="javascript:;" onClick={this.onLogout}>
                             <i className="fa fa-sign-out" aria-hidden="true"></i>
                             <span className="title">Logout</span>
                         </a>

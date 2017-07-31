@@ -61,7 +61,7 @@ class StackAreaChart extends Component {
         this.setState({loading: true})
 
         axios
-            .get("http://admapi.upark.vn/p/report_monthly_revenue")
+            .get("/p/report_monthly_revenue")
             .then((response) => {
                 var listPayment = response.data.Data;
 

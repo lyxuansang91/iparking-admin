@@ -124,7 +124,7 @@ class SearchTicket extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "http://admapi.upark.vn/p/ticket/search?is_monthly=false&from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+        var url = "/p/ticket/search?is_monthly=false&from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
 
         axios
             .get(url)
