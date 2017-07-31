@@ -1,42 +1,46 @@
 import React, {Component} from 'react'
-import {PagingState} from '@devexpress/dx-react-grid';
-import {Grid, TableView, TableHeaderRow, PagingPanel} from '@devexpress/dx-react-grid-bootstrap3';
 import Loading from '../assets/js/loading'
 import DatePicker from 'react-datepicker'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios';
 import NumberFormat from 'react-number-format'
 import {styles} from '../assets/css/grid.css'
 
+const currencyFormat = (uv) => {
+
+    if (Math.floor(uv) === 0) {
+        return "0"
+    }
+
+    var price = Math.floor(uv)
+    var priceString = ''
+    var count = 0
+
+    while (price > 0) {
+        var number = price % 10;
+        price = Math.floor(price / 10);
+        count = count + 1
+
+        priceString = number + priceString;
+
+        if (count === 3 && price > 0) {
+            priceString = "." + priceString;
+            count = 0;
+        }
+
+    }
+
+    return priceString
+}
+
 class ReportMonthlyRevenue extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rows: [],
-            columns: [
-                {
-                    name: 'ID',
-                    title: '#'
-                }, {
-                    name: 'Month',
-                    title: 'Tháng'
-                }, {
-                    name: 'Capacity',
-                    title: 'Sức chứa'
-                }, {
-                    name: 'Amount',
-                    title: 'Doanh số lượt',
-                    align: 'right',
-                    type: 'number'
-                }, {
-                    name: 'Rate',
-                    title: 'Tỷ suất doanh số trên ô',
-                    align: 'right',
-                    type: 'number'
-                }
-            ],
-            pageSize: 20,
             totalCount: 0,
             loading: false,
             fromTime: moment(),
@@ -61,25 +65,7 @@ class ReportMonthlyRevenue extends Component {
             .bind(this);
     }
 
-    loadData(currentPage) {
-        const {pageSize} = this.state;
-        this.setState({loading: true})
-
-        axios
-            .get("http://ngoisaoteen.net/test/monthly_revenue.php")
-            .then((response) => {
-                let data = response.data;
-                let count = 0;
-                data.items.forEach(function(item, index) {
-                    data.items[index].id = ++count;
-                });
-                this.setState({loading: false, rows: data.items, totalCount: data.totalCount})
-            })
-            .catch((error) => {
-                console.log("error:", error)
-                this.setState({loading: false})
-            })
-    }
+    loadData(currentPage) {}
 
     changeCurrentPage(currentPage) {
         this.loadData(currentPage)
@@ -87,6 +73,17 @@ class ReportMonthlyRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
+        var url = "http://admapi.upark.vn/p/provider/revenue_by_month?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value
+
+        axios
+            .get(url)
+            .then((response) => {
+                const revenueArr = response.data.Data
+                this.setState({loading: false, rows: revenueArr})
+            })
+            .catch((error) => {
+                this.setState({loading: false})
+            });
         this.loadData(0)
     }
 
@@ -113,45 +110,52 @@ class ReportMonthlyRevenue extends Component {
                 <div className="row">
                     <form
                         ref='report_monthly_revenue_form'
-                        className=""
+                        className="form-filter"
                         onSubmit={this.onSubmitForm}>
-                        <div className="col-md-3 form-group">
-                            <label for="company">Công ty</label>
-                            <select className="form-control" name="company">
-                                <option value="1">Tất cả</option>
-                                <option value="2">HPC</option>
-                                <option value="3">Đồng Xuân</option>
-                            </select>
+                        <div className="col-md-5">
+                            <div className="row">
+                                <div className="col-md-6 form-group">
+                                    <label for="company">Công ty</label>
+                                    <select className="form-control" name="company">
+                                        <option value="1">Tất cả</option>
+                                        <option value="2">Công Ty TNHH MTV Hà Nội</option>
+                                        <option value="3">Đồng Xuân</option>
+                                    </select>
+                                </div>
+                                <div className="col-md-6 form-group">
+                                    <label for="company">Mã điểm đỗ</label>
+                                    <input
+                                        type="text"
+                                        name="car_parking_place"
+                                        ref="cpp_code"
+                                        className="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-5">
+                            <div className="row">
+                                <div className="col-md-6 form-group">
+                                    <label for="fromTime">Từ ngày</label>
+                                    <DatePicker
+                                        className="form-control"
+                                        name="from_time"
+                                        selected={this.state.fromTime}
+                                        onChange={this.handleChangeFromTime}/>
+                                </div>
+
+                                <div className="col-md-6 form-group">
+                                    <label for="toTime">Đến ngày</label>
+                                    <DatePicker
+                                        className="form-control"
+                                        name="to_time"
+                                        selected={this.state.toTime}
+                                        onChange={this.handleChangeToTime}/>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="col-md-3 form-group">
-                            <label for="fromTime">Từ ngày</label>
-                            <DatePicker
-                                className="form-control"
-                                name="from_time"
-                                selected={this.state.fromTime}
-                                onChange={this.handleChangeFromTime}/>
-                        </div>
-
-                        <div className="col-md-3 form-group">
-                            <label for="toTime">Đến ngày</label>
-                            <DatePicker
-                                className="form-control"
-                                name="to_time"
-                                selected={this.state.toTime}
-                                onChange={this.handleChangeToTime}/>
-                        </div>
-                        <div
-                            className="col-md-3"
-                            style={{
-                            marginTop: '24px'
-                        }}>
+                        <div className="col-md-2">
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
-                        </div>
-                        <div className="col-md-4 form-group">
-                            <span for="company">Mã điểm đỗ</span>
-                            <input type="text" name="car_parking_place" className="form-control"/>
-                            <span>(Có thể để trống)</span>
                         </div>
 
                     </form>
@@ -170,52 +174,23 @@ class ReportMonthlyRevenue extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <Grid rows={rows} columns={columns} getRowId={row => row.id} style={styles}>
-                                <PagingState
-                                    currentPage={currentPage}
-                                    onCurrentPageChange={this.changeCurrentPage}
-                                    pageSize={pageSize}
-                                    totalCount={totalCount}/>
-
-                                <TableView 
-                                    tableCellTemplate={({row, column, style}) => {
-                                    if (column.name == 'detail') {
-                                        return <td
-                                            style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            textAlign: 'left'
-                                        }}>
-                                            <a
-                                                href="#"
-                                                className="btn btn-primary"
-                                                style={{
-                                                textDecoration: 'none'
-                                            }}>Chi tiết</a>
-                                        </td>
-                                    }
-                                    if (column.type == 'number') {
-                                        return <td
-                                            style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            textAlign: 'right'
-                                        }}>
-                                            <NumberFormat
-                                                value={row.Amount}
-                                                displayType={'text'}
-                                                decimalSeparator={','}
-                                                thousandSeparator={'.'}
-                                                suffix={"   đ"}/>
-                                        </td>;
-                                    }
-                                    return undefined;
-                                }}/>
-                                <TableHeaderRow/>
-                                <PagingPanel/>
-                            </Grid>
+                            <BootstrapTable data={this.state.rows} bordered={true}>
+                                <TableHeaderColumn dataField='CPPCode' isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn dataSort={true} dataField='Month'>Tháng</TableHeaderColumn>
+                                <TableHeaderColumn dataSort={true} dataField='Capacity'>Sức chứa</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataSort={true}
+                                    dataField='RevenueByMonth'
+                                    dataFormat={currencyFormat}>Doanh số tháng (đ)</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
+                            </BootstrapTable>
                             {loading && <Loading/>}
                         </div>
                     </div>

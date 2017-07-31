@@ -118,8 +118,8 @@ class PageSideBar extends Component {
 
                             <li>
                                 <a href="#">
-                                    <i className="icon-user"></i>
-                                    <span className="title">Quản lý người dùng</span>
+                                    <i className="icon-user icon-space"></i>
+                                    Quản lý người dùng
                                     <span className="arrow "></span>
                                 </a>
                             </li>
@@ -131,7 +131,7 @@ class PageSideBar extends Component {
                     </li>
 
                     <li className="">
-                        <a href="#" onClick={this.onLogout}>
+                        <a href="javascript:void(0);" onClick={this.onLogout}>
                             <i className="fa fa-sign-out" aria-hidden="true"></i>
                             <span className="title">Logout</span>
                         </a>

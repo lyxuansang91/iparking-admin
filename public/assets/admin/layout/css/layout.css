@@ -47,8 +47,7 @@ Page Header
     border: 0px;
     padding: 0px;
     box-shadow: none;
-    height: 46px;
-    min-height: 46px;
+    height: 54px;
     filter: none;
     background-image: none;
     /* Fixed header */
@@ -85,8 +84,10 @@ Page Header
     float: left;
 }
 
-.page-header.navbar .page-logo .logo-default {
-    margin: 10px 0 0 0;
+.logo-default {
+    margin: 10px 0px 0 20px;
+    width: 100px;
+    height: 34px;
 }
 
 .page-header.navbar .page-logo .logo-mini {
@@ -1411,8 +1412,8 @@ Page sidebar
         position: fixed;
         margin-right: -100%;
         background-color: #205B87;
-        top:46px;
-        bottom:0;
+        top: 54px;
+        bottom: 0;
     }
     .page-full-width .page-sidebar {
         display: none !important;
@@ -2362,7 +2363,8 @@ Page content
 
 .page-bar .page-breadcrumb {
     display: inline-block;
-    float: left;
+    background-color: rgb(234, 237, 244);
+    width: 100%;
     padding: 8px;
     margin: 0;
     list-style: none;
@@ -2889,3 +2891,81 @@ Page Loading
     display: none;
     transition: all 2s;
 }
+
+
+/**
+Filter pages
+**/
+
+.container-fluid {
+    margin-top: 35px;
+}
+
+.form-filter label {
+    padding: 0 15px 0 0;
+    line-height: 34px;
+    float: left;
+    height: 34px;
+}
+
+.form-filter .form-control {
+    float: left;
+    max-width: 70%;
+    width: auto;
+}
+
+.react-datepicker {
+    font-size: 1.3rem !important;
+}
+
+.react-datepicker__current-month {
+    font-size: 1.5rem !important;
+}
+
+.react-datepicker__header {
+    padding-top: 6px !important;
+}
+
+.react-datepicker__navigation {
+    top: 13px !important;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+    margin: 0.5rem !important;
+}
+
+
+/**
+Filter pages
+**/
+
+
+/*** 
+Monthly Ticket 
+***/
+
+#monthly-ticket .ticket-detail .form-header label {
+    text-decoration: uppercase;
+    color: rgb(27, 90, 138);
+    font-weight: bolder;
+    font-size: 16px;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: solid 2px rgb(234, 237, 244);
+}
+
+#monthly-ticket .ticket-box {
+    padding: 20px;
+    border: solid 0.5px rgb(234, 237, 244);
+}
+
+#monthly-ticket .submit-button {
+    margin: 50px auto;
+    text-align: center;
+}
+
+
+/*** 
+Monthly Ticket 
+***/
