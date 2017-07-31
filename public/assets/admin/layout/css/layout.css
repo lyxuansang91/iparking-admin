@@ -1407,7 +1407,7 @@ Page sidebar
 @media (min-width: 992px) {
     /* 992px */
     .page-sidebar {
-        width: 235px;
+        width: 260px;
         float: left;
         position: fixed;
         margin-right: -100%;
@@ -2470,7 +2470,7 @@ Page content
         background-color: #f7f7f7;
     }
     .page-content-wrapper .page-content {
-        margin-left: 235px;
+        margin-left: 260px;
         margin-top: 0px;
         min-height: 600px;
         padding: 25px 20px 10px 20px;

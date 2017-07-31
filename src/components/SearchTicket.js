@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) === 0) {
-        return "0"
+        return "0 đ"
     }
 
     var price = Math.floor(uv)
@@ -31,13 +31,18 @@ const currencyFormat = (uv) => {
 
     }
 
-    return priceString
+    return priceString + " đ"
 }
 
 const timeRender = (time) => {
     return moment
         .unix(time)
-        .format("hh:mm - DD/MM/YYYY");
+        .format("HH:mm");
+}
+const dateRender = (time) => {
+    return moment
+        .unix(time)
+        .format("DD/MM/YYYY");
 }
 
 const ticketDuration = (second) => {
@@ -124,7 +129,38 @@ class SearchTicket extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "/p/ticket/search?is_monthly=false&from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+
+        const fromTime = moment({
+            year: this
+                .state
+                .fromTime
+                .year(),
+            month: this
+                .state
+                .fromTime
+                .month(),
+            day: this
+                .state
+                .fromTime
+                .date()
+        }).unix()
+
+        const toTime = moment({
+            year: this
+                .state
+                .toTime
+                .year(),
+            month: this
+                .state
+                .toTime
+                .month(),
+            day: this
+                .state
+                .toTime
+                .date()
+        }).unix() + 86340;
+
+        var url = "/p/ticket/search?is_monthly=false&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
 
         axios
             .get(url)
@@ -219,7 +255,7 @@ class SearchTicket extends Component {
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Tra cứu giao dịch</div>
+                            <div className="caption">Tra cứu vé lượt</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -232,45 +268,55 @@ class SearchTicket extends Component {
                             <BootstrapTable data={this.state.rows} hover={true} bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'
-                                    dataAlign='center'
-                                    dataField='CppCode'
-                                    width={100}
-                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                    dataFormat={dateRender}
+                                    dataField='FromTime'
+                                    width='85'
+                                    dataAlign='center'>Ngày</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
+                                    dataField='CppCode'
+                                    width='100'
+                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+
+                                <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='120'
                                     dataField='PhoneNumber'>Số điện thoại</TableHeaderColumn>
 
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
+                                    width='100'
                                     dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataAlign='right'
+                                    headerAlign='center'
+                                    dataField='Amount'
+                                    width='100'
+                                    dataFormat={currencyFormat}>Thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
                                     dataFormat={ticketDuration}
-                                    width={100}
+                                    width='100'
                                     dataField='DifferentTime'>Thời gian</TableHeaderColumn>
 
                                 <TableHeaderColumn
-                                    dataSort={true}
-                                    dataAlign='right'
                                     headerAlign='center'
-                                    dataField='Amount'
-                                    dataFormat={currencyFormat}>Số tiền (đ)</TableHeaderColumn>
-
-                                <TableHeaderColumn
-                                    headerAlign='center'
-                                    dataSort={true}
                                     dataFormat={timeRender}
                                     dataField='FromTime'
-                                    dataAlign='center'>Từ</TableHeaderColumn>
+                                    width='100'
+                                    dataAlign='center'>Giờ vào</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
-                                    dataSort={true}
                                     dataFormat={timeRender}
                                     dataField='ToTime'
-                                    dataAlign='center'>Đến</TableHeaderColumn>
+                                    width='100'
+                                    dataAlign='center'>Giờ ra</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

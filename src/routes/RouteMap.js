@@ -39,18 +39,16 @@ const routes = [
                         component: () => <PageContentWrapper content_title="Địa điểm đỗ xe" type={types.cpp}/>,
                         path: '/cpp'
                     }, {
-                        component: () => <PageContentWrapper
-                            content_title="Tra cứu phiếu gửi xe"
-                            type={types.searchTicket}/>,
+                        component: () => <PageContentWrapper content_title="Tra cứu vé lượt" type={types.searchTicket}/>,
                         path: '/search/ticket'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Doanh số đơn vị khai thác"
+                            content_title="Doanh số vé lượt"
                             type={types.reportRevenue}/>,
                         path: '/report/revenue'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Doanh số điểm đỗ"
+                            content_title="Doanh số điểm đỗ theo tháng"
                             type={types.reportMonthlyRevenue}/>,
                         path: '/report/monthly_revenue'
                     }, {
@@ -75,7 +73,7 @@ const routes = [
                         path: '/management/user'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Danh sách hợp đồng vé tháng"
+                            content_title="Tra cứu hợp đồng vé tháng"
                             type={types.monthlyTicketList}/>,
                         path: '/monthly_ticket/list'
                     }, {

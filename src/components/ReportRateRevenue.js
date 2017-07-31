@@ -71,7 +71,38 @@ class ReportRateRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "/p/report/rate_revenue?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix()
+
+        const fromTime = moment({
+            year: this
+                .state
+                .fromTime
+                .year(),
+            month: this
+                .state
+                .fromTime
+                .month(),
+            day: this
+                .state
+                .fromTime
+                .date()
+        }).unix()
+
+        const toTime = moment({
+            year: this
+                .state
+                .toTime
+                .year(),
+            month: this
+                .state
+                .toTime
+                .month(),
+            day: this
+                .state
+                .toTime
+                .date()
+        }).unix() + 86340;
+
+        var url = "/p/report/rate_revenue?from_time=" + fromTime + "&to_time=" + toTime
         axios
             .get(url)
             .then((response) => {
@@ -166,14 +197,8 @@ class ReportRateRevenue extends Component {
                                 <TableHeaderColumn dataSort={true} dataField='Capacity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn dataSort={true} dataField='NumberOfTicket'>Số lượng vé</TableHeaderColumn>
 
-                                <TableHeaderColumn
-                                    dataSort={true}
-                                    dataFormat={currencyFormat}
-                                    dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
-                                <TableHeaderColumn
-                                    dataSort={true}
-                                    dataFormat={currencyFormat}
-                                    dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
+                                <TableHeaderColumn dataFormat={currencyFormat} dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
+                                <TableHeaderColumn dataFormat={currencyFormat} dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

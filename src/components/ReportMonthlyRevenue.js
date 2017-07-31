@@ -12,7 +12,7 @@ import {styles} from '../assets/css/grid.css'
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) === 0) {
-        return "0"
+        return "0 đ"
     }
 
     var price = Math.floor(uv)
@@ -33,7 +33,7 @@ const currencyFormat = (uv) => {
 
     }
 
-    return priceString
+    return priceString + " đ"
 }
 
 class ReportMonthlyRevenue extends Component {
@@ -73,7 +73,38 @@ class ReportMonthlyRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "/p/report/revenue_by_month?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value
+
+        const fromTime = moment({
+            year: this
+                .state
+                .fromTime
+                .year(),
+            month: this
+                .state
+                .fromTime
+                .month(),
+            day: this
+                .state
+                .fromTime
+                .date()
+        }).unix()
+
+        const toTime = moment({
+            year: this
+                .state
+                .toTime
+                .year(),
+            month: this
+                .state
+                .toTime
+                .month(),
+            day: this
+                .state
+                .toTime
+                .date()
+        }).unix() + 86340;
+
+        var url = "/p/report/revenue_by_month?from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value
 
         axios
             .get(url)
@@ -114,7 +145,7 @@ class ReportMonthlyRevenue extends Component {
                 <div className="row">
                     <form
                         ref='report_monthly_revenue_form'
-                        className="form-filter"
+                        className=""
                         onSubmit={this.onSubmitForm}>
                         <div className="col-md-5">
                             <div className="row">
@@ -140,6 +171,7 @@ class ReportMonthlyRevenue extends Component {
                             <div className="row">
                                 <div className="col-md-6 form-group">
                                     <label for="fromTime">Từ ngày</label>
+                                    <br/>
                                     <DatePicker
                                         className="form-control"
                                         name="from_time"
@@ -149,6 +181,7 @@ class ReportMonthlyRevenue extends Component {
 
                                 <div className="col-md-6 form-group">
                                     <label for="toTime">Đến ngày</label>
+                                    <br/>
                                     <DatePicker
                                         className="form-control"
                                         name="to_time"
@@ -172,7 +205,7 @@ class ReportMonthlyRevenue extends Component {
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Doanh số điểm đỗ</div>
+                            <div className="caption">Doanh số điểm đỗ theo tháng</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -183,21 +216,37 @@ class ReportMonthlyRevenue extends Component {
                             position: 'relative'
                         }}>
                             <BootstrapTable data={this.state.rows} bordered={true}>
-                                <TableHeaderColumn dataField='CPPCode' isKey={true}>Mã điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataField='Month'>Tháng</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataField='Capacity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataSort={true}
+                                    dataField='CPPCode'
+                                    width="100"
+                                    dataAlign='center'
+                                    headerAlign='center'
+                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CPPAddress'>Địa chỉ</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    width="100"
+                                    dataAlign='center'
+                                    headerAlign='center'
+                                    dataField='Month'>Tháng</TableHeaderColumn>
+
+                                <TableHeaderColumn
                                     dataField='RevenueByMonth'
-                                    dataFormat={currencyFormat}>Doanh số tháng (đ)</TableHeaderColumn>
+                                    dataAlign='right'
+                                    headerAlign='center'
+                                    width='150'
+                                    dataFormat={currencyFormat}>Vé tháng</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataSort={true}
                                     dataFormat={currencyFormat}
-                                    dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    width='150'
+                                    dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataSort={true}
                                     dataFormat={currencyFormat}
-                                    dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
+                                    headerAlign='center'
+                                    width='150'
+                                    dataAlign='right'
+                                    dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

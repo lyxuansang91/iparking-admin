@@ -10,7 +10,7 @@ import axios from 'axios';
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) === 0) {
-        return "0"
+        return "0 đ"
     }
 
     var price = Math.floor(uv)
@@ -31,7 +31,7 @@ const currencyFormat = (uv) => {
 
     }
 
-    return priceString
+    return priceString + " đ"
 }
 
 class ReportRevenue extends Component {
@@ -72,7 +72,38 @@ class ReportRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "/p/report/revenue_by_date?from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix()
+
+        const fromTime = moment({
+            year: this
+                .state
+                .fromTime
+                .year(),
+            month: this
+                .state
+                .fromTime
+                .month(),
+            day: this
+                .state
+                .fromTime
+                .date()
+        }).unix()
+
+        const toTime = moment({
+            year: this
+                .state
+                .toTime
+                .year(),
+            month: this
+                .state
+                .toTime
+                .month(),
+            day: this
+                .state
+                .toTime
+                .date()
+        }).unix() + 86340;
+
+        var url = "/p/report/revenue_by_date?from_time=" + fromTime + "&to_time=" + toTime
 
         axios
             .get(url)
@@ -153,7 +184,7 @@ class ReportRevenue extends Component {
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Doanh số đơn vị khai thác</div>
+                            <div className="caption">Doanh số vé lượt</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -164,16 +195,32 @@ class ReportRevenue extends Component {
                             position: 'relative'
                         }}>
                             <BootstrapTable data={this.state.rows} bordered={true}>
-                                <TableHeaderColumn dataField='CppCode' isKey={true}>Mã điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataField='Capicity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataSort={true}
-                                    dataFormat={currencyFormat}
-                                    dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
+                                    headerAlign='center'
+                                    width='100'
+                                    dataField='CppCode'
+                                    dataAlign='center'
+                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
+
                                 <TableHeaderColumn
-                                    dataSort={true}
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    width='100'
+                                    dataAlign='center'
+                                    dataField='Capicity'>Sức chứa</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    width='200'
+                                    dataAlign='right'
                                     dataFormat={currencyFormat}
-                                    dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
+                                    dataField='RevenueByDay'>Doanh số lượt</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    width='200'
+                                    dataAlign='right'
+                                    dataFormat={currencyFormat}
+                                    dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

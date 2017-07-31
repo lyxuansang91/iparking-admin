@@ -10,7 +10,7 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) === 0) {
-        return "0"
+        return "0 đ"
     }
 
     var price = Math.floor(uv)
@@ -31,7 +31,7 @@ const currencyFormat = (uv) => {
 
     }
 
-    return priceString
+    return priceString + " đ"
 }
 
 const statusRender = (status) => {
@@ -48,9 +48,17 @@ const timeRender = (time) => {
         .format("DD/MM/YYYY");
 }
 
+const monthRender = (time) => {
+    return time + " tháng"
+}
+
 const calculateMinute = (time) => {
 
-    var now = moment().unix()
+    var now = moment({
+        year: moment().year(),
+        month: moment().month(),
+        day: moment().date()
+    }).unix()
 
     if (time - now > 0) {
         return "-"
@@ -58,7 +66,7 @@ const calculateMinute = (time) => {
 
     var overdueDay = (now - time) / 86400
 
-    return Math.round(overdueDay)
+    return Math.round(overdueDay) + " ngày"
 
 }
 
@@ -101,7 +109,38 @@ class ListMonthlyTicket extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        var url = "/p/ticket/search?is_monthly=true&from_time=" + moment(this.state.fromTime).unix() + "&to_time=" + moment(this.state.toTime).unix() + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+
+        const fromTime = moment({
+            year: this
+                .state
+                .fromTime
+                .year(),
+            month: this
+                .state
+                .fromTime
+                .month(),
+            day: this
+                .state
+                .fromTime
+                .date()
+        }).unix()
+
+        const toTime = moment({
+            year: this
+                .state
+                .toTime
+                .year(),
+            month: this
+                .state
+                .toTime
+                .month(),
+            day: this
+                .state
+                .toTime
+                .date()
+        }).unix() + 86340;
+
+        var url = "/p/ticket/search?is_monthly=true&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
         axios
             .get(url)
             .then((response) => {
@@ -215,7 +254,7 @@ class ListMonthlyTicket extends Component {
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Danh sách hợp đồng vé tháng</div>
+                            <div className="caption">Tra cứu hợp đồng vé tháng</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -238,47 +277,55 @@ class ListMonthlyTicket extends Component {
                                     dataField='CppCode'
                                     width="100"
                                     isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
+                                    width="100"
                                     dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
-                                    dataSort={true}
+                                    width="85"
                                     dataFormat={timeRender}
                                     dataField='FromTime'>Đăng ký</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
-                                    dataSort={true}
                                     dataFormat={timeRender}
+                                    width="85"
                                     dataField='EndTime'>Hết hạn</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataSort={true}
+                                    dataField='MonthlyPrice'
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    width="100"
+                                    dataFormat={currencyFormat}>Đơn giá</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='80'
+                                    dataFormat={monthRender}
+                                    dataField='MonthQty'>Số tháng</TableHeaderColumn>
+                                <TableHeaderColumn
                                     dataField='Amount'
                                     headerAlign='center'
                                     dataAlign='right'
-                                    dataFormat={currencyFormat}>Giá trị hợp đồng (đ)</TableHeaderColumn>
+                                    width="100"
+                                    dataFormat={currencyFormat}>Giá trị HĐ</TableHeaderColumn>
 
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
-                                    dataField='PaymentCode'>Mã thanh toán
-                                </TableHeaderColumn>
-
-                                <TableHeaderColumn
-                                    headerAlign='center'
-                                    dataAlign='center'
-                                    dataSort={true}
                                     dataFormat={timeRender}
+                                    width='125'
                                     dataField='ToTime'>Hạn thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
+                                    width='80'
                                     dataFormat={calculateMinute}
-                                    dataSort={true}
-                                    dataField='ToTime'>Quá hạn (ngày)</TableHeaderColumn>
+                                    dataField='ToTime'>Quá hạn</TableHeaderColumn>
 
                             </BootstrapTable>
                             {loading && <Loading/>}

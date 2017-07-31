@@ -1,7 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
 const apiConfig = {
-    baseUrl: 'http://admapi.iparking.vn'
+    //baseUrl: 'http://admapi.iparking.vn'
+    baseUrl: 'http://admapi.upark.vn'
 }
 
 export function setAuthorizationToken(token) {

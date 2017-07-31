@@ -66,7 +66,7 @@ class PageSideBar extends Component {
                             <li>
                                 <Link to="/monthly_ticket/list">
                                     <i className="fa fa-search icon-space"></i>
-                                    Danh sách vé tháng
+                                    Tra cứu vé tháng
                                 </Link>
                             </li>
                         </ul>
@@ -82,13 +82,13 @@ class PageSideBar extends Component {
                             <li>
                                 <Link to="/report/revenue">
                                     <i className="fa fa-usd icon-space"></i>
-                                    Doanh số đơn vị khai thác
+                                    Doanh số vé lượt
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/report/monthly_revenue">
                                     <i className="fa fa-usd icon-space"></i>
-                                    Doanh số điểm đỗ
+                                    Doanh số điểm đỗ theo tháng
                                 </Link>
                             </li>
                             <li>
