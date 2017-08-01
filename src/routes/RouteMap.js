@@ -48,12 +48,12 @@ const routes = [
                         path: '/report/revenue'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Doanh số điểm đỗ theo tháng"
+                            content_title="Tổng hợp doanh số theo tháng"
                             type={types.reportMonthlyRevenue}/>,
                         path: '/report/monthly_revenue'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Đánh giá điểm đỗ"
+                            content_title="Tổng hợp doanh số"
                             type={types.reportRateRevenue}/>,
                         path: '/report/rate_revenue'
                     }, {

@@ -29,7 +29,7 @@ const PageContentMain = () => (
                 </h4>
             </div>
         </div>*/}
-        <StackAreaChart/>
+        {/*<StackAreaChart/>*/}
 
     </div>
 )

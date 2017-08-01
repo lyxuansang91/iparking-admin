@@ -10,7 +10,7 @@ import axios from 'axios'
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) === 0) {
-        return "0"
+        return "0 đ"
     }
 
     var price = Math.floor(uv)
@@ -31,7 +31,20 @@ const currencyFormat = (uv) => {
 
     }
 
-    return priceString
+    return priceString + " đ"
+}
+
+const ratioFormat = (rate) => {
+    if (rate === 0) {
+        return "-"
+    }
+
+    return rate + " %"
+
+    // if (rate === 0) {     return "0%" } if (rate < 0) {     return "<i
+    // style='color:red' class='fa fa-arrow-down' aria-hidden='true'></i> " +
+    // Math.abs(rate) * 100 + "%" } return "<i style='color:blue' class='fa
+    // fa-arrow-up' aria-hidden='true'></i> " + Math.abs(rate) * 100 + "%"
 }
 
 class ReportRateRevenue extends Component {
@@ -41,7 +54,7 @@ class ReportRateRevenue extends Component {
             rows: [],
             totalCount: 0,
             loading: false,
-            fromTime: moment(),
+            fromTime: moment().subtract(1, 'months'),
             toTime: moment()
         };
 
@@ -110,7 +123,7 @@ class ReportRateRevenue extends Component {
                     const revenueArr = response.data.Data
                     this.setState({loading: false, rows: revenueArr})
                 } else {
-                    this.setState({loading: false})
+                    this.setState({loading: false, rows: []})
                 }
 
             })
@@ -154,6 +167,7 @@ class ReportRateRevenue extends Component {
                             <DatePicker
                                 className="form-control"
                                 name="from_time"
+                                dateFormat="DD/MM/YYYY"
                                 selected={this.state.fromTime}
                                 onChange={this.handleChangeFromTime}/>
                         </div>
@@ -164,6 +178,7 @@ class ReportRateRevenue extends Component {
                             <DatePicker
                                 className="form-control"
                                 name="to_time"
+                                dateFormat="DD/MM/YYYY"
                                 selected={this.state.toTime}
                                 onChange={this.handleChangeToTime}/>
                         </div>
@@ -182,7 +197,7 @@ class ReportRateRevenue extends Component {
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Đánh giá điểm đỗ</div>
+                            <div className="caption">Tổng hợp doanh số</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -192,13 +207,63 @@ class ReportRateRevenue extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <BootstrapTable data={this.state.rows} bordered={true}>
-                                <TableHeaderColumn dataField='CPPCode' isKey={true}>Mã điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataField='Capacity'>Sức chứa</TableHeaderColumn>
-                                <TableHeaderColumn dataSort={true} dataField='NumberOfTicket'>Số lượng vé</TableHeaderColumn>
+                            <BootstrapTable
+                                options={{
+                                noDataText: 'Không có kết quả nào'
+                            }}
+                                bordered={true}data={this.state.rows} >
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='100'
+                                    dataSort={true}
+                                    dataField='CPPCode'
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
 
-                                <TableHeaderColumn dataFormat={currencyFormat} dataField='RevenueByDay'>Doanh số lượt (đ)</TableHeaderColumn>
-                                <TableHeaderColumn dataFormat={currencyFormat} dataField='RevenuePerUnit'>Doanh số trên ô (đ)</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    width='100'
+                                    dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    width='120'
+                                    dataFormat={ratioFormat}
+                                    dataField='RatioDay'>Tăng trưởng</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    width='120'
+                                    dataField='RevenueByMonth'>Vé tháng</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    width='120'
+                                    dataFormat={ratioFormat}
+                                    dataField='RatioMonth'>Tăng trưởng</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataSort={true}
+                                    width='100'
+                                    dataField='Capacity'>Sức chứa</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    width='150'
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
+
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

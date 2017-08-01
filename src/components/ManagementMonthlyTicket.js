@@ -9,7 +9,7 @@ class ManagementMonthlyTicket extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            fromTime: moment(),
+            fromTime: moment().subtract(1, 'months'),
             toTime: moment(),
             loading: true
         };
@@ -148,6 +148,7 @@ class ManagementMonthlyTicket extends Component {
                                             className="form-control"
                                             name="from_time"
                                             selected={this.state.fromTime}
+                                            dateFormat="DD/MM/YYYY"
                                             onChange={this.handleChangeFromTime}/>
                                     </div>
                                     <div className="col-md-6 form-group ticket-date-picker">
@@ -156,6 +157,7 @@ class ManagementMonthlyTicket extends Component {
                                         <DatePicker
                                             className="form-control"
                                             name="to_time"
+                                            dateFormat="DD/MM/YYYY"
                                             selected={this.state.toTime}
                                             onChange={this.handleChangeToTime}/>
                                     </div>

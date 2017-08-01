@@ -43,7 +43,7 @@ class ReportMonthlyRevenue extends Component {
             rows: [],
             totalCount: 0,
             loading: false,
-            fromTime: moment(),
+            fromTime: moment().subtract(1, 'months'),
             toTime: moment()
         };
 
@@ -113,7 +113,7 @@ class ReportMonthlyRevenue extends Component {
                     const revenueArr = response.data.Data
                     this.setState({loading: false, rows: revenueArr})
                 } else {
-                    this.setState({loading: false})
+                    this.setState({loading: false, rows: []})
                 }
             })
             .catch((error) => {
@@ -158,7 +158,7 @@ class ReportMonthlyRevenue extends Component {
                                     </select>
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for="company">Mã điểm đỗ</label>
+                                    <label for="company">Điểm đỗ</label>
                                     <input
                                         type="text"
                                         name="car_parking_place"
@@ -175,6 +175,7 @@ class ReportMonthlyRevenue extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="from_time"
+                                        dateFormat="DD/MM/YYYY"
                                         selected={this.state.fromTime}
                                         onChange={this.handleChangeFromTime}/>
                                 </div>
@@ -185,6 +186,7 @@ class ReportMonthlyRevenue extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="to_time"
+                                        dateFormat="DD/MM/YYYY"
                                         selected={this.state.toTime}
                                         onChange={this.handleChangeToTime}/>
                                 </div>
@@ -205,7 +207,7 @@ class ReportMonthlyRevenue extends Component {
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Doanh số điểm đỗ theo tháng</div>
+                            <div className="caption">Tổng hợp doanh số theo tháng</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -215,23 +217,31 @@ class ReportMonthlyRevenue extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <BootstrapTable data={this.state.rows} bordered={true}>
+                            <BootstrapTable
+                                options={{
+                                noDataText: 'Không có kết quả nào'
+                            }}
+                                data={this.state.rows}
+                                bordered={true}>
                                 <TableHeaderColumn
                                     dataField='CPPCode'
                                     width="100"
+                                    dataSort={true}
                                     dataAlign='center'
                                     headerAlign='center'
-                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
                                 <TableHeaderColumn headerAlign='center' dataField='CPPAddress'>Địa chỉ</TableHeaderColumn>
                                 <TableHeaderColumn
                                     width="100"
                                     dataAlign='center'
                                     headerAlign='center'
+                                    dataSort={true}
                                     dataField='Month'>Tháng</TableHeaderColumn>
 
                                 <TableHeaderColumn
                                     dataField='RevenueByMonth'
                                     dataAlign='right'
+                                    dataSort={true}
                                     headerAlign='center'
                                     width='150'
                                     dataFormat={currencyFormat}>Vé tháng</TableHeaderColumn>
@@ -239,12 +249,14 @@ class ReportMonthlyRevenue extends Component {
                                     dataFormat={currencyFormat}
                                     headerAlign='center'
                                     dataAlign='right'
+                                    dataSort={true}
                                     width='150'
                                     dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
                                 <TableHeaderColumn
                                     dataFormat={currencyFormat}
                                     headerAlign='center'
                                     width='150'
+                                    dataSort={true}
                                     dataAlign='right'
                                     dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
                             </BootstrapTable>

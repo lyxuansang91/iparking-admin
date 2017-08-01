@@ -42,7 +42,7 @@ class ReportRevenue extends Component {
             pageSize: 20,
             totalCount: 0,
             loading: false,
-            fromTime: moment(),
+            fromTime: moment().subtract(1, 'months'),
             toTime: moment()
         };
 
@@ -112,7 +112,7 @@ class ReportRevenue extends Component {
                     const revenueArr = response.data.Data
                     this.setState({loading: false, rows: revenueArr})
                 } else {
-                    this.setState({loading: false})
+                    this.setState({loading: false, rows: []})
                 }
 
             })
@@ -159,6 +159,7 @@ class ReportRevenue extends Component {
                             <DatePicker
                                 className="form-control"
                                 name="from_time"
+                                dateFormat="DD/MM/YYYY"
                                 selected={this.state.fromTime}
                                 onChange={this.handleChangeFromTime}/>
                         </div>
@@ -169,6 +170,7 @@ class ReportRevenue extends Component {
                             <DatePicker
                                 className="form-control"
                                 name="to_time"
+                                dateFormat="DD/MM/YYYY"
                                 selected={this.state.toTime}
                                 onChange={this.handleChangeToTime}/>
                         </div>
@@ -194,13 +196,19 @@ class ReportRevenue extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <BootstrapTable data={this.state.rows} bordered={true}>
+                            <BootstrapTable
+                                options={{
+                                noDataText: 'Không có kết quả nào'
+                            }}
+                                data={this.state.rows}
+                                bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     width='100'
                                     dataField='CppCode'
                                     dataAlign='center'
-                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                    dataSort={true}
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
                                 <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
 
                                 <TableHeaderColumn
@@ -208,16 +216,19 @@ class ReportRevenue extends Component {
                                     dataAlign='right'
                                     width='100'
                                     dataAlign='center'
+                                    dataSort={true}
                                     dataField='Capicity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     width='200'
                                     dataAlign='right'
                                     dataFormat={currencyFormat}
+                                    dataSort={true}
                                     dataField='RevenueByDay'>Doanh số lượt</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     width='200'
+                                    dataSort={true}
                                     dataAlign='right'
                                     dataFormat={currencyFormat}
                                     dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>

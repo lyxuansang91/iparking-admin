@@ -79,24 +79,25 @@ class PageSideBar extends Component {
                             <span className="arrow "></span>
                         </a>
                         <ul className="sub-menu">
-                            <li>
+                            {/*<li>
                                 <Link to="/report/revenue">
                                     <i className="fa fa-usd icon-space"></i>
                                     Doanh số vé lượt
+                                </Link>
+                            </li>*/}
+                            <li>
+                                <Link to="/report/rate_revenue">
+                                    <i className="fa fa-tag icon-space"></i>
+                                    Tổng hợp doanh số
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/report/monthly_revenue">
                                     <i className="fa fa-usd icon-space"></i>
-                                    Doanh số điểm đỗ theo tháng
+                                    Tổng hợp doanh số theo tháng
                                 </Link>
                             </li>
-                            <li>
-                                <Link to="/report/rate_revenue">
-                                    <i className="fa fa-tag icon-space"></i>
-                                    Đánh giá điểm đỗ
-                                </Link>
-                            </li>
+
                         </ul>
                     </li>
                     {/*Cấu hình*/}

@@ -3,6 +3,7 @@ import {
     ComposedChart,
     Line,
     Area,
+    AreaChart,
     Bar,
     XAxis,
     YAxis,
@@ -13,11 +14,12 @@ import {
 } from 'recharts';
 import axios from 'axios';
 import Loading from '../assets/js/loading';
+import moment from 'moment';
 
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) == 0) {
-        return "0đ"
+        return " 0 đ "
     }
 
     var price = Math.floor(uv)
@@ -38,7 +40,7 @@ const currencyFormat = (uv) => {
 
     }
 
-    return priceString + "đ"
+    return priceString + " đ "
 }
 
 class ComposedCharts extends Component {
@@ -65,9 +67,60 @@ class ComposedCharts extends Component {
         axios
             .get("/p/report_monthly_revenue")
             .then((response) => {
-                const data = response.data;
-                if (data.Error.Code == 200) {
-                    this.setState({loading: false, data: data.Data})
+                const data = response.data.Data;
+
+                var n = data.length;
+                var weekArr = []
+
+                for (var i = 0; i < data.length; i++) {
+                    data[i].Card = data[i].ATM + data[i].VisaMaster
+                    data[i].Other = data[i].Promotion + data[i].InternetBanking
+                }
+
+                for (var n = data.length; n > 0; n = n - 7) {
+                    var weekRevenue = 0
+                    var weekCard = 0
+                    var weekOther = 0
+                    var weekSMS = 0
+
+                    for (var i = n - 7; i < n; i++) {
+                        weekRevenue = weekRevenue + data[i].Revenue
+                        weekCard = weekCard + data[i].Card
+                        weekOther = weekOther + data[i].Other
+                        weekSMS = weekSMS + data[i].SMS
+                    }
+
+                    weekArr.splice(0, 0, {
+                        Revenue: weekRevenue,
+                        Week: moment
+                            .unix(data[n - 7].Day)
+                            .format("DD/MM") + "-" + moment
+                            .unix(data[n - 1].Day)
+                            .format("DD/MM"),
+                        CardRevenue: weekCard,
+                        OtherRevenue: weekOther,
+                        SMSRevenue: weekSMS
+                    })
+                }
+
+                for (var m = weekArr.length; m > 0; m--) {
+                    var weekRevenue = 0
+                    var element = 0
+
+                    for (var i = m; i > m - 4; i--) {
+                        if (i > 0) {
+                            element++;
+                            weekRevenue = weekRevenue + weekArr[i - 1].Revenue
+                        }
+                    }
+
+                    weekArr[m - 1].AvgRevenue = weekRevenue / element
+                }
+
+                console.log(weekArr)
+
+                if (response.data.Error.Code == 200) {
+                    this.setState({loading: false, data: weekArr})
                 } else {
                     this.setState({loading: false})
                 }
@@ -86,19 +139,18 @@ class ComposedCharts extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
-                        <ResponsiveContainer width="100%" height={450}>
+                        <ResponsiveContainer width="100%" height={400}>
                             <ComposedChart data={data}>
-                                <XAxis dataKey="Day"/>
+                                <XAxis dataKey="Week"/>
                                 <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat}/>
                                 <YAxis
                                     yAxisId='2'
-                                    width={100}
                                     orientation='right'
+                                    width={100}
                                     tickFormatter={currencyFormat}/>
                                 <Tooltip formatter={currencyFormat}/>
-
-                                <Legend/>
-                                <CartesianGrid stroke='#f5f5f5'/>
+                                <Legend verticalAlign='top' height={36}/>
+                                <CartesianGrid strokeDasharray="3 3"/>
                                 <Bar
                                     yAxisId='1'
                                     dataKey='Revenue'
@@ -108,11 +160,43 @@ class ComposedCharts extends Component {
                                 <Line
                                     yAxisId='2'
                                     type='monotone'
-                                    dataKey='RevenuePerUnit'
+                                    dataKey='AvgRevenue'
                                     stroke='#FF6384'
                                     strokeWidth={3}
-                                    name="Doanh số trên ô"/>
+                                    name="Bình quân"/>
                             </ComposedChart>
+
+                        </ResponsiveContainer>
+
+                        <ResponsiveContainer width="100%" height={400}>
+                            <AreaChart data={data}>
+                                <XAxis dataKey="Week"/>
+                                <YAxis width={100} tickFormatter={currencyFormat}/>
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <Tooltip formatter={currencyFormat}/>
+                                <Legend iconType="square"/>
+                                <Area
+                                    type='monotone'
+                                    dataKey='SMSRevenue'
+                                    stackId="1"
+                                    name="SMS"
+                                    stroke='#8884d8'
+                                    fill='#8884d8'/>
+                                <Area
+                                    type='monotone'
+                                    dataKey='CardRevenue'
+                                    stackId="1"
+                                    name="Thẻ thanh toán"
+                                    stroke='#82ca9d'
+                                    fill='#82ca9d'/>
+                                <Area
+                                    type='monotone'
+                                    dataKey='OtherRevenue'
+                                    stackId="1"
+                                    name="Khác"
+                                    stroke='#ffc658'
+                                    fill='#ffc658'/>
+                            </AreaChart>
                         </ResponsiveContainer>
                         {loading && <Loading/>}
                     </div>

@@ -74,7 +74,7 @@ class SearchTicket extends Component {
 
         this.state = {
             rows: [],
-            fromTime: moment(),
+            fromTime: moment().subtract(1, 'months'),
             toTime: moment(),
             loading: false,
             errors: {}
@@ -169,7 +169,7 @@ class SearchTicket extends Component {
                     const ticketList = response.data.Data
                     this.setState({loading: false, rows: ticketList})
                 } else {
-                    this.setState({loading: false})
+                    this.setState({loading: false, rows: []})
                 }
             })
             .catch((error) => {
@@ -198,7 +198,7 @@ class SearchTicket extends Component {
                                 ref="numberplate"
                                 name="numberplate"
                                 className="form-control"
-                                placeholder="Biển số xe"/>
+                                placeholder="30A12345"/>
                         </div>
 
                         <div className="col-md-2 form-group">
@@ -207,14 +207,15 @@ class SearchTicket extends Component {
                                 type="text"
                                 className="form-control"
                                 ref="phonenumber"
-                                placeholder="Số điện thoại"
+                                placeholder="0987654321"
                                 name="phonenumber"/>
                         </div>
 
                         <div className="col-md-2 form-group">
-                            <label for="company">Mã điểm đỗ</label>
+                            <label for="company">Điểm đỗ</label>
                             <input
                                 type="text"
+                                placeholder="001"
                                 name="car_parking_place"
                                 ref="cpp_code"
                                 className="form-control"/>
@@ -228,6 +229,7 @@ class SearchTicket extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="from_time"
+                                        dateFormat="DD/MM/YYYY"
                                         selected={this.state.fromTime}
                                         onChange={this.handleChangeFromTime}/>
                                 </div>
@@ -237,6 +239,7 @@ class SearchTicket extends Component {
                                     <br/>
                                     <DatePicker
                                         className="form-control"
+                                        dateFormat="DD/MM/YYYY"
                                         name="to_time"
                                         selected={this.state.toTime}
                                         onChange={this.handleChangeToTime}/>
@@ -265,19 +268,27 @@ class SearchTicket extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <BootstrapTable data={this.state.rows} hover={true} bordered={true}>
+                            <BootstrapTable
+                                options={{
+                                noDataText: 'Không có kết quả nào'
+                            }}
+                                data={this.state.rows}
+                                hover={true}
+                                bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataFormat={dateRender}
                                     dataField='FromTime'
+                                    dataSort={true}
                                     width='85'
                                     dataAlign='center'>Ngày</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
                                     dataField='CppCode'
+                                    dataSort={true}
                                     width='100'
-                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
 
                                 <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
 
@@ -297,11 +308,13 @@ class SearchTicket extends Component {
                                     headerAlign='center'
                                     dataField='Amount'
                                     width='100'
+                                    dataSort={true}
                                     dataFormat={currencyFormat}>Thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
                                     dataFormat={ticketDuration}
+                                    dataSort={true}
                                     width='100'
                                     dataField='DifferentTime'>Thời gian</TableHeaderColumn>
 
@@ -309,11 +322,13 @@ class SearchTicket extends Component {
                                     headerAlign='center'
                                     dataFormat={timeRender}
                                     dataField='FromTime'
+                                    dataSort={true}
                                     width='100'
                                     dataAlign='center'>Giờ vào</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataFormat={timeRender}
+                                    dataSort={true}
                                     dataField='ToTime'
                                     width='100'
                                     dataAlign='center'>Giờ ra</TableHeaderColumn>

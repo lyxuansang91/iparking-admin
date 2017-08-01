@@ -73,7 +73,7 @@ class StackAreaChart extends Component {
 
                     this.setState({loading: false, data: listPayment})
                 } else {
-                    this.setState({loading: false})
+                    this.setState({loading: false, data: []})
                 }
             })
             .catch((error) => {

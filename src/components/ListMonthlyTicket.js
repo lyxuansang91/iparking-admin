@@ -75,7 +75,7 @@ class ListMonthlyTicket extends Component {
         super(props);
         this.state = {
             rows: [],
-            fromTime: moment(),
+            fromTime: moment().subtract(1, 'months'),
             toTime: moment(),
             loading: false
         };
@@ -148,7 +148,7 @@ class ListMonthlyTicket extends Component {
                     const ticketList = response.data.Data
                     this.setState({loading: false, rows: ticketList})
                 } else {
-                    this.setState({loading: false})
+                    this.setState({loading: false, rows: []})
                 }
             })
             .catch((error) => {
@@ -211,7 +211,7 @@ class ListMonthlyTicket extends Component {
                         </div>
 
                         <div className="col-md-2 form-group">
-                            <label for="company">Mã điểm đỗ</label>
+                            <label for="company">Điểm đỗ</label>
                             <input
                                 type="text"
                                 name="car_parking_place"
@@ -228,6 +228,7 @@ class ListMonthlyTicket extends Component {
                                         className="form-control"
                                         name="from_time"
                                         selected={this.state.fromTime}
+                                        dateFormat="DD/MM/YYYY"
                                         onChange={this.handleChangeFromTime}/>
                                 </div>
 
@@ -237,6 +238,7 @@ class ListMonthlyTicket extends Component {
                                     <DatePicker
                                         className="form-control"
                                         name="to_time"
+                                        dateFormat="DD/MM/YYYY"
                                         selected={this.state.toTime}
                                         onChange={this.handleChangeToTime}/>
                                 </div>
@@ -270,13 +272,19 @@ class ListMonthlyTicket extends Component {
                             style={{
                             position: 'relative'
                         }}>
-                            <BootstrapTable data={this.state.rows} hover={true} bordered={true}>
+                            <BootstrapTable
+                                options={{
+                                noDataText: 'Không có kết quả nào'
+                            }}
+                                data={this.state.rows}
+                                hover={true}
+                                bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
                                     dataField='CppCode'
                                     width="100"
-                                    isKey={true}>Mã điểm đỗ</TableHeaderColumn>
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
                                 <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
@@ -325,6 +333,7 @@ class ListMonthlyTicket extends Component {
                                     dataAlign='center'
                                     width='80'
                                     dataFormat={calculateMinute}
+                                    dataSort={true}
                                     dataField='ToTime'>Quá hạn</TableHeaderColumn>
 
                             </BootstrapTable>
