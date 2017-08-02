@@ -1,13 +1,24 @@
 import React, {Component} from 'react'
-import Loading from '../assets/js/loading'
-import DatePicker from 'react-datepicker'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import {
+    ComposedChart,
+    Line,
+    Area,
+    AreaChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    ResponsiveContainer,
+    Tooltip,
+    Legend
+} from 'recharts';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
-import 'react-datepicker/dist/react-datepicker.css'
+import Loading from '../assets/js/loading'
+import axios from 'axios'
 import moment from 'moment';
-import axios from 'axios';
-import NumberFormat from 'react-number-format'
-import {styles} from '../assets/css/grid.css'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const currencyFormat = (uv) => {
 
@@ -36,28 +47,69 @@ const currencyFormat = (uv) => {
     return priceString + " đ"
 }
 
-class ReportMonthlyRevenue extends Component {
+const timeRender = (time) => {
+    return moment
+        .unix(time)
+        .format("HH:mm");
+}
+const dateRender = (time) => {
+    return moment
+        .unix(time)
+        .format("DD/MM/YYYY");
+}
+
+const ticketDuration = (second) => {
+
+    if (second === 0) {
+        return "-"
+    }
+
+    var minute = second / 60
+
+    var hour = minute / 60;
+    var minute = minute - (hour * 60);
+
+    if (hour === 0) {
+        return minute + " phút"
+    }
+
+    if (minute === 0) {
+        return hour + " giờ"
+    }
+
+    return hour + " giờ " + minute + " phút"
+}
+
+class CPPRevenueRate extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
-            rows: [],
+            data: [],
             listCompany: [],
-            totalCount: 0,
-            loading: false,
             fromTime: moment().subtract(1, 'months'),
-            toTime: moment()
+            toTime: moment(),
+            showChart: false,
+            loading: false,
+            errors: {}
         };
+        this.onSubmitForm = this
+            .onSubmitForm
+            .bind(this)
 
         this.loadData = this
             .loadData
             .bind(this)
-        this.onSubmitForm = this
-            .onSubmitForm
-            .bind(this);
 
         this.changeCurrentPage = this
             .changeCurrentPage
             .bind(this)
+
+        this.queryString = this
+            .queryString
+            .bind(this)
+
         this.handleChangeFromTime = this
             .handleChangeFromTime
             .bind(this);
@@ -92,8 +144,28 @@ class ReportMonthlyRevenue extends Component {
         this.loadData(currentPage)
     }
 
+    handleChangeFromTime(date) {
+        this.setState({fromTime: date});
+    }
+
+    handleChangeToTime(date) {
+        this.setState({toTime: date});
+    }
+
+    queryString(currentPage) {
+        return "";
+    }
+
+    _validate() {
+        var errors = {};
+        //handle error in here
+        return errors;
+    }
+
     onSubmitForm(e) {
         e.preventDefault()
+
+        this.setState({loading: true})
 
         const fromTime = moment({
             year: this
@@ -125,16 +197,67 @@ class ReportMonthlyRevenue extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/p/report/revenue_by_month?from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value
-
+        var url = "/p/report_monthly_revenue?cpp_code=" + this.refs.cpp_code.value + "&from_time=" + fromTime + "&to_time=" + toTime
+        console.log(url)
         axios
             .get(url)
             .then((response) => {
                 if (response.data.Error.Code == 200) {
-                    const revenueArr = response.data.Data
-                    this.setState({loading: false, rows: revenueArr})
+                    const data = response.data.Data
+
+                    var n = data.length;
+                    var weekArr = []
+
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].Card = data[i].ATM + data[i].VisaMaster
+                        data[i].Other = data[i].Promotion + data[i].InternetBanking
+                    }
+
+                    for (var n = data.length; n > 6; n = n - 7) {
+                        var weekRevenue = 0
+                        var weekCard = 0
+                        var weekOther = 0
+                        var weekSMS = 0
+
+                        for (var i = n - 7; i < n; i++) {
+                            weekRevenue = weekRevenue + data[i].Revenue
+                            weekCard = weekCard + data[i].Card
+                            weekOther = weekOther + data[i].Other
+                            weekSMS = weekSMS + data[i].SMS
+                        }
+
+                        weekArr.splice(0, 0, {
+                            Revenue: weekRevenue,
+                            Week: moment
+                                .unix(data[n - 7].Day)
+                                .format("DD/MM") + "-" + moment
+                                .unix(data[n - 1].Day)
+                                .format("DD/MM"),
+                            CardRevenue: weekCard,
+                            OtherRevenue: weekOther,
+                            SMSRevenue: weekSMS
+                        })
+                    }
+
+                    for (var m = weekArr.length; m > 0; m--) {
+                        var weekRevenue = 0
+                        var element = 0
+
+                        for (var i = m; i > m - 4; i--) {
+                            if (i > 0) {
+                                element++;
+                                weekRevenue = weekRevenue + weekArr[i - 1].Revenue
+                            }
+                        }
+
+                        weekArr[m - 1].AvgRevenue = weekRevenue / element
+                    }
+                    console.log(data)
+                    console.log(weekArr)
+
+                    this.setState({loading: false, showChart: true, data: weekArr})
                 } else {
-                    this.setState({loading: false, rows: []})
+                    this.setState({loading: false, showChart: true, data: []})
                 }
             })
             .catch((error) => {
@@ -143,27 +266,19 @@ class ReportMonthlyRevenue extends Component {
         this.loadData(0)
     }
 
-    handleChangeFromTime(date) {
-        this.setState({fromTime: date});
-    }
-
-    handleChangeToTime(date) {
-        this.setState({toTime: date});
-    }
-
     render() {
-
         const {
-            rows,
+            data,
             listCompany,
-            columns,
             pageSize,
             currentPage,
             totalCount,
+            showChart,
             loading
+
         } = this.state;
         return (
-            <div className="container-fluid detail">
+            <div className="container-fluid">
                 <div className="row">
                     <form
                         ref='report_monthly_revenue_form'
@@ -173,7 +288,7 @@ class ReportMonthlyRevenue extends Component {
                             <div className="row">
                                 <div className="col-md-6 form-group">
                                     <label for="company">Công ty</label>
-                                    <select className="form-control" name="company">
+                                    <select className="form-control" name="company" ref="company">
                                         {listCompany
                                             .map(function (company) {
                                                 return <option key={company.Id} value={company.Id}>{company.Fullname.String}</option>;
@@ -227,71 +342,45 @@ class ReportMonthlyRevenue extends Component {
 
                     </form>
                 </div>
+                <div
+                    className="row"
+                    style={{
+                    marginTop: '25px'
+                }}>
+                    {showChart && <ResponsiveContainer width="100%" height={400}>
+                        <ComposedChart data={data}>
+                            <XAxis dataKey="Week"/>
+                            <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat}/>
+                            <YAxis
+                                yAxisId='2'
+                                orientation='right'
+                                width={100}
+                                tickFormatter={currencyFormat}/>
+                            <Tooltip formatter={currencyFormat}/>
+                            <Legend verticalAlign='bottom' height={36}/>
+                            <CartesianGrid strokeDasharray="3 3"/>
+                            <Bar
+                                yAxisId='1'
+                                dataKey='Revenue'
+                                barSize={100}
+                                fill='#0D97FF'
+                                name="Doanh số"/>
+                            <Line
+                                yAxisId='2'
+                                type='monotone'
+                                dataKey='AvgRevenue'
+                                stroke='#FF6384'
+                                strokeWidth={3}
+                                name="Bình quân"/>
+                        </ComposedChart>
 
-                <div className="row">
-                    <div className="portlet box blue">
-                        <div className="portlet-title">
-                            <div className="caption">Tổng hợp doanh số theo tháng</div>
-                            <div className="tools">
-                                <a href="#" className="collapse"></a>
-                            </div>
-                        </div>
-                        <div
-                            className="portlet-body"
-                            style={{
-                            position: 'relative'
-                        }}>
-                            <BootstrapTable
-                                options={{
-                                noDataText: 'Không có kết quả nào'
-                            }}
-                                data={this.state.rows}
-                                bordered={true}>
-                                <TableHeaderColumn
-                                    dataField='CPPCode'
-                                    width="100"
-                                    dataSort={true}
-                                    dataAlign='center'
-                                    headerAlign='center'
-                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn headerAlign='center' dataField='CPPAddress'>Địa chỉ</TableHeaderColumn>
-                                <TableHeaderColumn
-                                    width="100"
-                                    dataAlign='center'
-                                    headerAlign='center'
-                                    dataSort={true}
-                                    dataField='Month'>Tháng</TableHeaderColumn>
+                    </ResponsiveContainer>}
+                    {loading && <Loading/>}
 
-                                <TableHeaderColumn
-                                    dataField='RevenueByMonth'
-                                    dataAlign='right'
-                                    dataSort={true}
-                                    headerAlign='center'
-                                    width='150'
-                                    dataFormat={currencyFormat}>Vé tháng</TableHeaderColumn>
-                                <TableHeaderColumn
-                                    dataFormat={currencyFormat}
-                                    headerAlign='center'
-                                    dataAlign='right'
-                                    dataSort={true}
-                                    width='150'
-                                    dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
-                                <TableHeaderColumn
-                                    dataFormat={currencyFormat}
-                                    headerAlign='center'
-                                    width='150'
-                                    dataSort={true}
-                                    dataAlign='right'
-                                    dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
-                            </BootstrapTable>
-                            {loading && <Loading/>}
-                        </div>
-                    </div>
                 </div>
-
             </div>
-        );
+        )
     }
 }
 
-export default ReportMonthlyRevenue
+export default CPPRevenueRate

@@ -2470,6 +2470,7 @@ Page content
         background-color: #f7f7f7;
     }
     .page-content-wrapper .page-content {
+        height:100%;
         margin-left: 260px;
         margin-top: 0px;
         min-height: 600px;

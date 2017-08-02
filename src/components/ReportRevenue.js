@@ -199,6 +199,7 @@ class ReportRevenue extends Component {
                             <BootstrapTable
                                 options={{
                                 noDataText: 'Không có kết quả nào'
+                                
                             }}
                                 data={this.state.rows}
                                 bordered={true}>

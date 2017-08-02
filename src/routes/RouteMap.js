@@ -18,7 +18,8 @@ const types = {
     managementUser: '8',
     reportRateRevenue: '9',
     monthlyTicketList: '10',
-    testItemRedux: '11'
+    testItemRedux: '11',
+    reportAllRevenue: '12'
 }
 
 const routes = [
@@ -54,6 +55,11 @@ const routes = [
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Tổng hợp doanh số"
+                            type={types.reportAllRevenue}/>,
+                        path: '/report/all_revenue'
+                    }, {
+                        component: () => <PageContentWrapper
+                            content_title="Đánh giá điểm đỗ"
                             type={types.reportRateRevenue}/>,
                         path: '/report/rate_revenue'
                     }, {

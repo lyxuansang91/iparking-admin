@@ -64,8 +64,15 @@ class ComposedCharts extends Component {
     loadData() {
         this.setState({loading: true})
 
+        const toTime = moment().unix()
+
+        const fromTime = moment()
+            .subtract(89, "days")
+            .unix() - 86340
+        var url = "/p/report_monthly_revenue?from_time=" + fromTime + "&to_time=" + toTime
+
         axios
-            .get("/p/report_monthly_revenue")
+            .get(url)
             .then((response) => {
                 const data = response.data.Data;
 
@@ -77,7 +84,7 @@ class ComposedCharts extends Component {
                     data[i].Other = data[i].Promotion + data[i].InternetBanking
                 }
 
-                for (var n = data.length; n > 0; n = n - 7) {
+                for (var n = data.length; n > 6; n = n - 7) {
                     var weekRevenue = 0
                     var weekCard = 0
                     var weekOther = 0

@@ -52,6 +52,7 @@ class ReportRateRevenue extends Component {
         super(props);
         this.state = {
             rows: [],
+            listCompany: [],
             totalCount: 0,
             loading: false,
             fromTime: moment().subtract(1, 'months'),
@@ -76,7 +77,27 @@ class ReportRateRevenue extends Component {
             .bind(this);
     }
 
-    loadData(currentPage) {}
+    loadData(currentPage) {
+        var url = "p/provider/list"
+
+        axios
+            .get(url)
+            .then((response) => {
+                if (response.data.Error.Code == 200) {
+                    const provderList = response.data.Data
+                    this.setState({listCompany: provderList})
+                } else {
+                    this.setState({listCompany: []})
+                }
+            })
+            .catch((error) => {
+                this.setState({loading: false})
+            });
+    }
+
+    componentDidMount() {
+        this.loadData(0)
+    }
 
     changeCurrentPage(currentPage) {
         this.loadData(currentPage)
@@ -143,7 +164,7 @@ class ReportRateRevenue extends Component {
 
     render() {
 
-        const {rows, currentPage, totalCount, loading} = this.state;
+        const {rows, currentPage, totalCount, listCompany, loading} = this.state;
         return (
             <div className="container-fluid">
 
@@ -155,9 +176,11 @@ class ReportRateRevenue extends Component {
                         <div className="col-md-3 form-group">
                             <label for="company">Công ty</label>
                             <select className="form-control" name="company">
-                                <option value="1">Tất cả</option>
-                                <option value="2">HPC</option>
-                                <option value="3">Đồng Xuân</option>
+                                {listCompany
+                                    .map(function (company) {
+                                        return <option key={company.Id} value={company.Id}>{company.Fullname.String}</option>;
+                                    })
+}
                             </select>
                         </div>
 

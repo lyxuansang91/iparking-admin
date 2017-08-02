@@ -86,7 +86,7 @@ class PageSideBar extends Component {
                                 </Link>
                             </li>*/}
                             <li>
-                                <Link to="/report/rate_revenue">
+                                <Link to="/report/all_revenue">
                                     <i className="fa fa-tag icon-space"></i>
                                     Tổng hợp doanh số
                                 </Link>
@@ -95,6 +95,12 @@ class PageSideBar extends Component {
                                 <Link to="/report/monthly_revenue">
                                     <i className="fa fa-usd icon-space"></i>
                                     Tổng hợp doanh số theo tháng
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/report/rate_revenue">
+                                    <i className="fa fa-line-chart icon-space"></i>
+                                    Đánh giá điểm đỗ
                                 </Link>
                             </li>
 
