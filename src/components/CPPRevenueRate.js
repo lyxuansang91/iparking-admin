@@ -349,6 +349,13 @@ class CPPRevenueRate extends Component {
                 }}>
                     {showChart && <ResponsiveContainer width="100%" height={400}>
                         <ComposedChart data={data}>
+                            <defs>
+                                <linearGradient id="colorUv" x1="0" y1="0.5" x2="1" y2="0.5">
+                                    <stop offset="5%" stopColor="#345C89" stopOpacity={1}/>
+                                    <stop offset="95%" stopColor="#4A7CB6" stopOpacity={1}/>
+                                </linearGradient>
+
+                            </defs>
                             <XAxis dataKey="Week"/>
                             <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat}/>
                             <YAxis
@@ -363,7 +370,7 @@ class CPPRevenueRate extends Component {
                                 yAxisId='1'
                                 dataKey='Revenue'
                                 barSize={100}
-                                fill='#0D97FF'
+                                fill='url(#colorUv)'
                                 name="Doanh số"/>
                             <Line
                                 yAxisId='2'

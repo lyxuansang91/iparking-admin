@@ -47,12 +47,13 @@ const ratioFormat = (rate) => {
     // fa-arrow-up' aria-hidden='true'></i> " + Math.abs(rate) * 100 + "%"
 }
 
-class ReportRateRevenue extends Component {
+class ReportAllRevenue extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rows: [],
             listCompany: [],
+            total: [],
             totalCount: 0,
             loading: false,
             fromTime: moment().subtract(1, 'months'),
@@ -142,9 +143,32 @@ class ReportRateRevenue extends Component {
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const revenueArr = response.data.Data
-                    this.setState({loading: false, rows: revenueArr})
+
+                    var totalArr = []
+
+                    var totalRevenueDay = 0;
+                    var totalRevenueMonth = 0;
+                    var totalCapacity = 0;
+
+                    for (var i = 0; i < revenueArr.length; i++) {
+                        totalRevenueDay = totalRevenueDay + revenueArr[i].RevenueByDay
+                        totalRevenueMonth = totalRevenueMonth + revenueArr[i].RevenueByMonth
+                        totalCapacity = totalCapacity + revenueArr[i].Capacity
+                    }
+
+                    totalArr.push({
+                        title: "Tổng",
+                        RevenueDay: totalRevenueDay,
+                        RevenueMonth: totalRevenueMonth,
+                        Capacity: totalCapacity,
+                        RevenuePerUnit: (totalRevenueDay + totalRevenueMonth) / totalCapacity
+                    })
+
+                    console.log(totalRevenueDay)
+
+                    this.setState({loading: false, rows: revenueArr, total: totalArr})
                 } else {
-                    this.setState({loading: false, rows: []})
+                    this.setState({loading: false, rows: [], total: []})
                 }
 
             })
@@ -164,7 +188,14 @@ class ReportRateRevenue extends Component {
 
     render() {
 
-        const {rows, currentPage, totalCount, listCompany, loading} = this.state;
+        const {
+            rows,
+            currentPage,
+            total,
+            totalCount,
+            listCompany,
+            loading
+        } = this.state;
         return (
             <div className="container-fluid">
 
@@ -234,7 +265,8 @@ class ReportRateRevenue extends Component {
                                 options={{
                                 noDataText: 'Không có kết quả nào'
                             }}
-                                bordered={true}data={this.state.rows} >
+                                bordered={true}
+                                data={this.state.rows}>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
@@ -286,7 +318,50 @@ class ReportRateRevenue extends Component {
                                     dataSort={true}
                                     dataFormat={currencyFormat}
                                     dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
+                            </BootstrapTable>
+                            <BootstrapTable
+                                className="table-footer"
+                                headerStyle={{
+                                display: 'none'
+                            }}
+                                options={{
+                                noDataText: '-'
+                            }}
+                                data={this.state.total}>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataField='title'
+                                    width='100'
+                                    dataAlign='center'
+                                    isKey={true}>Tổng</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='noData'></TableHeaderColumn>
 
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataFormat={currencyFormat}
+                                    width='100'
+                                    dataField='RevenueDay'>Vé lượt</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' width='120' dataField='noData'></TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    dataAlign='right'
+                                    dataFormat={currencyFormat}
+                                    headerAlign='center'
+                                    width='120'
+                                    dataField='RevenueMonth'>Vé tháng</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' width='120' dataField='noData'></TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='100'
+                                    dataField='Capacity'>Sức chứa</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataFormat={currencyFormat}
+                                    width='150'
+                                    dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>
@@ -298,4 +373,4 @@ class ReportRateRevenue extends Component {
     }
 }
 
-export default ReportRateRevenue
+export default ReportAllRevenue

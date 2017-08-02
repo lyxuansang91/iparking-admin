@@ -7,7 +7,7 @@ import SearchTicket from '../components/SearchTicket'
 import {types} from '../routes/RouteMap'
 import ReportRevenue from '../components/ReportRevenue'
 import ReportMonthlyRevenue from '../components/ReportMonthlyRevenue'
-import ReportRateRevenue from '../components/ReportRateRevenue'
+import ReportAllRevenue from '../components/ReportAllRevenue'
 import ManagementMonthlyTicket from '../components/ManagementMonthlyTicket'
 import ManagementPromotion from '../components/ManagementPromotion'
 import ListMonthlyTicket from '../components/ListMonthlyTicket'
@@ -35,7 +35,7 @@ class PageContainerWrapper extends Component {
                 _view = <ReportMonthlyRevenue/>;
                 break;
             case types.reportAllRevenue:
-                _view = <ReportRateRevenue/>;
+                _view = <ReportAllRevenue/>;
                 break;
             case types.reportRateRevenue:
                 _view = <CPPRevenueRate/>;

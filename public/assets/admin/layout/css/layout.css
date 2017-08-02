@@ -2970,3 +2970,10 @@ Monthly Ticket
 /*** 
 Monthly Ticket 
 ***/
+
+/*** 
+Table Footer ***/
+
+.table-footer td{
+    font-weight: bolder;
+}

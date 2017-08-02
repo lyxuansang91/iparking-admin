@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 const currencyFormat = (uv) => {
 
     if (Math.floor(uv) === 0) {
-        return "0 đ"
+        return "-"
     }
 
     var price = Math.floor(uv)
@@ -74,6 +74,7 @@ class SearchTicket extends Component {
 
         this.state = {
             rows: [],
+            total: [],
             fromTime: moment().subtract(1, 'months'),
             toTime: moment(),
             loading: false,
@@ -167,9 +168,22 @@ class SearchTicket extends Component {
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const ticketList = response.data.Data
-                    this.setState({loading: false, rows: ticketList})
+
+                    var totalArr = []
+
+                    var totalRevenueDay = 0;
+                    var totalDifferentTime = 0;
+
+                    for (var i = 0; i < ticketList.length; i++) {
+                        totalRevenueDay = totalRevenueDay + ticketList[i].Amount
+                        totalDifferentTime = totalDifferentTime + ticketList[i].DifferentTime
+                    }
+
+                    totalArr.push({title: "Tổng", Amount: totalRevenueDay, DifferentTime: totalDifferentTime})
+
+                    this.setState({loading: false, rows: ticketList, total: totalArr})
                 } else {
-                    this.setState({loading: false, rows: []})
+                    this.setState({loading: false, rows: [], total: []})
                 }
             })
             .catch((error) => {
@@ -182,6 +196,7 @@ class SearchTicket extends Component {
         const {
             rows,
             columns,
+            total,
             pageSize,
             currentPage,
             totalCount,
@@ -330,6 +345,70 @@ class SearchTicket extends Component {
                                     dataFormat={timeRender}
                                     dataSort={true}
                                     dataField='ToTime'
+                                    width='100'
+                                    dataAlign='center'>Giờ ra</TableHeaderColumn>
+                            </BootstrapTable>
+                            <BootstrapTable
+                                className="table-footer"
+                                headerStyle={{
+                                display: 'none'
+                            }}
+                                options={{
+                                noDataText: '-'
+                            }}
+                                data={this.state.total}>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataField='title'
+                                    dataSort={true}
+                                    width='85'
+                                    dataAlign='center'>Ngày</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='noData'
+                                    dataSort={true}
+                                    width='100'
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
+
+                                <TableHeaderColumn headerAlign='center' dataField='noData'>Địa chỉ</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='120'
+                                    dataField='noData'>Số điện thoại</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='100'
+                                    dataField='noData'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataAlign='right'
+                                    headerAlign='center'
+                                    dataField='Amount'
+                                    width='100'
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}>Thanh toán</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataFormat={ticketDuration}
+                                    dataSort={true}
+                                    width='100'
+                                    dataField='DifferentTime'>Thời gian</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataField='noData'
+                                    dataSort={true}
+                                    width='100'
+                                    dataAlign='center'>Giờ vào</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataSort={true}
+                                    dataField='noData'
                                     width='100'
                                     dataAlign='center'>Giờ ra</TableHeaderColumn>
                             </BootstrapTable>

@@ -75,6 +75,7 @@ class ListMonthlyTicket extends Component {
         super(props);
         this.state = {
             rows: [],
+            total: [],
             fromTime: moment().subtract(1, 'months'),
             toTime: moment(),
             loading: false
@@ -146,9 +147,22 @@ class ListMonthlyTicket extends Component {
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const ticketList = response.data.Data
-                    this.setState({loading: false, rows: ticketList})
+
+                    var totalArr = []
+
+                    var totalRevenueMonth = 0;
+                    var totalMonthlyPrice = 0;
+
+                    for (var i = 0; i < ticketList.length; i++) {
+                        totalRevenueMonth = totalRevenueMonth + ticketList[i].Amount
+                        totalMonthlyPrice = totalMonthlyPrice + ticketList[i].MonthlyPrice
+                    }
+
+                    totalArr.push({title: "Tổng", Amount: totalRevenueMonth, MonthlyPrice: totalMonthlyPrice})
+
+                    this.setState({loading: false, rows: ticketList, total: totalArr})
                 } else {
-                    this.setState({loading: false, rows: []})
+                    this.setState({loading: false, rows: [], total: []})
                 }
             })
             .catch((error) => {
@@ -182,6 +196,7 @@ class ListMonthlyTicket extends Component {
             rows,
             columns,
             pageSize,
+            total,
             currentPage,
             totalCount,
             loading
@@ -260,12 +275,12 @@ class ListMonthlyTicket extends Component {
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
-                            <div className="actions">
+                            {/*<div className="actions">
                                 <button className="btn btn-default btn-sm" onClick={this.exportToCSV}>
                                     <i className="fa fa-pencil"></i>
                                     Export to CSV
                                 </button>
-                            </div>
+                            </div>*/}
                         </div>
                         <div
                             className="portlet-body"
@@ -336,6 +351,67 @@ class ListMonthlyTicket extends Component {
                                     dataSort={true}
                                     dataField='ToTime'>Quá hạn</TableHeaderColumn>
 
+                            </BootstrapTable>
+                            <BootstrapTable
+                                className="table-footer"
+                                headerStyle={{
+                                display: 'none'
+                            }}
+                                options={{
+                                noDataText: '-'
+                            }}
+                                data={this.state.total}>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataField='title'
+                                    width="100"
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width="100"
+                                    dataField='NumberPlate'>Biển số xe</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width="85"
+                                    dataField='FromTime'>Đăng ký</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width="85"
+                                    dataField='EndTime'>Hết hạn</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataField='MonthlyPrice'
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    width="100"
+                                    dataFormat={currencyFormat}>Đơn giá</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='80'
+                                    dataField='MonthQty'>Số tháng</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataField='Amount'
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    width="100"
+                                    dataFormat={currencyFormat}>Giá trị HĐ</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='125'
+                                    dataField='ToTime'>Hạn thanh toán</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='80'
+                                    dataSort={true}
+                                    dataField='ToTime'>Quá hạn</TableHeaderColumn>
                             </BootstrapTable>
                             {loading && <Loading/>}
                         </div>

@@ -41,6 +41,7 @@ class ReportMonthlyRevenue extends Component {
         super(props);
         this.state = {
             rows: [],
+            total: [],
             listCompany: [],
             totalCount: 0,
             loading: false,
@@ -132,9 +133,30 @@ class ReportMonthlyRevenue extends Component {
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const revenueArr = response.data.Data
-                    this.setState({loading: false, rows: revenueArr})
+
+                    var totalArr = []
+
+                    var totalRevenueDay = 0;
+                    var totalRevenueMonth = 0;
+                    var totalCapacity = 0;
+
+                    for (var i = 0; i < revenueArr.length; i++) {
+                        totalRevenueDay = totalRevenueDay + revenueArr[i].RevenueByDay
+                        totalRevenueMonth = totalRevenueMonth + revenueArr[i].RevenueByMonth
+                        totalCapacity = totalCapacity + revenueArr[i].Capacity
+                    }
+
+                    totalArr.push({
+                        title: "Tổng",
+                        RevenueDay: totalRevenueDay,
+                        RevenueMonth: totalRevenueMonth,
+                        Capacity: totalCapacity,
+                        RevenuePerUnit: (totalRevenueDay + totalRevenueMonth) / totalCapacity
+                    })
+
+                    this.setState({loading: false, rows: revenueArr, total: totalArr})
                 } else {
-                    this.setState({loading: false, rows: []})
+                    this.setState({loading: false, rows: [], total: []})
                 }
             })
             .catch((error) => {
@@ -157,6 +179,7 @@ class ReportMonthlyRevenue extends Component {
             rows,
             listCompany,
             columns,
+            total,
             pageSize,
             currentPage,
             totalCount,
@@ -276,6 +299,64 @@ class ReportMonthlyRevenue extends Component {
                                     dataSort={true}
                                     width='150'
                                     dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataSort={true}
+                                    width='100'
+                                    dataField='Capacity'>Sức chứa</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataFormat={currencyFormat}
+                                    headerAlign='center'
+                                    width='150'
+                                    dataSort={true}
+                                    dataAlign='right'
+                                    dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
+                            </BootstrapTable>
+                            <BootstrapTable
+                                className="table-footer"
+                                headerStyle={{
+                                display: 'none'
+                            }}
+                                options={{
+                                noDataText: '-'
+                            }}
+                                data={this.state.total}>
+                                <TableHeaderColumn
+                                    dataField='title'
+                                    width="100"
+                                    dataSort={true}
+                                    dataAlign='center'
+                                    headerAlign='center'
+                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CPPAddress'>Địa chỉ</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    width="100"
+                                    dataAlign='center'
+                                    headerAlign='center'
+                                    dataSort={true}
+                                    dataField='Month'>Tháng</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    dataField='RevenueMonth'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    headerAlign='center'
+                                    width='150'
+                                    dataFormat={currencyFormat}>Vé tháng</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    dataFormat={currencyFormat}
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    width='150'
+                                    dataField='RevenueDay'>Vé lượt</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    dataSort={true}
+                                    width='100'
+                                    dataField='Capacity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn
                                     dataFormat={currencyFormat}
                                     headerAlign='center'
