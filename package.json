@@ -19,6 +19,7 @@
     "react-dom": "^15.6.1",
     "react-number-format": "^2.0.2",
     "react-redux": "^5.0.5",
+    "react-responsive-carousel": "^3.1.24",
     "react-router-config": "^1.0.0-beta.3",
     "react-router-dom": "^4.1.2",
     "recharts": "^1.0.0-alpha.2",

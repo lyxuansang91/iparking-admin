@@ -3,33 +3,23 @@ import BarChart from '../components/BarChart'
 import LineChart from '../components/LineChart'
 import ComposedCharts from '../components/ComposedCharts'
 import StackAreaChart from '../components/StackAreaChart'
+import LiveComponents from '../components/LiveComponents'
+var Carousel = require('react-responsive-carousel').Carousel;
+import 'react-responsive-carousel/lib/styles/carousel.css'
 
 const PageContentMain = () => (
-    <div>
-        {/*<div className="row">
-            <div className="col-md-3">
-                <a href="#">Báo cáo doanh số</a>
-            </div>
 
-            <div className="col-md-1">
-                <a href="#">Tất cả</a>
-            </div>
-            <div className="col-md-1">
-                <a href="#">HPC</a>
-            </div>
-            <div className="col-md-2">
-                <a href="#">Đồng Xuân</a>
-            </div>
-        </div>
-        <hr/>*/}
-        <ComposedCharts/> {/*<div className="row">
-            <div className="col-md-3">
-                <h4>
-                    <a href="#">Cổng thanh toán</a>
-                </h4>
-            </div>
-        </div>*/}
-        {/*<StackAreaChart/>*/}
+    <div className="gg">
+        <Carousel
+            axis="horizontal"
+            showArrows={true}
+            dynamicHeight
+            emulateTouch
+            showIndicators={false}>
+            <div><LiveComponents/></div>
+            <div><ComposedCharts/></div>
+            <div><ComposedCharts/></div>
+        </Carousel>
 
     </div>
 )

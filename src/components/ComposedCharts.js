@@ -147,7 +147,14 @@ class ComposedCharts extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <ResponsiveContainer width="100%" height={400}>
-                            <ComposedChart data={data}>
+                            <ComposedChart
+                                data={data}
+                                margin={{
+                                top: 0,
+                                right: 100,
+                                left: 5,
+                                bottom: 0
+                            }}>
                                 <defs>
                                     <linearGradient id="colorUv" x1="0" y1="0.5" x2="1" y2="0.5">
                                         <stop offset="5%" stopColor="#345C89" stopOpacity={1}/>
@@ -156,12 +163,11 @@ class ComposedCharts extends Component {
 
                                 </defs>
                                 <XAxis dataKey="Week"/>
-                                <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat}/>
-                                <YAxis
+                                <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat}/> {/*<YAxis
                                     yAxisId='2'
                                     orientation='right'
                                     width={100}
-                                    tickFormatter={currencyFormat}/>
+                                    tickFormatter={currencyFormat}/>*/}
                                 <Tooltip formatter={currencyFormat}/>
                                 <Legend verticalAlign='top' height={36}/>
                                 <CartesianGrid strokeDasharray="3 3"/>
@@ -172,7 +178,7 @@ class ComposedCharts extends Component {
                                     fill='url(#colorUv)'
                                     name="Doanh số"/>
                                 <Line
-                                    yAxisId='2'
+                                    yAxisId='1'
                                     type='monotone'
                                     dataKey='AvgRevenue'
                                     stroke='#FF6384'
@@ -187,7 +193,7 @@ class ComposedCharts extends Component {
                                 data={data}
                                 margin={{
                                 top: 0,
-                                right: 105,
+                                right: 100,
                                 left: 5,
                                 bottom: 0
                             }}>

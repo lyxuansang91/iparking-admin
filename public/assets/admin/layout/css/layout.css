@@ -2966,14 +2966,15 @@ Monthly Ticket
     text-align: center;
 }
 
-
-/*** 
-Monthly Ticket 
-***/
-
-/*** 
-Table Footer ***/
-
 .table-footer td{
     font-weight: bolder;
+}
+
+.carousel .slide {
+    background:#fff !important;
+    
+}
+
+.full-screen {
+   margin-left:0 !important;
 }
