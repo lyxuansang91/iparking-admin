@@ -20,6 +20,11 @@ import axios from 'axios'
 import moment from 'moment';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import LastestTickets from './LastestTickets'
+import StatusChart from './StatusChart'
+import ExpiredChart from './ExpiredChart'
+
+import '../assets/css/circle.css'
 
 const currencyFormat = (uv) => {
 
@@ -88,48 +93,43 @@ class LiveComponents extends Component {
 
         this.state = {
             data: [],
-            listCompany: [],
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment(),
-            showChart: false,
             loading: false,
             errors: {}
         };
-        this.onSubmitForm = this
-            .onSubmitForm
-            .bind(this)
 
         this.loadData = this
             .loadData
             .bind(this)
-
-        this.changeCurrentPage = this
-            .changeCurrentPage
-            .bind(this)
-
-        this.queryString = this
-            .queryString
-            .bind(this)
-
-        this.handleChangeFromTime = this
-            .handleChangeFromTime
-            .bind(this);
-        this.handleChangeToTime = this
-            .handleChangeToTime
-            .bind(this);
     }
 
-    loadData(currentPage) {
-        var url = "p/provider/list"
+    loadData() {
+        var url = "/p/carpp/all/status"
 
+        console.log(url)
         axios
             .get(url)
             .then((response) => {
                 if (response.data.Error.Code == 200) {
-                    const provderList = response.data.Data
-                    this.setState({listCompany: provderList})
+                    const data = response.data.Data
+
+                    var totalInsession = 0
+                    var totalCapacity = 0
+
+                    for (var i = 0; i < data.length; i++) {
+                        totalCapacity = totalCapacity + data[i].totalInsession
+                        totalInsession = totalCapacity + data[i].totalInsession
+                    }
+
+                    this.setState({
+                        loading: false,
+                        data: {
+                            total: totalCapacity,
+                            inSession: totalInsession,
+                            rate: Math.floor(totalInsession / totalCapacity * 100)
+                        }
+                    })
                 } else {
-                    this.setState({listCompany: []})
+                    this.setState({loading: false, data: {}})
                 }
             })
             .catch((error) => {
@@ -147,23 +147,16 @@ class LiveComponents extends Component {
             .body
             .appendChild(script);
 
-        this.loadData(0)
-    }
+        const style = document.createElement("style");
 
-    changeCurrentPage(currentPage) {
-        this.loadData(currentPage)
-    }
+        style.src = "/assets/admin/layout/css/circle.css";
+        style.async = true;
 
-    handleChangeFromTime(date) {
-        this.setState({fromTime: date});
-    }
+        document
+            .body
+            .appendChild(style);
 
-    handleChangeToTime(date) {
-        this.setState({toTime: date});
-    }
-
-    queryString(currentPage) {
-        return "";
+        this.loadData()
     }
 
     _validate() {
@@ -172,213 +165,32 @@ class LiveComponents extends Component {
         return errors;
     }
 
-    onSubmitForm(e) {
-        e.preventDefault()
-
-        this.setState({loading: true})
-
-        const fromTime = moment({
-            year: this
-                .state
-                .fromTime
-                .year(),
-            month: this
-                .state
-                .fromTime
-                .month(),
-            day: this
-                .state
-                .fromTime
-                .date()
-        }).unix()
-
-        const toTime = moment({
-            year: this
-                .state
-                .toTime
-                .year(),
-            month: this
-                .state
-                .toTime
-                .month(),
-            day: this
-                .state
-                .toTime
-                .date()
-        }).unix() + 86340;
-
-        var url = "/p/report_monthly_revenue?cpp_code=" + this.refs.cpp_code.value + "&from_time=" + fromTime + "&to_time=" + toTime
-        console.log(url)
-        axios
-            .get(url)
-            .then((response) => {
-                if (response.data.Error.Code == 200) {
-                    const data = response.data.Data
-
-                    var n = data.length;
-                    var weekArr = []
-
-                    for (var i = 0; i < data.length; i++) {
-                        data[i].Card = data[i].ATM + data[i].VisaMaster
-                        data[i].Other = data[i].Promotion + data[i].InternetBanking
-                    }
-
-                    for (var n = data.length; n > 6; n = n - 7) {
-                        var weekRevenue = 0
-                        var weekCard = 0
-                        var weekOther = 0
-                        var weekSMS = 0
-
-                        for (var i = n - 7; i < n; i++) {
-                            weekRevenue = weekRevenue + data[i].Revenue
-                            weekCard = weekCard + data[i].Card
-                            weekOther = weekOther + data[i].Other
-                            weekSMS = weekSMS + data[i].SMS
-                        }
-
-                        weekArr.splice(0, 0, {
-                            Revenue: weekRevenue,
-                            Week: moment
-                                .unix(data[n - 7].Day)
-                                .format("DD/MM") + "-" + moment
-                                .unix(data[n - 1].Day)
-                                .format("DD/MM"),
-                            CardRevenue: weekCard,
-                            OtherRevenue: weekOther,
-                            SMSRevenue: weekSMS
-                        })
-                    }
-
-                    for (var m = weekArr.length; m > 0; m--) {
-                        var weekRevenue = 0
-                        var element = 0
-
-                        for (var i = m; i > m - 4; i--) {
-                            if (i > 0) {
-                                element++;
-                                weekRevenue = weekRevenue + weekArr[i - 1].Revenue
-                            }
-                        }
-
-                        weekArr[m - 1].AvgRevenue = weekRevenue / element
-                    }
-                    console.log(data)
-                    console.log(weekArr)
-
-                    this.setState({loading: false, showChart: true, data: weekArr})
-                } else {
-                    this.setState({loading: false, showChart: true, data: []})
-                }
-            })
-            .catch((error) => {
-                this.setState({loading: false})
-            });
-        this.loadData(0)
-    }
-
     render() {
-        const {
-            data,
-            listCompany,
-            pageSize,
-            currentPage,
-            totalCount,
-            showChart,
-            loading
-
-        } = this.state;
+        const {data, loading} = this.state;
         return (
             <div className="container-fluid">
                 <div className="row half-content">
                     <div className="col-md-8">
-                        <ResponsiveContainer width="100%" height={400}>
-                            <BarChart
-                                data={dataBar}
-                                margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5
-                            }}>
-                                <XAxis dataKey="name"/>
-                                <YAxis/>
-                                <CartesianGrid strokeDasharray="3 3"/>
-                                <Tooltip/>
-                                <Legend/>
-                                <Bar dataKey="pv" stackId="a" fill="#8884d8"/>
-                                <Bar dataKey="uv" stackId="a" fill="#82ca9d"/>
-                            </BarChart>
-
-                        </ResponsiveContainer>
+                        <StatusChart/>
                     </div>
                     <div className="col-md-4">
-                        <p
-                            style={{
-                            lineHeight: '400px',
-                            fontSize: 120
-                        }}>69%</p>
+                        <div className="clearfix">
+                            <div className="c100 p50 big">
+                                <span>50%</span>
+                                <div className="slice">
+                                    <div className="bar"></div>
+                                    <div className="fill"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="row half-content">
                     <div className="col-md-8">
-                        <ResponsiveContainer width="100%" height={400}>
-                            <ComposedChart
-                                data={dataComposed}
-                                margin={{
-                                top: 20,
-                                right: 80,
-                                bottom: 20,
-                                left: 20
-                            }}>
-                                <XAxis dataKey="name" label="Pages"/>
-                                <YAxis label="Index"/>
-                                <Tooltip/>
-                                <Legend/>
-                                <CartesianGrid stroke='#f5f5f5'/>
-                                <Area type='monotone' dataKey='amt' fill='#8884d8' stroke='#8884d8'/>
-                                <Bar dataKey='pv' barSize={20} fill='#413ea0'/>
-                                <Line type='monotone' dataKey='uv' stroke='#ff7300'/>
-                            </ComposedChart>
-                        </ResponsiveContainer>
+                        <ExpiredChart/>
                     </div>
                     <div className="col-md-4">
-                        <BootstrapTable
-                            height={400}
-                            className="table-footer"
-                            headerStyle={{
-                            display: 'none'
-                        }}
-                            options={{
-                            noDataText: '-'
-                        }}
-                            data={listTicket}>
-                            <TableHeaderColumn
-                                headerAlign='center'
-                                dataField='numberPlate'
-                                dataSort={true}
-                                width='85'
-                                dataAlign='center'>Biển số xe</TableHeaderColumn>
-                            <TableHeaderColumn
-                                headerAlign='center'
-                                dataAlign='center'
-                                dataField='duration'
-                                dataSort={true}
-                                width='100'
-                                isKey={true}>Số giờ</TableHeaderColumn>
-                            <TableHeaderColumn
-                                headerAlign='center'
-                                dataSort={true}
-                                dataField='cppCode'
-                                width='100'
-                                dataAlign='center'>Điểm đỗ</TableHeaderColumn>
-                            <TableHeaderColumn
-                                headerAlign='center'
-                                dataSort={true}
-                                dataField='time'
-                                width='100'
-                                dataAlign='center'>Giờ đỗ</TableHeaderColumn>
-                        </BootstrapTable>
-                    </div>
+                        <LastestTickets/></div>
                 </div>
             </div>
         )

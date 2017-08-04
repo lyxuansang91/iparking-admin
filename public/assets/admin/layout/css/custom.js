@@ -26,4 +26,3 @@ $(document).keyup(function (e) {
     $('.page-content').removeClass('full-screen');
   }
 });
-addCss()
