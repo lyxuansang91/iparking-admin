@@ -40,7 +40,9 @@ const routes = [
                         component: () => <PageContentWrapper content_title="Địa điểm đỗ xe" type={types.cpp}/>,
                         path: '/cpp'
                     }, {
-                        component: () => <PageContentWrapper content_title="Tra cứu vé lượt" type={types.searchTicket}/>,
+                        component: () => <PageContentWrapper
+                            content_title="Tra cứu vé lượt (trong khoảng thời gian 15 ngày)"
+                            type={types.searchTicket}/>,
                         path: '/search/ticket'
                     }, {
                         component: () => <PageContentWrapper

@@ -56,18 +56,22 @@ class ExpiredChart extends Component {
                 if (response.data.Error.Code == 200) {
                     const data = response.data.Data
 
-                    if (this.state.page === 1) {
-                        this.state.page = 2;
-                        var half_length = Math.ceil(data.length / 2);
+                    if (data.length > 50) {
+                        if (this.state.page === 1) {
+                            this.state.page = 2;
+                            var half_length = Math.ceil(data.length / 2);
 
-                        var leftSide = data.splice(0, half_length);
-                        this.setState({loading: false, data: leftSide})
+                            var leftSide = data.splice(0, half_length);
+                            this.setState({loading: false, data: leftSide})
+                        } else {
+                            this.state.page = 1;
+                            var half_length = Math.ceil(data.length / 2);
+
+                            var rightSide = data.splice(half_length, data.length);
+                            this.setState({loading: false, data: rightSide})
+                        }
                     } else {
-                        this.state.page = 1;
-                        var half_length = Math.ceil(data.length / 2);
-
-                        var rightSide = data.splice(half_length, data.length);
-                        this.setState({loading: false, data: rightSide})
+                        this.setState({loading: false, data: data})
                     }
 
                 } else {
