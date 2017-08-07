@@ -107,23 +107,23 @@ class PageSideBar extends Component {
                         </ul>
                     </li>
                     {/*Cấu hình*/}
-                    <li className="">
+                    {/*<li className="">
                         <a href="javascript:;">
                             <i className="fa fa-list"></i>
                             <span className="title">Cấu hình</span>
                             <span className="arrow "></span>
                         </a>
                         <ul className="sub-menu"></ul>
-                    </li>
+                    </li>*/}
 
-                    <li className="heading">
+                    {/*<li className="heading">
                         <h3 className="uppercase">More</h3>
-                    </li>
+                    </li>*/}
 
                     <li className="">
                         <a href="javascript:;" onClick={this.onLogout}>
                             <i className="fa fa-sign-out" aria-hidden="true"></i>
-                            <span className="title">Logout</span>
+                            <span className="title">Đăng xuất</span>
                         </a>
                     </li>
                 </ul>

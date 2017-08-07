@@ -96,6 +96,8 @@ class ReportMonthlyRevenue extends Component {
     onSubmitForm(e) {
         e.preventDefault()
 
+        this.setState({loading: true})
+
         const fromTime = moment({
             year: this
                 .state

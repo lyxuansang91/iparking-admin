@@ -59,6 +59,9 @@ class ComposedCharts extends Component {
 
     componentDidMount() {
         this.loadData();
+        setInterval(() => {
+            this.loadData()
+        }, 30000);
     }
 
     loadData() {
@@ -124,8 +127,6 @@ class ComposedCharts extends Component {
                     weekArr[m - 1].AvgRevenue = weekRevenue / element
                 }
 
-                console.log(weekArr)
-
                 if (response.data.Error.Code == 200) {
                     this.setState({loading: false, data: weekArr})
                 } else {
@@ -146,8 +147,11 @@ class ComposedCharts extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
-                        <ResponsiveContainer width="100%" height={400}>
+                        <p className="chart-title">Doanh số theo tuần
+                        </p>
+                        <ResponsiveContainer width="100%" height={380}>
                             <ComposedChart
+                                name='Hha'
                                 data={data}
                                 margin={{
                                 top: 0,
@@ -169,7 +173,7 @@ class ComposedCharts extends Component {
                                     width={100}
                                     tickFormatter={currencyFormat}/>*/}
                                 <Tooltip formatter={currencyFormat}/>
-                                <Legend verticalAlign='top' height={36}/>
+                                <Legend height={36}/>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <Bar
                                     yAxisId='1'
@@ -187,8 +191,9 @@ class ComposedCharts extends Component {
                             </ComposedChart>
 
                         </ResponsiveContainer>
-
-                        <ResponsiveContainer width="100%" height={400}>
+                        <p className="chart-title">Tỉ trọng phương thức thanh toán
+                        </p>
+                        <ResponsiveContainer width="100%" height={380}>
                             <AreaChart
                                 data={data}
                                 margin={{
@@ -226,9 +231,10 @@ class ComposedCharts extends Component {
                                     fill='#ffc658'/>
                             </AreaChart>
                         </ResponsiveContainer>
-                        {loading && <Loading/>}
+
                     </div>
                 </div>
+                {/*{loading && <Loading/>}*/}
             </div>
 
         )

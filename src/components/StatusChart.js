@@ -24,6 +24,7 @@ class StatusChart extends Component {
 
         this.state = {
             data: [],
+            page: 1,
             loading: false,
             errors: {}
         };
@@ -32,18 +33,31 @@ class StatusChart extends Component {
             .bind(this)
     }
 
-    loadData() {
+    loadData(page) {
         this.setState({loading: true})
 
         var url = "/p/carpp/all/status"
 
-        console.log(url)
         axios
             .get(url)
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const data = response.data.Data
-                    this.setState({loading: false, data: data})
+
+                    if (this.state.page === 1) {
+                        this.state.page = 2;
+                        var half_length = Math.ceil(data.length / 2);
+
+                        var leftSide = data.splice(0, half_length);
+                        this.setState({loading: false, data: leftSide})
+                    } else {
+                        this.state.page = 1;
+                        var half_length = Math.ceil(data.length / 2);
+
+                        var rightSide = data.splice(half_length, data.length);
+                        this.setState({loading: false, data: rightSide})
+                    }
+
                 } else {
                     this.setState({loading: false, data: []})
                 }
@@ -54,7 +68,10 @@ class StatusChart extends Component {
     }
 
     componentDidMount() {
-        this.loadData()
+        this.loadData(1);
+        setInterval(() => {
+            this.loadData(this.state.page)
+        }, 30000);
     }
 
     _validate() {
@@ -64,9 +81,9 @@ class StatusChart extends Component {
     }
 
     render() {
-        const {data, loading} = this.state;
+        const {data, page, loading} = this.state;
         return (
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={380}>
                 <BarChart
                     data={data}
                     margin={{
@@ -75,6 +92,16 @@ class StatusChart extends Component {
                     left: 20,
                     bottom: 5
                 }}>
+                    <defs>
+                        <linearGradient id="statusBar1" x1="0" y1="0.5" x2="1" y2="0.5">
+                            <stop offset="5%" stopColor="#bfbfbf" stopOpacity={1}/>
+                            <stop offset="95%" stopColor="#e6e6e6" stopOpacity={1}/>
+                        </linearGradient>
+                        <linearGradient id="statusBar2" x1="0" y1="0.5" x2="1" y2="0.5">
+                            <stop offset="5%" stopColor="#345C89" stopOpacity={1}/>
+                            <stop offset="95%" stopColor="#4A7CB6" stopOpacity={1}/>
+                        </linearGradient>
+                    </defs>
                     <XAxis dataKey="Code"/>
                     <YAxis/>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -83,9 +110,9 @@ class StatusChart extends Component {
                     <Bar
                         dataKey="InSessionNumber"
                         stackId="a"
-                        fill="#1AA0E2"
-                        name="số ô trong phiên/quá giờ"/>
-                    <Bar dataKey="Remain" stackId="a" fill="#C9947F" name="số ô trống"/>
+                        fill='url(#statusBar2)'
+                        name="Xe tại điểm đỗ"/>
+                    <Bar dataKey="Remain" stackId="a" fill='url(#statusBar1)' name="Số ô trống"/>
                 </BarChart>
 
             </ResponsiveContainer>

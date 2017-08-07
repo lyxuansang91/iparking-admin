@@ -12,13 +12,18 @@ const PageContentMain = () => (
     <div className="gg">
         <Carousel
             axis="horizontal"
-            showArrows={true}
+            showArrows={false}
             dynamicHeight
-            emulateTouch
+            infiniteLoop={true}
+            interval={10000}
+            transitionTime={4000}
+            useKeyboardArrows={true}
+            stepOnHover={true}
+            emulateTouch={true}
             showIndicators={false}>
+            {/*<div><ComposedCharts/></div>*/}
             <div><LiveComponents/></div>
-            <div><ComposedCharts/></div>
-            <div><ComposedCharts/></div>
+
         </Carousel>
 
     </div>

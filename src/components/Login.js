@@ -47,8 +47,11 @@ class Login extends Component {
                         className="login-form"
                         action="#"
                         method="post"
+                        style={{
+                        textAlign: 'center'
+                    }}
                         onSubmit={this.onSubmitForm}>
-                        <h3 className="form-title">Đăng nhập vào tài khoản của bạn</h3>
+                        <h3 className="form-title">Trung tâm dữ liệu iParking</h3>
                         <div className="alert alert-danger display-hide">
                             <button className="close" data-close="alert"></button>
                             <span>
@@ -83,17 +86,12 @@ class Login extends Component {
                         </div>
 
                         <div className="form-actions">
-                            <button type="reset" className="btn green-haze pull-left">
-                                Xóa
-                                <i className="m-icon-swapright m-icon-white"></i>
-                            </button>
 
-                            <button type="submit" className="btn green-haze pull-right">
-                                Đăng nhập
-                                <i className="m-icon-swapright m-icon-white"></i>
-                            </button>
-
-                            <div className="clearfix"></div>
+                            <div className="clearfix">
+                                <button type="submit" className="btn green-haze">
+                                    Đăng nhập
+                                </button>
+                            </div>
                         </div>
 
                     </form>

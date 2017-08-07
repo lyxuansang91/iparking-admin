@@ -72,6 +72,7 @@ class ReportRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
+        this.setState({loading: true})
 
         const fromTime = moment({
             year: this
@@ -199,7 +200,6 @@ class ReportRevenue extends Component {
                             <BootstrapTable
                                 options={{
                                 noDataText: 'Không có kết quả nào'
-                                
                             }}
                                 data={this.state.rows}
                                 bordered={true}>

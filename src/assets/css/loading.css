@@ -10,8 +10,8 @@
 .loading-icon {
     position: absolute;
     font-size: 20px;
-    top: calc(45% - 10px);
-    left: calc(50% - 10px);
+    top: calc(45% - 10px) !important;
+    left: calc(50% - 10px) !important;
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
 }

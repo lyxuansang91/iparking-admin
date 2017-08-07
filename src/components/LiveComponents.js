@@ -116,8 +116,8 @@ class LiveComponents extends Component {
                     var totalCapacity = 0
 
                     for (var i = 0; i < data.length; i++) {
-                        totalCapacity = totalCapacity + data[i].totalInsession
-                        totalInsession = totalCapacity + data[i].totalInsession
+                        totalCapacity = totalCapacity + data[i].Capacity
+                        totalInsession = totalInsession + data[i].InSessionNumber
                     }
 
                     this.setState({
@@ -128,6 +128,8 @@ class LiveComponents extends Component {
                             rate: Math.floor(totalInsession / totalCapacity * 100)
                         }
                     })
+
+                    console.log(this.state.data)
                 } else {
                     this.setState({loading: false, data: {}})
                 }
@@ -138,6 +140,12 @@ class LiveComponents extends Component {
     }
 
     componentDidMount() {
+
+        this.loadData()
+        setInterval(() => {
+            this.loadData()
+        }, 30000);
+
         const script = document.createElement("script");
 
         script.src = "/assets/admin/layout/css/custom.js";
@@ -156,7 +164,6 @@ class LiveComponents extends Component {
             .body
             .appendChild(style);
 
-        this.loadData()
     }
 
     _validate() {
@@ -170,178 +177,46 @@ class LiveComponents extends Component {
         return (
             <div className="container-fluid">
                 <div className="row half-content">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
+                        <p className="chart-title">Tình trạng chỗ trống
+                        </p>
                         <StatusChart/>
                     </div>
-                    <div className="col-md-4">
+                    {/*<div className="col-md-4">
+                        <p
+                            style={{
+                            marginTop: 20,
+                            fontSize: 40,
+                            fontWeight: 'bolder'
+                        }}>{this.state.data.inSession}/{this.state.data.total}</p>
                         <div className="clearfix">
-                            <div className="c100 p50 big">
-                                <span>50%</span>
+                            <div
+                                className={'c100 big center p' + this.state.data.rate}
+                                style={{
+                                marginTop: 30
+                            }}>
+                                <span>{this.state.data.rate}%</span>
                                 <div className="slice">
                                     <div className="bar"></div>
                                     <div className="fill"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>*/}
                 </div>
                 <div className="row half-content">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
+                        <p className="chart-title">Tình trạng đỗ xe quá giờ
+                        </p>
                         <ExpiredChart/>
                     </div>
-                    <div className="col-md-4">
-                        <LastestTickets/></div>
+                    {/*<div className="col-md-4">
+                        <LastestTickets/>
+                    </div>*/}
                 </div>
             </div>
         )
     }
 }
-
-const listTicket = [
-    {
-        numberPlate: "30A-65765",
-        duration: "2 Giờ",
-        cppCode: "002",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-1545",
-        duration: "1 Giờ",
-        cppCode: "009",
-        time: "17:34"
-    }, {
-        numberPlate: "30A-3255",
-        duration: "3 Giờ",
-        cppCode: "008",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-23523",
-        duration: "4 Giờ",
-        cppCode: "005",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }, {
-        numberPlate: "30A-32523",
-        duration: "1 Giờ",
-        cppCode: "003",
-        time: "17:04"
-    }
-]
-
-const dataComposed = [
-    {
-        name: 'Page A',
-        uv: 590,
-        pv: 800,
-        amt: 1400
-    }, {
-        name: 'Page B',
-        uv: 868,
-        pv: 967,
-        amt: 1506
-    }, {
-        name: 'Page C',
-        uv: 1397,
-        pv: 1098,
-        amt: 989
-    }, {
-        name: 'Page D',
-        uv: 1480,
-        pv: 1200,
-        amt: 1228
-    }, {
-        name: 'Page E',
-        uv: 1520,
-        pv: 1108,
-        amt: 1100
-    }, {
-        name: 'Page F',
-        uv: 1400,
-        pv: 680,
-        amt: 1700
-    }
-];
-
-const dataBar = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400
-    }, {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210
-    }, {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290
-    }, {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000
-    }, {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181
-    }, {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500
-    }, {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100
-    }
-];
 
 export default LiveComponents
