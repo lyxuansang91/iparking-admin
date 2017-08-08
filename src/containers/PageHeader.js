@@ -14,6 +14,15 @@ class PageHeader extends Component {
                         </a>
                         <div className="menu-toggler sidebar-toggler hide"></div>
                     </div>
+                    <span
+                        style={{
+                        float: 'right',
+                        lineHeight: '54px',
+                        color: '#fff',
+                        fontFamily: 'helvetica-light',
+                        fontSize: '25px',
+                        marginRight: '100px'
+                    }}>Trung Tâm Dữ Liệu iParking</span>
                     <a
                         href="javascript:;"
                         className="menu-toggler responsive-toggler"

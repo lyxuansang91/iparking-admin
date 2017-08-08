@@ -147,11 +147,7 @@ class ReportRevenue extends Component {
                     <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
                         <div className="col-md-3 form-group">
                             <label for="company">Công ty</label>
-                            <select className="form-control" name="company" ref="company">
-                                <option value="1">Tất cả</option>
-                                <option value="2">Công ty TNHH MTV Khai Thác Điểm Đỗ Xe Hà Nội</option>
-                                <option value="3">Đồng Xuân</option>
-                            </select>
+                            <option value="2">Công ty TNHH MTV Khai Thác Điểm Đỗ Xe Hà Nội</option>
                         </div>
 
                         <div className="col-md-3 form-group">

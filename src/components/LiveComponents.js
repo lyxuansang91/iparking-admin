@@ -105,7 +105,6 @@ class LiveComponents extends Component {
     loadData() {
         var url = "/p/carpp/all/status"
 
-        console.log(url)
         axios
             .get(url)
             .then((response) => {
@@ -129,7 +128,6 @@ class LiveComponents extends Component {
                         }
                     })
 
-                    console.log(this.state.data)
                 } else {
                     this.setState({loading: false, data: {}})
                 }
@@ -179,7 +177,17 @@ class LiveComponents extends Component {
                 <div className="row half-content">
                     <div className="col-md-12">
                         <p className="chart-title">Tình trạng chỗ trống
+                            <span
+                                style={{
+                                color: 'gray',
+                                fontSize: '18px',
+                                float: 'right',
+                                margin: '5px 10px'
+                            }}>Mật độ: {this.state.data.rate}% &nbsp; &nbsp; {this.state.data.inSession}
+                                &nbsp; xe &nbsp; / &nbsp; {this.state.data.total}
+                                &nbsp; ô</span>
                         </p>
+
                         <StatusChart/>
                     </div>
                     {/*<div className="col-md-4">

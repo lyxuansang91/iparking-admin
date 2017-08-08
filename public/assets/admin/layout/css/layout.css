@@ -2984,3 +2984,8 @@ Monthly Ticket
     margin:5px 20px 20px 20px !important;
     font-size:20px;
 }
+
+.carousel-status {
+
+    display:none;
+}
