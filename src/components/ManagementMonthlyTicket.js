@@ -26,7 +26,6 @@ class ManagementMonthlyTicket extends Component {
         var url = "/n/carpp/ticket/supervisor/create_monthly_ticket?phone=0989898476&cpp_id=8444335" +
                 "20066568&number_plate=30Q2804&session_from=16&session_to=8&month=4&from_time=150" +
                 "2273993&monthly_price=1234000"
-        console.log(url)
 
         const formData = new FormData();
         formData.append('metadata', this.state.files)

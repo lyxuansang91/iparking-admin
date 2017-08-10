@@ -27,7 +27,6 @@ export function loginUser(creds) {
             } else {
                 const token = data.Data;
                 localStorage.setItem('accessToken', token)
-
                 dispatch(receiveLogin(token))
             }
         }).catch(err => {

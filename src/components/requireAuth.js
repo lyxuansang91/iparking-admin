@@ -1,5 +1,6 @@
 import {connect} from 'react-redux'
 import React, {Component, PropTypes} from 'react'
+import {loginUser, saveCreds} from '../actions/auth'
 
 export default function (ComposeComponent) {
 
@@ -11,6 +12,10 @@ export default function (ComposeComponent) {
                     .props
                     .history
                     .push('/login');
+            } else {
+                this
+                    .props
+                    .setToken(localStorage.getItem('accessToken'))
             }
         }
 
@@ -20,6 +25,10 @@ export default function (ComposeComponent) {
                     .props
                     .history
                     .push('/login');
+            } else {
+                this
+                    .props
+                    .setToken(localStorage.getItem('accessToken'))
             }
         }
 
@@ -43,9 +52,15 @@ export default function (ComposeComponent) {
         router: React.PropTypes.object.isRequired
     }
 
-    function mapStateToProps(state) {
+    const mapStateToProps = (state) => {
         return {isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken};
     }
 
-    return connect(mapStateToProps, {})(Authenticate);
+    const mapDispatchToProps = (dispatch) => {
+        return {
+            setToken: (token) => dispatch(saveCreds(token))
+        }
+    }
+
+    return connect(mapStateToProps, mapDispatchToProps)(Authenticate);
 }
