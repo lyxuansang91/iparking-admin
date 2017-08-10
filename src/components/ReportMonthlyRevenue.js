@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import Loading from '../assets/js/loading'
+import axios from 'axios';
 import DatePicker from 'react-datepicker'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
-import axios from 'axios';
 import NumberFormat from 'react-number-format'
 import {styles} from '../assets/css/grid.css'
 

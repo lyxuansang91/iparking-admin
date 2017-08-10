@@ -1,6 +1,4 @@
 import React from 'react'
-import BarChart from '../components/BarChart'
-import LineChart from '../components/LineChart'
 import ComposedCharts from '../components/ComposedCharts'
 import StackAreaChart from '../components/StackAreaChart'
 import LiveComponents from '../components/LiveComponents'
@@ -15,6 +13,7 @@ const PageContentMain = () => (
             axis="horizontal"
             showArrows={false}
             infiniteLoop={true}
+            autoPlay={true}
             interval={10000}
             transitionTime={4000}
             useKeyboardArrows={true}

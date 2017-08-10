@@ -195,7 +195,7 @@ class CPPRevenueRate extends Component {
                 .state
                 .toTime
                 .date()
-        }).unix() + 86340;
+        }).unix();
 
         var url = "/p/report_monthly_revenue?cpp_code=" + this.refs.cpp_code.value + "&from_time=" + fromTime + "&to_time=" + toTime
         console.log(url)

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PageContentHeader from './PageContentHeader';
 import {renderRoutes} from 'react-router-config'
 import PageContentMain from './PageContentMain'
-import DataGridDemo from '../components/DataGridDemo'
 import SearchTicket from '../components/SearchTicket'
 import {types} from '../routes/RouteMap'
 import ReportRevenue from '../components/ReportRevenue'
@@ -21,9 +20,6 @@ class PageContainerWrapper extends Component {
         switch (this.props.type) {
             case types.home:
                 _view = <PageContentMain/>;
-                break;
-            case types.cpp:
-                _view = <DataGridDemo/>;
                 break;
             case types.searchTicket:
                 _view = <SearchTicket/>;

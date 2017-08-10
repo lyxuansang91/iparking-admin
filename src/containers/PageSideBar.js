@@ -54,11 +54,7 @@ class PageSideBar extends Component {
                         </a>
                         <ul className="sub-menu">
                             <li>
-                                <Link
-                                    to="/management/monthly_ticket"
-                                    style={{
-                                    display: 'none'
-                                }}>
+                                <Link to="/management/monthly_ticket">
                                     <i className="fa fa-car icon-space"></i>
                                     Đăng ký vé tháng
                                 </Link>

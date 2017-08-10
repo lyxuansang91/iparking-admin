@@ -1,55 +1,98 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment';
+import moment from 'moment'
+import Loading from '../assets/js/loading'
+import axios, {post} from 'axios';
 
 class ManagementMonthlyTicket extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment(),
-            loading: true
+            files: [],
+            imagePreviewUrl: []
         };
-        this.handleChangeFromTime = this
-            .handleChangeFromTime
-            .bind(this)
-        this.handleChangeToTime = this
-            .handleChangeToTime
-            .bind(this)
+
         this.onSubmitForm = this
             .onSubmitForm
             .bind(this)
-        this.onPriceChange = this
-            .onPriceChange
-            .bind(this)
     }
 
-    handleChangeFromTime(date) {
-        this.setState({fromTime: date})
+    onSubmitForm(e) {
+
+        e.preventDefault()
+
+        var url = "/n/carpp/ticket/supervisor/create_monthly_ticket?phone=0989898476&cpp_id=8444335" +
+                "20066568&number_plate=30Q2804&session_from=16&session_to=8&month=4&from_time=150" +
+                "2273993&monthly_price=1234000"
+        console.log(url)
+
+        const formData = new FormData();
+        formData.append('metadata', this.state.files)
+
+        var instance = axios.create({
+            timeout: 1000,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+
+        // axios.defaults.headers.common['Content-Type'] = 'multipart/form-data'
+
+        axios
+            .post(url, formData)
+            .then((response) => {
+                if (response.data.Error.Code == 200) {
+
+                    console.log('success')
+
+                    this.setState({loading: false})
+                } else {
+                    this.setState({loading: false})
+                }
+            })
+            .catch((error) => {
+                this.setState({loading: false})
+            });
     }
 
-    handleChangeToTime(date) {
-        this.setState({toTime: date})
+    _handleSubmit(e) {
+        e.preventDefault();
+        // TODO: do something with -> this.state.file
+        console.log('handle uploading-', this.state.file);
     }
 
-    onSubmitForm(e) {}
+    _handleImageChange(e) {
+        e.preventDefault();
 
-    onPriceChange(e) {
-        const per_month_value = e.target.value
-        console.log("value:", per_month_value)
-        console.log("price per month:", this.refs.total_amount.value)
-        console.log("book expired:", this.refs.book_expired.value)
-        let total_value = this.refs.book_expired.value * per_month_value + ' VND'
-        this.refs.total_amount.value = total_value
+        let files = e.target.files;
 
-        // console.log("price per month:",
-        // ReactDOM.findDOMNode(this.refs.price_per_month).value)
+        console.log(files)
+
+        var previews = [];
+        for (var i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                previews.push(reader.result)
+                this.setState({imagePreviewUrl: previews});
+            }
+            reader.readAsDataURL(files[i])
+        }
     }
 
     render() {
+
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl.length > 0) {
+            $imagePreview = (<img src={imagePreviewUrl}/>);
+        } else {
+            $imagePreview = (
+                <div className="previewText">Please select an Image for Preview</div>
+            );
+        }
+
         return (
             <div className="container-fluid">
                 <form
@@ -99,11 +142,17 @@ class ManagementMonthlyTicket extends Component {
                                     </div>
                                     <div className="col-md-12 form-group">
                                         <label for="image_car">Hình ảnh xe</label>
-                                        <img
-                                            src={process.env.PUBLIC_URL + '/assets/global/img/NO.jpg'}
-                                            alt="NoData"
-                                            width="40%"
-                                            height="40%"/>
+                                        <br/>
+                                        <div className="previewComponent">
+                                            <input
+                                                className="fileInput"
+                                                type="file"
+                                                multiple
+                                                onChange={(e) => this._handleImageChange(e)}/>
+                                            <div className="imgPreview">
+                                                {$imagePreview}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
