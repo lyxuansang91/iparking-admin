@@ -88,8 +88,10 @@ class CPPRevenueRate extends Component {
         this.state = {
             data: [],
             listCompany: [],
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment(),
+            fromTime: moment()
+                .subtract(2, 'months')
+                .subtract(1, 'days'),
+            toTime: moment().subtract(1, 'days'),
             showChart: false,
             loading: false,
             errors: {}

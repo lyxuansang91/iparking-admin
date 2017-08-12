@@ -2975,6 +2975,10 @@ Monthly Ticket
     
 }
 
+.carousel-slider {
+    padding:0 20px;
+}
+
 .full-screen {
    margin-left:0 !important;
 }
@@ -2988,4 +2992,34 @@ Monthly Ticket
 .carousel-status {
 
     display:none;
+}
+
+.carousel .control-prev.control-arrow:before {
+
+   border-right: 14px solid #000 !important;
+   
+}
+
+.carousel .control-next.control-arrow:before {
+
+   border-left: 14px solid #000 !important;
+   
+}
+
+.carousel.carousel-slider .control-arrow:hover {
+    background: transparent !important;
+}
+
+.carousel .control-arrow, .carousel.carousel-slider .control-arrow{
+
+    opacity: 0.2 !important;
+}
+
+.carousel .control-arrow:hover {
+    opacity: 0.8 !important;
+}
+
+.carousel .control-arrow:before, .carousel.carousel-slider .control-arrow:before{
+    border-top: 20px solid transparent !important;
+     border-bottom: 20px solid transparent !important;
 }

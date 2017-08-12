@@ -23,6 +23,19 @@ class PageHeader extends Component {
                         fontSize: '25px',
                         marginRight: '100px'
                     }}>Trung Tâm Dữ Liệu iParking</span>
+
+                    <i
+                        className="fa fa-arrows-alt go-full-screen"
+                        aria-hidden="true"
+                        style={{
+                        position: 'absolute',
+                        top: '20px',
+                        right: '35px',
+                        fontSize: '20px',
+                        color: '#ccc',
+                        cursor: 'pointer',
+                        zIndex: '500000'
+                    }}></i>
                     <a
                         href="javascript:;"
                         className="menu-toggler responsive-toggler"

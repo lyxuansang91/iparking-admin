@@ -56,8 +56,10 @@ class ReportAllRevenue extends Component {
             total: [],
             totalCount: 0,
             loading: false,
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment()
+            fromTime: moment()
+                .subtract(1, 'months')
+                .subtract(1, 'days'),
+            toTime: moment().subtract(1, 'days')
         };
 
         this.loadData = this

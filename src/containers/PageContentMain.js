@@ -9,19 +9,21 @@ import 'react-responsive-carousel/lib/styles/carousel.css'
 const PageContentMain = () => (
 
     <div className="gg">
+
         <Carousel
             axis="horizontal"
             showArrows={false}
-            infiniteLoop={true}
-            autoPlay={true}
+            infiniteLoop={false}
+            autoPlay={false}
             interval={10000}
-            transitionTime={4000}
+            emulateTouch={false}
             useKeyboardArrows={true}
+            dynamicHeight={true}
+            swipeScrollTolerance={500}
             showIndicators={false}>
 
             <div><ComposedCharts/></div>
             <div><LiveComponents/></div>
-            <div><SlideGoogleMap/></div>
         </Carousel>
     </div>
 )

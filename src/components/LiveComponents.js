@@ -174,6 +174,7 @@ class LiveComponents extends Component {
         const {data, loading} = this.state;
         return (
             <div className="container-fluid">
+
                 <div className="row half-content">
                     <div className="col-md-12">
                         <p className="chart-title">Tình trạng chỗ trống

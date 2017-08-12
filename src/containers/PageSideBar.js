@@ -53,12 +53,12 @@ class PageSideBar extends Component {
                             <span className="arrow "></span>
                         </a>
                         <ul className="sub-menu">
-                            <li>
+                            {/*<li>
                                 <Link to="/management/monthly_ticket">
                                     <i className="fa fa-car icon-space"></i>
                                     Đăng ký vé tháng
                                 </Link>
-                            </li>
+                            </li>*/}
                             <li>
                                 <Link to="/monthly_ticket/list">
                                     <i className="fa fa-search icon-space"></i>
@@ -69,7 +69,7 @@ class PageSideBar extends Component {
                     </li>
                     {/*Báo cáo*/}
                     <li>
-                        <a href="javascript:;">
+                        <a href="javascript:;" className="open">
                             <i className="fa fa-bar-chart"></i>
                             <span className="title">Báo cáo</span>
                             <span className="arrow "></span>

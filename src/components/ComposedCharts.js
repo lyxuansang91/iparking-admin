@@ -67,11 +67,11 @@ class ComposedCharts extends Component {
     loadData() {
         this.setState({loading: true})
 
-        const toTime = moment().unix()
+        const toTime = moment().unix() - 86400
 
         const fromTime = moment()
             .subtract(89, "days")
-            .unix() - 86340
+            .unix() - 172740
         var url = "/p/report_monthly_revenue?from_time=" + fromTime + "&to_time=" + toTime
 
         axios

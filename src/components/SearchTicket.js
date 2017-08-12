@@ -75,7 +75,7 @@ class SearchTicket extends Component {
         this.state = {
             rows: [],
             total: [],
-            fromTime: moment().subtract(1, 'months'),
+            fromTime: moment(),
             toTime: moment(),
             loading: false,
             errors: {}
