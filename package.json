@@ -3,11 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@devexpress/dx-react-core": "^1.0.0-alpha.5",
-    "@devexpress/dx-react-grid": "^1.0.0-alpha.3",
-    "@devexpress/dx-react-grid-bootstrap3": "^1.0.0-alpha.3",
     "axios": "^0.16.2",
-    "chart.js": "^2.6.0",
     "global": "^4.3.2",
     "google-maps-react": "^1.1.0",
     "jquery": "^3.2.1",
@@ -15,9 +11,9 @@
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",
     "react-bootstrap-table": "^3.4.6",
-    "react-chartjs-2": "^2.1.0",
     "react-datepicker": "^0.48.0",
     "react-dom": "^15.6.1",
+    "react-images-uploader": "^1.1.0",
     "react-number-format": "^2.0.2",
     "react-redux": "^5.0.5",
     "react-responsive-carousel": "^3.1.24",
@@ -25,8 +21,7 @@
     "react-router-dom": "^4.1.2",
     "recharts": "^1.0.0-alpha.2",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
-    "serve": "^5.2.4"
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "moment": "^2.18.1",

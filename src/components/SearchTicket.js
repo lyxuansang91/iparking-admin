@@ -75,7 +75,7 @@ class SearchTicket extends Component {
         this.state = {
             rows: [],
             total: [],
-            fromTime: moment().subtract(1, 'months'),
+            fromTime: moment(),
             toTime: moment(),
             loading: false,
             errors: {}
@@ -163,7 +163,7 @@ class SearchTicket extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/p/ticket/search?is_monthly=false&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+        var url = "/report/ticket/search?is_monthly=false&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
 
         axios
             .get(url)

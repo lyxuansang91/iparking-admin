@@ -47,7 +47,7 @@ class ExpiredChart extends Component {
     loadData() {
         this.setState({loading: true})
 
-        var url = "/p/carpp/all/get_expires"
+        var url = "/report/carpp/all/get_expires"
 
         axios
             .get(url)

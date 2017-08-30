@@ -88,8 +88,10 @@ class CPPRevenueRate extends Component {
         this.state = {
             data: [],
             listCompany: [],
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment(),
+            fromTime: moment()
+                .subtract(2, 'months')
+                .subtract(1, 'days'),
+            toTime: moment().subtract(1, 'days'),
             showChart: false,
             loading: false,
             errors: {}
@@ -195,9 +197,9 @@ class CPPRevenueRate extends Component {
                 .state
                 .toTime
                 .date()
-        }).unix() + 86340;
+        }).unix();
 
-        var url = "/p/report_monthly_revenue?cpp_code=" + this.refs.cpp_code.value + "&from_time=" + fromTime + "&to_time=" + toTime
+        var url = "/report/report_monthly_revenue?cpp_code=" + this.refs.cpp_code.value + "&from_time=" + fromTime + "&to_time=" + toTime
         console.log(url)
         axios
             .get(url)

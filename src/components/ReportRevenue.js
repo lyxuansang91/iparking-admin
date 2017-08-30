@@ -42,8 +42,10 @@ class ReportRevenue extends Component {
             pageSize: 20,
             totalCount: 0,
             loading: false,
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment()
+            fromTime: moment()
+                .subtract(1, 'months')
+                .subtract(1, 'days'),
+            toTime: moment().subtract(1, 'days')
         };
 
         this.loadData = this
@@ -104,7 +106,7 @@ class ReportRevenue extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/p/report/revenue_by_date?from_time=" + fromTime + "&to_time=" + toTime
+        var url = "/report/revenue_by_date?from_time=" + fromTime + "&to_time=" + toTime
 
         axios
             .get(url)

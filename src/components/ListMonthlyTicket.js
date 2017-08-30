@@ -142,7 +142,7 @@ class ListMonthlyTicket extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/p/ticket/search?is_monthly=true&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+        var url = "/report/ticket/search?is_monthly=true&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
         axios
             .get(url)
             .then((response) => {

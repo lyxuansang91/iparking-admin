@@ -36,7 +36,7 @@ class StatusChart extends Component {
     loadData(page) {
         this.setState({loading: true})
 
-        var url = "/p/carpp/all/status"
+        var url = "/report/carpp/all/status"
 
         axios
             .get(url)
@@ -92,7 +92,7 @@ class StatusChart extends Component {
                     data={data}
                     margin={{
                     top: 20,
-                    right: 30,
+                    right: 100,
                     left: 20,
                     bottom: 5
                 }}>

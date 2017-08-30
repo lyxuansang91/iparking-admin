@@ -30,7 +30,7 @@ class LastestTickets extends Component {
     loadData() {
         this.setState({loading: true})
 
-        var url = "/p/ticket/daily/lastest?size=50"
+        var url = "/report/ticket/daily/lastest?size=50"
 
         console.log(url)
         axios

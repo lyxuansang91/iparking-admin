@@ -21,7 +21,7 @@ class SlideGoogleMap extends Component {
 
     loadData() {
 
-        var url = "/p/carpp/all/status"
+        var url = "/report/carpp/all/status"
 
         axios
             .get(url)

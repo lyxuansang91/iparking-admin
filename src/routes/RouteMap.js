@@ -66,7 +66,7 @@ const routes = [
                         path: '/report/rate_revenue'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Quản lý vé tháng"
+                            content_title="Đăng ký vé tháng"
                             type={types.managementMonthlyTicket}/>,
                         path: '/management/monthly_ticket'
                     }, {

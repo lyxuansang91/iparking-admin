@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import Loading from '../assets/js/loading'
+import axios from 'axios';
 import DatePicker from 'react-datepicker'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
-import axios from 'axios';
 import NumberFormat from 'react-number-format'
 import {styles} from '../assets/css/grid.css'
 
@@ -45,8 +45,10 @@ class ReportMonthlyRevenue extends Component {
             listCompany: [],
             totalCount: 0,
             loading: false,
-            fromTime: moment().subtract(1, 'months'),
-            toTime: moment()
+            fromTime: moment()
+                .subtract(1, 'months')
+                .subtract(1, 'days'),
+            toTime: moment().subtract(1, 'days')
         };
 
         this.loadData = this
@@ -128,7 +130,7 @@ class ReportMonthlyRevenue extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/p/report/revenue_by_month?from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value
+        var url = "/report/revenue_by_month?from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value
 
         axios
             .get(url)

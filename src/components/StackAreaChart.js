@@ -61,7 +61,7 @@ class StackAreaChart extends Component {
         this.setState({loading: true})
 
         axios
-            .get("/p/report_monthly_revenue")
+            .get("/report/report_monthly_revenue")
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     var listPayment = response.data.Data;
