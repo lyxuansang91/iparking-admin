@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import React, { Component } from 'react'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
     ComposedChart,
     Line,
@@ -14,7 +14,7 @@ import {
     Legend
 } from 'recharts';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
-import Loading from '../assets/js/loading'
+import Loading from '../../assets/js/loading'
 import axios from 'axios'
 import moment from 'moment';
 import DatePicker from 'react-datepicker'
@@ -128,13 +128,13 @@ class CPPRevenueRate extends Component {
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const provderList = response.data.Data
-                    this.setState({listCompany: provderList})
+                    this.setState({ listCompany: provderList })
                 } else {
-                    this.setState({listCompany: []})
+                    this.setState({ listCompany: [] })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
     }
 
@@ -147,11 +147,11 @@ class CPPRevenueRate extends Component {
     }
 
     handleChangeFromTime(date) {
-        this.setState({fromTime: date});
+        this.setState({ fromTime: date });
     }
 
     handleChangeToTime(date) {
-        this.setState({toTime: date});
+        this.setState({ toTime: date });
     }
 
     queryString(currentPage) {
@@ -167,7 +167,7 @@ class CPPRevenueRate extends Component {
     onSubmitForm(e) {
         e.preventDefault()
 
-        this.setState({loading: true})
+        this.setState({ loading: true })
 
         const fromTime = moment({
             year: this
@@ -233,8 +233,8 @@ class CPPRevenueRate extends Component {
                             Week: moment
                                 .unix(data[n - 7].Day)
                                 .format("DD/MM") + "-" + moment
-                                .unix(data[n - 1].Day)
-                                .format("DD/MM"),
+                                    .unix(data[n - 1].Day)
+                                    .format("DD/MM"),
                             CardRevenue: weekCard,
                             OtherRevenue: weekOther,
                             SMSRevenue: weekSMS
@@ -257,13 +257,13 @@ class CPPRevenueRate extends Component {
                     console.log(data)
                     console.log(weekArr)
 
-                    this.setState({loading: false, showChart: true, data: weekArr})
+                    this.setState({ loading: false, showChart: true, data: weekArr })
                 } else {
-                    this.setState({loading: false, showChart: true, data: []})
+                    this.setState({ loading: false, showChart: true, data: [] })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
         this.loadData(0)
     }
@@ -295,7 +295,7 @@ class CPPRevenueRate extends Component {
                                             .map(function (company) {
                                                 return <option key={company.Id} value={company.Id}>{company.Fullname.String}</option>;
                                             })
-}
+                                        }
                                     </select>
                                 </div>
                                 <div className="col-md-6 form-group">
@@ -304,7 +304,7 @@ class CPPRevenueRate extends Component {
                                         type="text"
                                         name="car_parking_place"
                                         ref="cpp_code"
-                                        className="form-control"/>
+                                        className="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -312,24 +312,24 @@ class CPPRevenueRate extends Component {
                             <div className="row">
                                 <div className="col-md-6 form-group">
                                     <label for="fromTime">Từ ngày</label>
-                                    <br/>
+                                    <br />
                                     <DatePicker
                                         className="form-control"
                                         name="from_time"
                                         dateFormat="DD/MM/YYYY"
                                         selected={this.state.fromTime}
-                                        onChange={this.handleChangeFromTime}/>
+                                        onChange={this.handleChangeFromTime} />
                                 </div>
 
                                 <div className="col-md-6 form-group">
                                     <label for="toTime">Đến ngày</label>
-                                    <br/>
+                                    <br />
                                     <DatePicker
                                         className="form-control"
                                         name="to_time"
                                         dateFormat="DD/MM/YYYY"
                                         selected={this.state.toTime}
-                                        onChange={this.handleChangeToTime}/>
+                                        onChange={this.handleChangeToTime} />
                                 </div>
                             </div>
                         </div>
@@ -337,8 +337,8 @@ class CPPRevenueRate extends Component {
                         <div
                             className="col-md-2"
                             style={{
-                            marginTop: '24px'
-                        }}>
+                                marginTop: '24px'
+                            }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
 
@@ -347,44 +347,44 @@ class CPPRevenueRate extends Component {
                 <div
                     className="row"
                     style={{
-                    marginTop: '25px'
-                }}>
+                        marginTop: '25px'
+                    }}>
                     {showChart && <ResponsiveContainer width="100%" height={400}>
                         <ComposedChart data={data}>
                             <defs>
                                 <linearGradient id="colorUv" x1="0" y1="0.5" x2="1" y2="0.5">
-                                    <stop offset="5%" stopColor="#345C89" stopOpacity={1}/>
-                                    <stop offset="95%" stopColor="#4A7CB6" stopOpacity={1}/>
+                                    <stop offset="5%" stopColor="#345C89" stopOpacity={1} />
+                                    <stop offset="95%" stopColor="#4A7CB6" stopOpacity={1} />
                                 </linearGradient>
 
                             </defs>
-                            <XAxis dataKey="Week"/>
-                            <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat}/>
+                            <XAxis dataKey="Week" />
+                            <YAxis yAxisId='1' width={100} tickFormatter={currencyFormat} />
                             <YAxis
                                 yAxisId='2'
                                 orientation='right'
                                 width={100}
-                                tickFormatter={currencyFormat}/>
-                            <Tooltip formatter={currencyFormat}/>
-                            <Legend verticalAlign='bottom' height={36}/>
-                            <CartesianGrid strokeDasharray="3 3"/>
+                                tickFormatter={currencyFormat} />
+                            <Tooltip formatter={currencyFormat} />
+                            <Legend verticalAlign='bottom' height={36} />
+                            <CartesianGrid strokeDasharray="3 3" />
                             <Bar
                                 yAxisId='1'
                                 dataKey='Revenue'
                                 barSize={100}
                                 fill='url(#colorUv)'
-                                name="Doanh số"/>
+                                name="Doanh số" />
                             <Line
                                 yAxisId='2'
                                 type='monotone'
                                 dataKey='AvgRevenue'
                                 stroke='#FF6384'
                                 strokeWidth={3}
-                                name="Bình quân"/>
+                                name="Bình quân" />
                         </ComposedChart>
 
                     </ResponsiveContainer>}
-                    {loading && <Loading/>}
+                    {loading && <Loading />}
 
                 </div>
             </div>

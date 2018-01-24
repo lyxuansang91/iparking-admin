@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import React, { Component } from 'react'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
     ComposedChart,
     Line,
@@ -15,16 +15,15 @@ import {
     Legend
 } from 'recharts';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
-import Loading from '../assets/js/loading'
+import Loading from '../../assets/js/loading'
 import axios from 'axios'
 import moment from 'moment';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import LastestTickets from './LastestTickets'
 import StatusChart from './StatusChart'
 import ExpiredChart from './ExpiredChart'
 
-import '../assets/css/circle.css'
+import '../../assets/css/circle.css'
 
 const currencyFormat = (uv) => {
 
@@ -129,11 +128,11 @@ class LiveComponents extends Component {
                     })
 
                 } else {
-                    this.setState({loading: false, data: {}})
+                    this.setState({ loading: false, data: {} })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
     }
 
@@ -171,7 +170,7 @@ class LiveComponents extends Component {
     }
 
     render() {
-        const {data, loading} = this.state;
+        const { data, loading } = this.state;
         return (
             <div className="container-fluid">
 
@@ -180,48 +179,24 @@ class LiveComponents extends Component {
                         <p className="chart-title">Tình trạng chỗ trống
                             <span
                                 style={{
-                                color: 'gray',
-                                fontSize: '18px',
-                                float: 'right',
-                                margin: '5px 10px'
-                            }}>Mật độ: {this.state.data.rate}% &nbsp; &nbsp; {this.state.data.inSession}
+                                    color: 'gray',
+                                    fontSize: '18px',
+                                    float: 'right',
+                                    margin: '5px 10px'
+                                }}>Mật độ: {this.state.data.rate}% &nbsp; &nbsp; {this.state.data.inSession}
                                 &nbsp; xe &nbsp; / &nbsp; {this.state.data.total}
                                 &nbsp; ô</span>
                         </p>
 
-                        <StatusChart/>
+                        <StatusChart />
                     </div>
-                    {/*<div className="col-md-4">
-                        <p
-                            style={{
-                            marginTop: 20,
-                            fontSize: 40,
-                            fontWeight: 'bolder'
-                        }}>{this.state.data.inSession}/{this.state.data.total}</p>
-                        <div className="clearfix">
-                            <div
-                                className={'c100 big center p' + this.state.data.rate}
-                                style={{
-                                marginTop: 30
-                            }}>
-                                <span>{this.state.data.rate}%</span>
-                                <div className="slice">
-                                    <div className="bar"></div>
-                                    <div className="fill"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*/}
                 </div>
                 <div className="row half-content">
                     <div className="col-md-12">
                         <p className="chart-title">Tình trạng đỗ xe quá giờ
                         </p>
-                        <ExpiredChart/>
+                        <ExpiredChart />
                     </div>
-                    {/*<div className="col-md-4">
-                        <LastestTickets/>
-                    </div>*/}
                 </div>
             </div>
         )

@@ -1,8 +1,7 @@
 import React from 'react'
-import ComposedCharts from '../components/ComposedCharts'
-import StackAreaChart from '../components/StackAreaChart'
-import LiveComponents from '../components/LiveComponents'
-import SlideGoogleMap from '../components/SlideGoogleMap'
+import ComposedCharts from '../components/Home/RevenueChart'
+import StackAreaChart from '../components/Home/PaymentChart'
+import LiveComponents from '../components/Home/HomeComponent'
 var Carousel = require('react-responsive-carousel').Carousel;
 import 'react-responsive-carousel/lib/styles/carousel.css'
 
@@ -22,8 +21,8 @@ const PageContentMain = () => (
             swipeScrollTolerance={500}
             showIndicators={false}>
 
-            <div><ComposedCharts/></div>
-            <div><LiveComponents/></div>
+            <div><ComposedCharts /></div>
+            <div><LiveComponents /></div>
         </Carousel>
     </div>
 )

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     ComposedChart,
     Line,
@@ -13,7 +13,7 @@ import {
     Tooltip,
     Legend
 } from 'recharts';
-import Loading from '../assets/js/loading'
+import Loading from '../../assets/js/loading'
 import axios from 'axios'
 import moment from 'moment';
 
@@ -34,7 +34,7 @@ class StatusChart extends Component {
     }
 
     loadData(page) {
-        this.setState({loading: true})
+        this.setState({ loading: true })
 
         var url = "/report/carpp/all/status"
 
@@ -50,24 +50,24 @@ class StatusChart extends Component {
                             var half_length = Math.ceil(data.length / 2);
 
                             var leftSide = data.splice(0, half_length);
-                            this.setState({loading: false, data: leftSide})
+                            this.setState({ loading: false, data: leftSide })
                         } else {
                             this.state.page = 1;
                             var half_length = Math.ceil(data.length / 2);
 
                             var rightSide = data.splice(half_length, data.length);
-                            this.setState({loading: false, data: rightSide})
+                            this.setState({ loading: false, data: rightSide })
                         }
                     } else {
-                        this.setState({loading: false, data: data})
+                        this.setState({ loading: false, data: data })
                     }
 
                 } else {
-                    this.setState({loading: false, data: []})
+                    this.setState({ loading: false, data: [] })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
     }
 
@@ -85,38 +85,38 @@ class StatusChart extends Component {
     }
 
     render() {
-        const {data, page, loading} = this.state;
+        const { data, page, loading } = this.state;
         return (
             <ResponsiveContainer width="100%" height={380}>
                 <BarChart
                     data={data}
                     margin={{
-                    top: 20,
-                    right: 100,
-                    left: 20,
-                    bottom: 5
-                }}>
+                        top: 20,
+                        right: 100,
+                        left: 20,
+                        bottom: 5
+                    }}>
                     <defs>
                         <linearGradient id="statusBar1" x1="0" y1="0.5" x2="1" y2="0.5">
-                            <stop offset="5%" stopColor="#bfbfbf" stopOpacity={1}/>
-                            <stop offset="95%" stopColor="#e6e6e6" stopOpacity={1}/>
+                            <stop offset="5%" stopColor="#bfbfbf" stopOpacity={1} />
+                            <stop offset="95%" stopColor="#e6e6e6" stopOpacity={1} />
                         </linearGradient>
                         <linearGradient id="statusBar2" x1="0" y1="0.5" x2="1" y2="0.5">
-                            <stop offset="5%" stopColor="#345C89" stopOpacity={1}/>
-                            <stop offset="95%" stopColor="#4A7CB6" stopOpacity={1}/>
+                            <stop offset="5%" stopColor="#345C89" stopOpacity={1} />
+                            <stop offset="95%" stopColor="#4A7CB6" stopOpacity={1} />
                         </linearGradient>
                     </defs>
-                    <XAxis dataKey="Code"/>
-                    <YAxis/>
-                    <CartesianGrid strokeDasharray="3 3"/>
-                    <Tooltip/>
-                    <Legend/>
+                    <XAxis dataKey="Code" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
                     <Bar
                         dataKey="InSessionNumber"
                         stackId="a"
                         fill='url(#statusBar2)'
-                        name="Xe tại điểm đỗ"/>
-                    <Bar dataKey="Remain" stackId="a" fill='url(#statusBar1)' name="Số ô trống"/>
+                        name="Xe tại điểm đỗ" />
+                    <Bar dataKey="Remain" stackId="a" fill='url(#statusBar1)' name="Số ô trống" />
                 </BarChart>
 
             </ResponsiveContainer>

@@ -33,59 +33,59 @@ const routes = [
                 component: requireAuth(App),
                 routes: [
                     {
-                        component: () => <PageContentWrapper content_title="Trang chủ" type={types.home}/>,
+                        component: () => <PageContentWrapper content_title="Trang chủ" type={types.home} />,
                         exact: true,
                         path: '/'
                     }, {
-                        component: () => <PageContentWrapper content_title="Địa điểm đỗ xe" type={types.cpp}/>,
+                        component: () => <PageContentWrapper content_title="Địa điểm đỗ xe" type={types.cpp} />,
                         path: '/cpp'
                     }, {
                         component: () => <PageContentWrapper
-                            content_title="Tra cứu vé lượt (trong khoảng thời gian 15 ngày)"
-                            type={types.searchTicket}/>,
+                            content_title="Tra cứu vé lượt"
+                            type={types.searchTicket} />,
                         path: '/search/ticket'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Doanh số vé lượt"
-                            type={types.reportRevenue}/>,
+                            type={types.reportRevenue} />,
                         path: '/report/revenue'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Tổng hợp doanh số theo tháng"
-                            type={types.reportMonthlyRevenue}/>,
+                            type={types.reportMonthlyRevenue} />,
                         path: '/report/monthly_revenue'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Tổng hợp doanh số"
-                            type={types.reportAllRevenue}/>,
+                            type={types.reportAllRevenue} />,
                         path: '/report/all_revenue'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Đánh giá điểm đỗ"
-                            type={types.reportRateRevenue}/>,
+                            type={types.reportRateRevenue} />,
                         path: '/report/rate_revenue'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Đăng ký vé tháng"
-                            type={types.managementMonthlyTicket}/>,
+                            type={types.managementMonthlyTicket} />,
                         path: '/management/monthly_ticket'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Chương trình khuyến mãi"
-                            type={types.managementPromotion}/>,
+                            type={types.managementPromotion} />,
                         path: '/management/promotion'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Quản lý người dùng"
-                            type={types.managementUser}/>,
+                            type={types.managementUser} />,
                         path: '/management/user'
                     }, {
                         component: () => <PageContentWrapper
                             content_title="Tra cứu hợp đồng vé tháng"
-                            type={types.monthlyTicketList}/>,
+                            type={types.monthlyTicketList} />,
                         path: '/monthly_ticket/list'
                     }, {
-                        component: () => <PageContentWrapper content_title="Test item Redux" type={types.testItemRedux}/>,
+                        component: () => <PageContentWrapper content_title="Test item Redux" type={types.testItemRedux} />,
                         path: '/test/redux'
                     }
                 ]
@@ -93,4 +93,4 @@ const routes = [
         ]
     }
 ]
-export {routes, types}
+export { routes, types }

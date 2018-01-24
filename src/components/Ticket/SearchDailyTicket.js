@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import React, { Component } from 'react'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
-import Loading from '../assets/js/loading'
+import Loading from '../../assets/js/loading'
 import axios from 'axios'
 import moment from 'moment';
 import DatePicker from 'react-datepicker'
@@ -52,11 +52,10 @@ const ticketDuration = (second) => {
     }
 
     var minute = second / 60
-
     var hour = minute / 60;
-    var minute = minute - (hour * 60);
+    minute = minute - (hour * 60);
 
-    if (hour === 0) {
+    if (hour < 1) {
         return minute + " phút"
     }
 
@@ -104,18 +103,18 @@ class SearchTicket extends Component {
             .bind(this);
     }
 
-    loadData(currentPage) {}
+    loadData(currentPage) { }
 
     changeCurrentPage(currentPage) {
         this.loadData(currentPage)
     }
 
     handleChangeFromTime(date) {
-        this.setState({fromTime: date});
+        this.setState({ fromTime: date });
     }
 
     handleChangeToTime(date) {
-        this.setState({toTime: date});
+        this.setState({ toTime: date });
     }
 
     queryString(currentPage) {
@@ -131,7 +130,7 @@ class SearchTicket extends Component {
     onSubmitForm(e) {
         e.preventDefault()
 
-        this.setState({loading: true})
+        this.setState({ loading: true })
 
         const fromTime = moment({
             year: this
@@ -151,15 +150,15 @@ class SearchTicket extends Component {
         const toTime = moment({
             year: this
                 .state
-                .toTime
+                .fromTime
                 .year(),
             month: this
                 .state
-                .toTime
+                .fromTime
                 .month(),
             day: this
                 .state
-                .toTime
+                .fromTime
                 .date()
         }).unix() + 86340;
 
@@ -181,15 +180,15 @@ class SearchTicket extends Component {
                         totalDifferentTime = totalDifferentTime + ticketList[i].DifferentTime
                     }
 
-                    totalArr.push({title: "Tổng", Amount: totalRevenueDay, DifferentTime: totalDifferentTime})
+                    totalArr.push({ title: "Tổng", Amount: totalRevenueDay, DifferentTime: totalDifferentTime })
 
-                    this.setState({loading: false, rows: ticketList, total: totalArr})
+                    this.setState({ loading: false, rows: ticketList, total: totalArr })
                 } else {
-                    this.setState({loading: false, rows: [], total: []})
+                    this.setState({ loading: false, rows: [], total: [] })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
         this.loadData(0)
     }
@@ -215,7 +214,7 @@ class SearchTicket extends Component {
                                 ref="numberplate"
                                 name="numberplate"
                                 className="form-control"
-                                placeholder="30A12345"/>
+                                placeholder="30A12345" />
                         </div>
 
                         <div className="col-md-2 form-group">
@@ -225,7 +224,7 @@ class SearchTicket extends Component {
                                 className="form-control"
                                 ref="phonenumber"
                                 placeholder="0987654321"
-                                name="phonenumber"/>
+                                name="phonenumber" />
                         </div>
 
                         <div className="col-md-2 form-group">
@@ -235,39 +234,28 @@ class SearchTicket extends Component {
                                 placeholder="001"
                                 name="car_parking_place"
                                 ref="cpp_code"
-                                className="form-control"/>
+                                className="form-control" />
                         </div>
 
                         <div className="col-md-4">
                             <div className="row">
-                                <div className="col-md-6 form-group">
-                                    <label for="fromTime">Từ ngày</label>
-                                    <br/>
+                                <div className="col-md-12 form-group">
+                                    <label for="fromTime">Ngày</label>
+                                    <br />
                                     <DatePicker
                                         className="form-control"
                                         name="from_time"
                                         dateFormat="DD/MM/YYYY"
                                         selected={this.state.fromTime}
-                                        onChange={this.handleChangeFromTime}/>
-                                </div>
-
-                                <div className="col-md-6 form-group">
-                                    <label for="toTime">Đến ngày</label>
-                                    <br/>
-                                    <DatePicker
-                                        className="form-control"
-                                        dateFormat="DD/MM/YYYY"
-                                        name="to_time"
-                                        selected={this.state.toTime}
-                                        onChange={this.handleChangeToTime}/>
+                                        onChange={this.handleChangeFromTime} />
                                 </div>
                             </div>
                         </div>
                         <div
                             className="col-md-2"
                             style={{
-                            marginTop: '24px'
-                        }}>
+                                marginTop: '24px'
+                            }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
                     </form>
@@ -283,14 +271,15 @@ class SearchTicket extends Component {
                         <div
                             className="portlet-body"
                             style={{
-                            position: 'relative'
-                        }}>
+                                position: 'relative'
+                            }}>
                             <BootstrapTable
                                 options={{
-                                noDataText: 'Không có kết quả nào'
-                            }}
+                                    noDataText: 'Không có kết quả nào'
+                                }}
                                 data={this.state.rows}
                                 hover={true}
+                                pagination={true}
                                 bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'
@@ -328,6 +317,13 @@ class SearchTicket extends Component {
                                     dataSort={true}
                                     dataFormat={currencyFormat}>Thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
+                                    dataAlign='right'
+                                    headerAlign='center'
+                                    dataField='Method'
+                                    width='120'
+                                    dataSort={false}
+                                    dataFormat={currencyFormat}>Phương thức</TableHeaderColumn>
+                                <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
                                     dataFormat={ticketDuration}
@@ -353,11 +349,11 @@ class SearchTicket extends Component {
                             <BootstrapTable
                                 className="table-footer"
                                 headerStyle={{
-                                display: 'none'
-                            }}
+                                    display: 'none'
+                                }}
                                 options={{
-                                noDataText: '-'
-                            }}
+                                    noDataText: '-'
+                                }}
                                 data={this.state.total}>
                                 <TableHeaderColumn
                                     headerAlign='center'
@@ -394,6 +390,12 @@ class SearchTicket extends Component {
                                     dataSort={true}
                                     dataFormat={currencyFormat}>Thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
+                                    dataAlign='right'
+                                    headerAlign='center'
+                                    dataField='Method'
+                                    width='120'
+                                    dataFormat={currencyFormat}>Phương thức</TableHeaderColumn>
+                                <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
                                     dataFormat={ticketDuration}
@@ -414,7 +416,7 @@ class SearchTicket extends Component {
                                     width='100'
                                     dataAlign='center'>Giờ ra</TableHeaderColumn>
                             </BootstrapTable>
-                            {loading && <Loading/>}
+                            {loading && <Loading />}
                         </div>
                     </div>
 

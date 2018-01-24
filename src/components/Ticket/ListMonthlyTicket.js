@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import Loading from '../assets/js/loading'
+import React, { Component } from 'react'
+import Loading from '../../assets/js/loading'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 
 const currencyFormat = (uv) => {
@@ -102,7 +102,7 @@ class ListMonthlyTicket extends Component {
             .bind(this);
     }
 
-    loadData(currentPage) {}
+    loadData(currentPage) { }
 
     changeCurrentPage(currentPage) {
         this.loadData(currentPage)
@@ -110,7 +110,7 @@ class ListMonthlyTicket extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-        this.setState({loading: true})
+        this.setState({ loading: true })
 
         const fromTime = moment({
             year: this
@@ -159,25 +159,25 @@ class ListMonthlyTicket extends Component {
                         totalMonthlyPrice = totalMonthlyPrice + ticketList[i].MonthlyPrice
                     }
 
-                    totalArr.push({title: "Tổng", Amount: totalRevenueMonth, MonthlyPrice: totalMonthlyPrice})
+                    totalArr.push({ title: "Tổng", Amount: totalRevenueMonth, MonthlyPrice: totalMonthlyPrice })
 
-                    this.setState({loading: false, rows: ticketList, total: totalArr})
+                    this.setState({ loading: false, rows: ticketList, total: totalArr })
                 } else {
-                    this.setState({loading: false, rows: [], total: []})
+                    this.setState({ loading: false, rows: [], total: [] })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
         this.loadData(0)
     }
 
     handleChangeFromTime(date) {
-        this.setState({fromTime: date});
+        this.setState({ fromTime: date });
     }
 
     handleChangeToTime(date) {
-        this.setState({toTime: date});
+        this.setState({ toTime: date });
     }
 
     exportToCSV() {
@@ -213,7 +213,7 @@ class ListMonthlyTicket extends Component {
                                 name="numberplate"
                                 className="form-control"
                                 ref="numberplate"
-                                placeholder="Biển số xe"/>
+                                placeholder="Biển số xe" />
                         </div>
 
                         <div className="col-md-2 form-group">
@@ -223,7 +223,7 @@ class ListMonthlyTicket extends Component {
                                 className="form-control"
                                 placeholder="Số điện thoại"
                                 ref="phonenumber"
-                                name="phonenumber"/>
+                                name="phonenumber" />
                         </div>
 
                         <div className="col-md-2 form-group">
@@ -232,39 +232,39 @@ class ListMonthlyTicket extends Component {
                                 type="text"
                                 name="car_parking_place"
                                 ref="cpp_code"
-                                className="form-control"/>
+                                className="form-control" />
                         </div>
 
                         <div className="col-md-4">
                             <div className="row">
                                 <div className="col-md-6 form-group">
                                     <label for="fromTime">Từ ngày</label>
-                                    <br/>
+                                    <br />
                                     <DatePicker
                                         className="form-control"
                                         name="from_time"
                                         selected={this.state.fromTime}
                                         dateFormat="DD/MM/YYYY"
-                                        onChange={this.handleChangeFromTime}/>
+                                        onChange={this.handleChangeFromTime} />
                                 </div>
 
                                 <div className="col-md-6 form-group">
                                     <label for="toTime">Đến ngày</label>
-                                    <br/>
+                                    <br />
                                     <DatePicker
                                         className="form-control"
                                         name="to_time"
                                         dateFormat="DD/MM/YYYY"
                                         selected={this.state.toTime}
-                                        onChange={this.handleChangeToTime}/>
+                                        onChange={this.handleChangeToTime} />
                                 </div>
                             </div>
                         </div>
                         <div
                             className="col-md-2"
                             style={{
-                            marginTop: '24px'
-                        }}>
+                                marginTop: '24px'
+                            }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
                     </form>
@@ -286,21 +286,26 @@ class ListMonthlyTicket extends Component {
                         <div
                             className="portlet-body"
                             style={{
-                            position: 'relative'
-                        }}>
+                                position: 'relative'
+                            }}>
                             <BootstrapTable
                                 options={{
-                                noDataText: 'Không có kết quả nào'
-                            }}
+                                    noDataText: 'Không có kết quả nào'
+                                }}
                                 data={this.state.rows}
                                 hover={true}
                                 bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
+                                    dataField='Code'
+                                    width="120"
+                                    isKey={true}>Mã hợp đồng</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
                                     dataField='CppCode'
-                                    width="100"
-                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
+                                    width="100">Điểm đỗ</TableHeaderColumn>
                                 <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
@@ -337,13 +342,17 @@ class ListMonthlyTicket extends Component {
                                     dataAlign='right'
                                     width="100"
                                     dataFormat={currencyFormat}>Giá trị HĐ</TableHeaderColumn>
-
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
-                                    dataFormat={timeRender}
+                                    dataFormat={currencyFormat}
                                     width='125'
-                                    dataField='ToTime'>Hạn thanh toán</TableHeaderColumn>
+                                    dataField='Paid'>Đã thanh toán</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='125'
+                                    dataField='PaymentCode'>Mã thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
@@ -356,11 +365,11 @@ class ListMonthlyTicket extends Component {
                             <BootstrapTable
                                 className="table-footer"
                                 headerStyle={{
-                                display: 'none'
-                            }}
+                                    display: 'none'
+                                }}
                                 options={{
-                                noDataText: '-'
-                            }}
+                                    noDataText: '-'
+                                }}
                                 data={this.state.total}>
                                 <TableHeaderColumn
                                     headerAlign='center'
@@ -414,7 +423,7 @@ class ListMonthlyTicket extends Component {
                                     dataSort={true}
                                     dataField='ToTime'>Quá hạn</TableHeaderColumn>
                             </BootstrapTable>
-                            {loading && <Loading/>}
+                            {loading && <Loading />}
                         </div>
                     </div>
                 </div>

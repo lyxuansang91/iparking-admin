@@ -1,13 +1,11 @@
-import React, {Component} from 'react'
-import Loading from '../assets/js/loading'
-import axios from 'axios';
-import DatePicker from 'react-datepicker'
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import React, { Component } from 'react'
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
+import Loading from '../../assets/js/loading'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
-import NumberFormat from 'react-number-format'
-import {styles} from '../assets/css/grid.css'
+import axios from 'axios'
 
 const currencyFormat = (uv) => {
 
@@ -36,13 +34,26 @@ const currencyFormat = (uv) => {
     return priceString + " đ"
 }
 
-class ReportMonthlyRevenue extends Component {
+const ratioFormat = (rate) => {
+    if (rate === 0) {
+        return "-"
+    }
+
+    return rate + " %"
+
+    // if (rate === 0) {     return "0%" } if (rate < 0) {     return "<i
+    // style='color:red' class='fa fa-arrow-down' aria-hidden='true'></i> " +
+    // Math.abs(rate) * 100 + "%" } return "<i style='color:blue' class='fa
+    // fa-arrow-up' aria-hidden='true'></i> " + Math.abs(rate) * 100 + "%"
+}
+
+class ReportAllRevenue extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rows: [],
-            total: [],
             listCompany: [],
+            total: [],
             totalCount: 0,
             loading: false,
             fromTime: moment()
@@ -77,13 +88,13 @@ class ReportMonthlyRevenue extends Component {
             .then((response) => {
                 if (response.data.Error.Code == 200) {
                     const provderList = response.data.Data
-                    this.setState({listCompany: provderList})
+                    this.setState({ listCompany: provderList })
                 } else {
-                    this.setState({listCompany: []})
+                    this.setState({ listCompany: [] })
                 }
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
     }
 
@@ -97,8 +108,6 @@ class ReportMonthlyRevenue extends Component {
 
     onSubmitForm(e) {
         e.preventDefault()
-
-        this.setState({loading: true})
 
         const fromTime = moment({
             year: this
@@ -130,8 +139,7 @@ class ReportMonthlyRevenue extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/report/revenue_by_month?from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value
-
+        var url = "/report/rate_revenue?from_time=" + fromTime + "&to_time=" + toTime
         axios
             .get(url)
             .then((response) => {
@@ -158,107 +166,94 @@ class ReportMonthlyRevenue extends Component {
                         RevenuePerUnit: (totalRevenueDay + totalRevenueMonth) / totalCapacity
                     })
 
-                    this.setState({loading: false, rows: revenueArr, total: totalArr})
+                    console.log(totalRevenueDay)
+
+                    this.setState({ loading: false, rows: revenueArr, total: totalArr })
                 } else {
-                    this.setState({loading: false, rows: [], total: []})
+                    this.setState({ loading: false, rows: [], total: [] })
                 }
+
             })
             .catch((error) => {
-                this.setState({loading: false})
+                this.setState({ loading: false })
             });
         this.loadData(0)
     }
 
     handleChangeFromTime(date) {
-        this.setState({fromTime: date});
+        this.setState({ fromTime: date });
     }
 
     handleChangeToTime(date) {
-        this.setState({toTime: date});
+        this.setState({ toTime: date });
     }
 
     render() {
 
         const {
             rows,
-            listCompany,
-            columns,
-            total,
-            pageSize,
             currentPage,
+            total,
             totalCount,
+            listCompany,
             loading
         } = this.state;
         return (
-            <div className="container-fluid detail">
-                <div className="row">
-                    <form
-                        ref='report_monthly_revenue_form'
-                        className=""
-                        onSubmit={this.onSubmitForm}>
-                        <div className="col-md-5">
-                            <div className="row">
-                                <div className="col-md-6 form-group">
-                                    <label for="company">Công ty</label>
-                                    <select className="form-control" name="company">
-                                        {listCompany
-                                            .map(function (company) {
-                                                return <option key={company.Id} value={company.Id}>{company.Fullname.String}</option>;
-                                            })
-}
-                                    </select>
-                                </div>
-                                <div className="col-md-6 form-group">
-                                    <label for="company">Điểm đỗ</label>
-                                    <input
-                                        type="text"
-                                        name="car_parking_place"
-                                        ref="cpp_code"
-                                        className="form-control"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-5">
-                            <div className="row">
-                                <div className="col-md-6 form-group">
-                                    <label for="fromTime">Từ ngày</label>
-                                    <br/>
-                                    <DatePicker
-                                        className="form-control"
-                                        name="from_time"
-                                        dateFormat="DD/MM/YYYY"
-                                        selected={this.state.fromTime}
-                                        onChange={this.handleChangeFromTime}/>
-                                </div>
+            <div className="container-fluid">
 
-                                <div className="col-md-6 form-group">
-                                    <label for="toTime">Đến ngày</label>
-                                    <br/>
-                                    <DatePicker
-                                        className="form-control"
-                                        name="to_time"
-                                        dateFormat="DD/MM/YYYY"
-                                        selected={this.state.toTime}
-                                        onChange={this.handleChangeToTime}/>
-                                </div>
-                            </div>
+                <form
+                    ref='report_monthly_revenue_form'
+                    className=""
+                    onSubmit={this.onSubmitForm}>
+                    <div className="row">
+                        <div className="col-md-3 form-group">
+                            <label for="company">Công ty</label>
+                            <select className="form-control" name="company">
+                                {listCompany
+                                    .map(function (company) {
+                                        return <option key={company.Id} value={company.Id}>{company.Fullname.String}</option>;
+                                    })
+                                }
+                            </select>
                         </div>
 
+                        <div className="col-md-3 form-group">
+                            <label for="fromTime">Từ ngày</label>
+                            <br />
+                            <DatePicker
+                                className="form-control"
+                                name="from_time"
+                                dateFormat="DD/MM/YYYY"
+                                selected={this.state.fromTime}
+                                onChange={this.handleChangeFromTime} />
+                        </div>
+
+                        <div className="col-md-3 form-group">
+                            <label for="toTime">Đến ngày</label>
+                            <br />
+                            <DatePicker
+                                className="form-control"
+                                name="to_time"
+                                dateFormat="DD/MM/YYYY"
+                                selected={this.state.toTime}
+                                onChange={this.handleChangeToTime} />
+                        </div>
                         <div
-                            className="col-md-2"
+                            className="col-md-3"
                             style={{
-                            marginTop: '24px'
-                        }}>
+                                marginTop: '24px'
+                            }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
 
-                    </form>
-                </div>
+                    </div>
+
+                </form>
 
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
-                            <div className="caption">Tổng hợp doanh số theo tháng</div>
+                            <div className="caption">Tổng hợp doanh số</div>
                             <div className="tools">
                                 <a href="#" className="collapse"></a>
                             </div>
@@ -266,43 +261,52 @@ class ReportMonthlyRevenue extends Component {
                         <div
                             className="portlet-body"
                             style={{
-                            position: 'relative'
-                        }}>
+                                position: 'relative'
+                            }}>
                             <BootstrapTable
                                 options={{
-                                noDataText: 'Không có kết quả nào'
-                            }}
-                                data={this.state.rows}
-                                bordered={true}>
+                                    noDataText: 'Không có kết quả nào'
+                                }}
+                                bordered={true}
+                                data={this.state.rows}>
                                 <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='center'
+                                    width='100'
+                                    dataSort={true}
                                     dataField='CPPCode'
-                                    width="100"
-                                    dataSort={true}
-                                    dataAlign='center'
-                                    headerAlign='center'
                                     isKey={true}>Điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn headerAlign='center' dataField='CPPAddress'>Địa chỉ</TableHeaderColumn>
-                                <TableHeaderColumn
-                                    width="100"
-                                    dataAlign='center'
-                                    headerAlign='center'
-                                    dataSort={true}
-                                    dataField='Month'>Tháng</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='CppAddress'>Địa chỉ</TableHeaderColumn>
 
                                 <TableHeaderColumn
-                                    dataField='RevenueByMonth'
+                                    headerAlign='center'
                                     dataAlign='right'
                                     dataSort={true}
-                                    headerAlign='center'
-                                    width='150'
-                                    dataFormat={currencyFormat}>Vé tháng</TableHeaderColumn>
-                                <TableHeaderColumn
                                     dataFormat={currencyFormat}
+                                    width='100'
+                                    dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
+                                <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='right'
                                     dataSort={true}
-                                    width='150'
-                                    dataField='RevenueByDay'>Vé lượt</TableHeaderColumn>
+                                    width='120'
+                                    dataFormat={ratioFormat}
+                                    dataField='RatioDay'>Tăng trưởng</TableHeaderColumn>
+
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    dataFormat={currencyFormat}
+                                    width='120'
+                                    dataField='RevenueByMonth'>Vé tháng</TableHeaderColumn>
+                                <TableHeaderColumn
+                                    headerAlign='center'
+                                    dataAlign='right'
+                                    dataSort={true}
+                                    width='120'
+                                    dataFormat={ratioFormat}
+                                    dataField='RatioMonth'>Tăng trưởng</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
@@ -310,66 +314,58 @@ class ReportMonthlyRevenue extends Component {
                                     width='100'
                                     dataField='Capacity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataFormat={currencyFormat}
                                     headerAlign='center'
+                                    dataAlign='right'
                                     width='150'
                                     dataSort={true}
-                                    dataAlign='right'
+                                    dataFormat={currencyFormat}
                                     dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
                             </BootstrapTable>
                             <BootstrapTable
                                 className="table-footer"
                                 headerStyle={{
-                                display: 'none'
-                            }}
+                                    display: 'none'
+                                }}
                                 options={{
-                                noDataText: '-'
-                            }}
+                                    noDataText: '-'
+                                }}
                                 data={this.state.total}>
                                 <TableHeaderColumn
+                                    headerAlign='center'
                                     dataField='title'
-                                    width="100"
-                                    dataSort={true}
+                                    width='100'
                                     dataAlign='center'
-                                    headerAlign='center'
-                                    isKey={true}>Điểm đỗ</TableHeaderColumn>
-                                <TableHeaderColumn headerAlign='center' dataField='CPPAddress'>Địa chỉ</TableHeaderColumn>
-                                <TableHeaderColumn
-                                    width="100"
-                                    dataAlign='center'
-                                    headerAlign='center'
-                                    dataSort={true}
-                                    dataField='Month'>Tháng</TableHeaderColumn>
+                                    isKey={true}>Tổng</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' dataField='noData'></TableHeaderColumn>
 
                                 <TableHeaderColumn
-                                    dataField='RevenueMonth'
-                                    dataAlign='right'
-                                    dataSort={true}
                                     headerAlign='center'
-                                    width='150'
-                                    dataFormat={currencyFormat}>Vé tháng</TableHeaderColumn>
+                                    dataAlign='right'
+                                    dataFormat={currencyFormat}
+                                    width='100'
+                                    dataField='RevenueDay'>Vé lượt</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' width='120' dataField='noData'></TableHeaderColumn>
+
                                 <TableHeaderColumn
+                                    dataAlign='right'
                                     dataFormat={currencyFormat}
                                     headerAlign='center'
-                                    dataAlign='right'
-                                    dataSort={true}
-                                    width='150'
-                                    dataField='RevenueDay'>Vé lượt</TableHeaderColumn>
+                                    width='120'
+                                    dataField='RevenueMonth'>Vé tháng</TableHeaderColumn>
+                                <TableHeaderColumn headerAlign='center' width='120' dataField='noData'></TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
-                                    dataSort={true}
                                     width='100'
                                     dataField='Capacity'>Sức chứa</TableHeaderColumn>
                                 <TableHeaderColumn
-                                    dataFormat={currencyFormat}
                                     headerAlign='center'
-                                    width='150'
-                                    dataSort={true}
                                     dataAlign='right'
+                                    dataFormat={currencyFormat}
+                                    width='150'
                                     dataField='RevenuePerUnit'>Doanh số trên ô</TableHeaderColumn>
                             </BootstrapTable>
-                            {loading && <Loading/>}
+                            {loading && <Loading />}
                         </div>
                     </div>
                 </div>
@@ -379,4 +375,4 @@ class ReportMonthlyRevenue extends Component {
     }
 }
 
-export default ReportMonthlyRevenue
+export default ReportAllRevenue

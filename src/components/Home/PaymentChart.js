@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
     AreaChart,
     Area,
@@ -10,7 +10,7 @@ import {
     Legend
 } from 'recharts';
 import axios from 'axios';
-import Loading from '../assets/js/loading';
+import Loading from '../../assets/js/loading';
 
 const currencyFormat = (uv) => {
 
@@ -58,7 +58,7 @@ class StackAreaChart extends Component {
     }
 
     loadData() {
-        this.setState({loading: true})
+        this.setState({ loading: true })
 
         axios
             .get("/report/report_monthly_revenue")
@@ -71,20 +71,20 @@ class StackAreaChart extends Component {
                         listPayment[i].Other = listPayment[i].Promotion + listPayment[i].InternetBanking
                     }
 
-                    this.setState({loading: false, data: listPayment})
+                    this.setState({ loading: false, data: listPayment })
                 } else {
-                    this.setState({loading: false, data: []})
+                    this.setState({ loading: false, data: [] })
                 }
             })
             .catch((error) => {
                 console.log("error:", error)
-                this.setState({loading: false})
+                this.setState({ loading: false })
             })
     }
 
     render() {
 
-        const {data, loading} = this.state
+        const { data, loading } = this.state
 
         return (
             <div className="container-fluid">
@@ -94,39 +94,39 @@ class StackAreaChart extends Component {
                             <AreaChart
                                 data={data}
                                 margin={{
-                                top: 30,
-                                right: 20,
-                                left: 20,
-                                bottom: 50
-                            }}>
-                                <XAxis dataKey="Day"/>
-                                <YAxis width={100} tickFormatter={currencyFormat}/>
-                                <CartesianGrid strokeDasharray="3 3"/>
-                                <Tooltip formatter={currencyFormat}/>
-                                <Legend iconType="square"/>
+                                    top: 30,
+                                    right: 20,
+                                    left: 20,
+                                    bottom: 50
+                                }}>
+                                <XAxis dataKey="Day" />
+                                <YAxis width={100} tickFormatter={currencyFormat} />
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Tooltip formatter={currencyFormat} />
+                                <Legend iconType="square" />
                                 <Area
                                     type='monotone'
                                     dataKey='SMS'
                                     stackId="1"
                                     stroke='#8884d8'
-                                    fill='#8884d8'/>
+                                    fill='#8884d8' />
                                 <Area
                                     type='monotone'
                                     dataKey='Card'
                                     stackId="1"
                                     name="Thẻ thanh toán"
                                     stroke='#82ca9d'
-                                    fill='#82ca9d'/>
+                                    fill='#82ca9d' />
                                 <Area
                                     type='monotone'
                                     dataKey='Other'
                                     stackId="1"
                                     name="Khác"
                                     stroke='#ffc658'
-                                    fill='#ffc658'/>
+                                    fill='#ffc658' />
                             </AreaChart>
                         </ResponsiveContainer>
-                        {loading && <Loading/>}
+                        {loading && <Loading />}
                     </div>
                 </div>
             </div>
