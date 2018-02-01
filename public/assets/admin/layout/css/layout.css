@@ -2946,7 +2946,7 @@ Filter pages
 Monthly Ticket 
 ***/
 
-#monthly-ticket .ticket-detail .form-header label {
+.ticket-detail .form-header label {
     text-decoration: uppercase;
     color: rgb(27, 90, 138);
     font-weight: bolder;
@@ -2956,12 +2956,12 @@ Monthly Ticket
     border-bottom: solid 2px rgb(234, 237, 244);
 }
 
-#monthly-ticket .ticket-box {
+.ticket-box {
     padding: 20px;
     border: solid 0.5px rgb(234, 237, 244);
 }
 
-#monthly-ticket .submit-button {
+.submit-button {
     margin: 50px auto;
     text-align: center;
 }
@@ -3022,4 +3022,20 @@ Monthly Ticket
 .carousel .control-arrow:before, .carousel.carousel-slider .control-arrow:before{
     border-top: 20px solid transparent !important;
      border-bottom: 20px solid transparent !important;
+}
+
+/* ticket detail */
+
+.ticket-detail .title {
+    color:gray;
+    margin-bottom:2px;
+}
+
+.ticket-detail .content {
+    font-size:15px;
+    font-weight: bold;
+}
+
+.form-header{
+    margin-bottom:15px;
 }

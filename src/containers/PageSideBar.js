@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import '../assets/css/pagesidebar.css'
-import {logoutUser} from '../actions/auth'
+import { logoutUser } from '../actions/auth'
 
 class PageSideBar extends Component {
 
@@ -39,30 +39,45 @@ class PageSideBar extends Component {
                     </li>
                     {/*Vé lượt*/}
                     <li className="">
-                        <Link to="/search/ticket">
+                        <a href="javascript:;">
                             <i className="fa fa-ticket"></i>
                             <span className="title">Vé lượt</span>
                             <span className="arrow "></span>
-                        </Link>
+                        </a>
+                        <ul className="sub-menu">
+                            <li>
+                                <Link to="/search/ticket">
+                                    <i className="fa fa-search icon-space"></i>
+                                    Tra cứu vé lượt
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/ticket/detail">
+                                    <i className="fa fa-ticket icon-space"></i>
+                                    Chi tiết vé lượt
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
                     {/*Vé tháng*/}
                     <li className="">
                         <a href="javascript:;">
                             <i className="fa fa-ticket"></i>
-                            <span className="title">Vé tháng</span>
+                            <span className="title">Hợp đồng tháng</span>
                             <span className="arrow "></span>
                         </a>
                         <ul className="sub-menu">
-                            {/*<li>
-                                <Link to="/management/monthly_ticket">
-                                    <i className="fa fa-car icon-space"></i>
-                                    Đăng ký vé tháng
-                                </Link>
-                            </li>*/}
+
                             <li>
                                 <Link to="/monthly_ticket/list">
                                     <i className="fa fa-search icon-space"></i>
-                                    Tra cứu vé tháng
+                                    Tra cứu hợp đồng tháng
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/monthly_ticket/detail">
+                                    <i className="fa fa-ticket icon-space"></i>
+                                    Chi tiết hợp đồng tháng
                                 </Link>
                             </li>
                         </ul>
@@ -129,7 +144,7 @@ class PageSideBar extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken}
+    return { isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken }
 }
 
 const mapDispatchToProps = (dispatch) => {

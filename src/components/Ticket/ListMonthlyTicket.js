@@ -294,6 +294,7 @@ class ListMonthlyTicket extends Component {
                                 }}
                                 data={this.state.rows}
                                 hover={true}
+                                pagination={true}
                                 bordered={true}>
                                 <TableHeaderColumn
                                     headerAlign='center'

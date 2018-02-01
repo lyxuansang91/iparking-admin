@@ -19,7 +19,9 @@ const types = {
     reportRateRevenue: '9',
     monthlyTicketList: '10',
     testItemRedux: '11',
-    reportAllRevenue: '12'
+    reportAllRevenue: '12',
+    dailyTicket: '13',
+    monthlyTicket: '14'
 }
 
 const routes = [
@@ -84,6 +86,16 @@ const routes = [
                             content_title="Tra cứu hợp đồng vé tháng"
                             type={types.monthlyTicketList} />,
                         path: '/monthly_ticket/list'
+                    }, {
+                        component: () => <PageContentWrapper
+                            content_title="Chi tiết vé lượt"
+                            type={types.dailyTicket} />,
+                        path: '/ticket/detail'
+                    }, {
+                        component: () => <PageContentWrapper
+                            content_title="Chi tiết hợp đồng vé tháng"
+                            type={types.monthlyTicket} />,
+                        path: '/monthly_ticket/detail'
                     }, {
                         component: () => <PageContentWrapper content_title="Test item Redux" type={types.testItemRedux} />,
                         path: '/test/redux'
