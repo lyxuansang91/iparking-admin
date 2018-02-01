@@ -109,6 +109,12 @@ class PageSideBar extends Component {
                                 </Link>
                             </li>
                             <li>
+                                <Link to="/report/parking_status">
+                                    <i className="fa fa-line-chart icon-space"></i>
+                                    Tình trạng điểm đỗ tại thời điểm
+                                </Link>
+                            </li>
+                            <li>
                                 <Link to="/report/rate_revenue">
                                     <i className="fa fa-line-chart icon-space"></i>
                                     Đánh giá điểm đỗ

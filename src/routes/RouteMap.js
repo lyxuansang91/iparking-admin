@@ -21,7 +21,8 @@ const types = {
     testItemRedux: '11',
     reportAllRevenue: '12',
     dailyTicket: '13',
-    monthlyTicket: '14'
+    monthlyTicket: '14',
+    reportParkingStatus: '15'
 }
 
 const routes = [
@@ -96,6 +97,11 @@ const routes = [
                             content_title="Chi tiết hợp đồng vé tháng"
                             type={types.monthlyTicket} />,
                         path: '/monthly_ticket/detail'
+                    }, {
+                        component: () => <PageContentWrapper
+                            content_title="Tình trạng điểm đỗ tại thời điểm"
+                            type={types.reportParkingStatus} />,
+                        path: '/report/parking_status'
                     }, {
                         component: () => <PageContentWrapper content_title="Test item Redux" type={types.testItemRedux} />,
                         path: '/test/redux'

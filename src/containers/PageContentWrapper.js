@@ -11,6 +11,7 @@ import ListMonthlyTicket from '../components/Ticket/ListMonthlyTicket'
 import CPPRevenueRate from '../components/Report/CPPRevenueRate'
 import DailyTicket from '../components/Ticket/DailyTicket'
 import MonthlyTicket from '../components/Ticket/MonthlyTicket'
+import ReportParkingStatus from '../components/Report/ReportParkingStatus'
 
 class PageContainerWrapper extends Component {
     render() {
@@ -43,6 +44,9 @@ class PageContainerWrapper extends Component {
                 break;
             case types.monthlyTicket:
                 _view = <MonthlyTicket />;
+                break;
+            case types.reportParkingStatus:
+                _view = <ReportParkingStatus />;
                 break;
             default:
                 _view = <PageContentMain />;
