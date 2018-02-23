@@ -3,18 +3,18 @@ import axios from 'axios'
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-import {setAuthorizationToken, postFromUrl} from './apiUtils'
+import { setAuthorizationToken, postFromUrl } from './apiUtils'
 
 function requestLogin(creds) {
-    return {type: LOGIN_REQUEST, isFetching: true, isAuthenticated: false, creds}
+    return { type: LOGIN_REQUEST, isFetching: true, isAuthenticated: false, creds }
 }
 
 function receiveLogin(token) {
-    return {type: LOGIN_SUCCESS, isFetching: false, isAuthenticated: true, accessToken: token}
+    return { type: LOGIN_SUCCESS, isFetching: false, isAuthenticated: true, accessToken: token }
 }
 
 function loginError(message) {
-    return {type: LOGIN_FAILURE, isFetching: false, isAuthenticated: false, message}
+    return { type: LOGIN_FAILURE, isFetching: false, isAuthenticated: false, message }
 }
 
 export function loginUser(creds) {
@@ -45,11 +45,11 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 
 function requestLogout() {
-    return {type: LOGOUT_REQUEST, isFetching: true, isAuthenticated: true}
+    return { type: LOGOUT_REQUEST, isFetching: true, isAuthenticated: true }
 }
 
 function receiveLogout() {
-    return {type: LOGOUT_SUCCESS, isFetching: false, isAuthenticated: false}
+    return { type: LOGOUT_SUCCESS, isFetching: false, isAuthenticated: false }
 }
 
 export function logoutUser() {

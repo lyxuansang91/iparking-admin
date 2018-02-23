@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import '../assets/css/login.css'
-import {connect} from 'react-redux';
-import {loginUser, saveCreds} from '../actions/auth'
-
+import { connect } from 'react-redux';
+import { loginUser, saveCreds } from '../actions/auth'
+import { browserHistory } from 'react-router';
 class Login extends Component {
     constructor(props) {
         super(props)
@@ -27,10 +27,8 @@ class Login extends Component {
             this
                 .props
                 .setToken(localStorage.getItem('accessToken'))
-            this
-                .props
-                .history
-                .push('/');
+            window.location.replace('/')
+            // this.props.history.push('/');
         }
         return (
             <div className="login">
@@ -39,7 +37,7 @@ class Login extends Component {
                         <img
                             src={process.env.PUBLIC_URL + '/assets/admin/layout/img/logo_iparking.png'}
                             alt="logo"
-                            className="logo-default"/>
+                            className="logo-default" />
                     </a>
                 </div>
                 <div className="content">
@@ -48,8 +46,8 @@ class Login extends Component {
                         action="#"
                         method="post"
                         style={{
-                        textAlign: 'center'
-                    }}
+                            textAlign: 'center'
+                        }}
                         onSubmit={this.onSubmitForm}>
                         <h3 className="form-title">Trung tâm dữ liệu iParking</h3>
                         <div className="alert alert-danger display-hide">
@@ -68,7 +66,7 @@ class Login extends Component {
                                     ref="username"
                                     autocomplete="off"
                                     placeholder="Username"
-                                    name="username"/>
+                                    name="username" />
                             </div>
                         </div>
                         <div className="form-group">
@@ -81,7 +79,7 @@ class Login extends Component {
                                     ref="password"
                                     autocomplete="off"
                                     placeholder="Password"
-                                    name="password"/>
+                                    name="password" />
                             </div>
                         </div>
 
@@ -105,7 +103,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken}
+    return { isAuthenticated: state.auth.isAuthenticated, accessToken: state.auth.accessToken }
 }
 
 const mapDispatchToProps = (dispatch) => {

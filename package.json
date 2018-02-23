@@ -17,8 +17,10 @@
     "react-number-format": "^2.0.2",
     "react-redux": "^5.0.5",
     "react-responsive-carousel": "^3.1.24",
+    "react-router": "^4.2.0",
     "react-router-config": "^1.0.0-beta.3",
     "react-router-dom": "^4.1.2",
+    "react-sidenav": "^2.1.2",
     "recharts": "^1.0.0-alpha.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"

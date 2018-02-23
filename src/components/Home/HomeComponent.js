@@ -141,7 +141,7 @@ class LiveComponents extends Component {
         this.loadData()
         setInterval(() => {
             this.loadData()
-        }, 30000);
+        }, 150000);
 
         const script = document.createElement("script");
 

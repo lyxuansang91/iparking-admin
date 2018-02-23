@@ -48,6 +48,14 @@ const timeRender = (time) => {
         .format("DD/MM/YYYY");
 }
 
+const isPaidRender = (isPaid) => {
+    if (isPaid === true) {
+        return "Đã thanh toán"
+    }
+
+    return "Chưa thanh toán"
+}
+
 const monthRender = (time) => {
     return time + " tháng"
 }
@@ -90,9 +98,6 @@ class ListMonthlyTicket extends Component {
 
         this.changeCurrentPage = this
             .changeCurrentPage
-            .bind(this)
-        this.exportToCSV = this
-            .exportToCSV
             .bind(this)
         this.handleChangeFromTime = this
             .handleChangeFromTime
@@ -142,7 +147,7 @@ class ListMonthlyTicket extends Component {
                 .date()
         }).unix() + 86340;
 
-        var url = "/report/ticket/search?is_monthly=true&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value
+        var url = "/report/ticket/search?is_monthly=true&from_time=" + fromTime + "&to_time=" + toTime + "&cpp_code=" + this.refs.cpp_code.value + "&number_plate=" + this.refs.numberplate.value + "&phone=" + this.refs.phonenumber.value + "&contract_code=" + this.refs.contractCode.value + "&payment_code=" + this.refs.paymentCode.value
         axios
             .get(url)
             .then((response) => {
@@ -180,18 +185,6 @@ class ListMonthlyTicket extends Component {
         this.setState({ toTime: date });
     }
 
-    exportToCSV() {
-        axios
-            .get("http://ngoisaoteen.net/test/monthly_revenue.php")
-            .then((response) => {
-                const items = response.data.items;
-
-            })
-            .catch((error) => {
-                console.log("error:", error)
-            })
-    }
-
     render() {
         const {
             rows,
@@ -204,34 +197,26 @@ class ListMonthlyTicket extends Component {
         } = this.state;
         return (
             <div className="container-fluid">
-                <div className="row">
-                    <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
-                        <div className="col-md-2 form-group">
-                            <label for="numberPlate">Biển số xe</label>
-                            <input
-                                type="text"
-                                name="numberplate"
-                                className="form-control"
-                                ref="numberplate"
-                                placeholder="Biển số xe" />
-                        </div>
+                <form ref='report_revenue_form' className="" onSubmit={this.onSubmitForm}>
+                    <div className="row">
 
-                        <div className="col-md-2 form-group">
-                            <label for="phoneNumber">Số điện thoại</label>
+                        <div className="col-md-3 form-group">
+                            <label for="phoneNumber">Mã hợp đồng</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Số điện thoại"
-                                ref="phonenumber"
-                                name="phonenumber" />
+                                placeholder="Mã hợp đồng"
+                                ref="contractCode"
+                                name="contractCode" />
                         </div>
 
-                        <div className="col-md-2 form-group">
-                            <label for="company">Điểm đỗ</label>
+                        <div className="col-md-3 form-group">
+                            <label for="company">Mã thanh toán</label>
                             <input
                                 type="text"
-                                name="car_parking_place"
-                                ref="cpp_code"
+                                name="paymentCode"
+                                ref="paymentCode"
+                                placeholder="Mã thanh toán"
                                 className="form-control" />
                         </div>
 
@@ -267,8 +252,39 @@ class ListMonthlyTicket extends Component {
                             }}>
                             <button type="submit" className="btn btn-primary">Tra cứu</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-3 form-group">
+                            <label for="numberPlate">Biển số xe</label>
+                            <input
+                                type="text"
+                                name="numberplate"
+                                className="form-control"
+                                ref="numberplate"
+                                placeholder="Biển số xe" />
+                        </div>
+
+                        <div className="col-md-3 form-group">
+                            <label for="phoneNumber">Số điện thoại</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Số điện thoại"
+                                ref="phonenumber"
+                                name="phonenumber" />
+                        </div>
+
+                        <div className="col-md-2 form-group">
+                            <label for="company">Điểm đỗ</label>
+                            <input
+                                type="text"
+                                name="cpp_code"
+                                ref="cpp_code"
+                                className="form-control" />
+                        </div>
+                    </div>
+                </form>
+
                 <div className="row">
                     <div className="portlet box blue">
                         <div className="portlet-title">
@@ -346,9 +362,9 @@ class ListMonthlyTicket extends Component {
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'
-                                    dataFormat={currencyFormat}
+                                    dataFormat={isPaidRender}
                                     width='125'
-                                    dataField='Paid'>Đã thanh toán</TableHeaderColumn>
+                                    dataField='IsPaid'>Đã thanh toán</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'

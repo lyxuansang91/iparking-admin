@@ -319,10 +319,9 @@ class SearchTicket extends Component {
                                 <TableHeaderColumn
                                     dataAlign='right'
                                     headerAlign='center'
-                                    dataField='Method'
+                                    dataField='PaymentMethod'
                                     width='120'
-                                    dataSort={false}
-                                    dataFormat={currencyFormat}>Phương thức</TableHeaderColumn>
+                                    dataSort={false}>Phương thức</TableHeaderColumn>
                                 <TableHeaderColumn
                                     headerAlign='center'
                                     dataAlign='center'

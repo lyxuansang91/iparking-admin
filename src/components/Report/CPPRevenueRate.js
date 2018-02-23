@@ -121,7 +121,7 @@ class CPPRevenueRate extends Component {
     }
 
     loadData(currentPage) {
-        var url = "p/provider/list"
+        var url = "report/provider/list"
 
         axios
             .get(url)
